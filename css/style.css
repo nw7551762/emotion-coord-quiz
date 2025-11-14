@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: #fffaf5;
+    border-radius: 24px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    color: #5c3b2a;
+    padding: 28px 24px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.header p {
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+.content {
+    padding: 28px 24px 32px;
+}
+
+.start-screen {
+    text-align: center;
+}
+
+.start-screen h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+    color: #4a3427;
+}
+
+.start-screen p {
+    font-size: 15px;
+    color: #7b5d49;
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+.question-screen {
+    display: none;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #f0e0d2;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f6d365 0%, #fda085 100%);
+    transition: width 0.3s ease;
+}
+
+.question-number {
+    font-size: 13px;
+    color: #aa8870;
+    margin-bottom: 6px;
+}
+
+.question-text {
+    font-size: 18px;
+    color: #4a3427;
+    margin-bottom: 22px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    padding: 14px 14px;
+    border: 2px solid #f0e0d2;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 14px;
+    color: #4a3427;
+    background: #fffdf8;
+}
+
+.option:hover {
+    border-color: #f6a86b;
+    background: #fff3e4;
+    transform: translateX(3px);
+}
+
+.btn {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    color: #4a3427;
+    border: none;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 600;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(253, 160, 133, 0.4);
+}
+
+.result-screen {
+    display: none;
+}
+
+.plant-icon {
+    font-size: 56px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.plant-name {
+    text-align: center;
+    font-size: 24px;
+    color: #4a3427;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.plant-tagline {
+    text-align: center;
+    font-size: 14px;
+    color: #a17453;
+    margin-bottom: 18px;
+}
+
+.description {
+    font-size: 15px;
+    color: #6a4d38;
+    line-height: 1.9;
+    margin-bottom: 22px;
+}
+
+.coord-container {
+    background: #fff3e4;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 22px;
+}
+
+.coord-title {
+    text-align: center;
+    font-size: 15px;
+    color: #4a3427;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.coord-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #a17453;
+    margin-bottom: 12px;
+}
+
+.coord-map {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: #fffdf8;
+    border-radius: 12px;
+    border: 2px solid #f0e0d2;
+}
+
+.coord-axis {
+    position: absolute;
+}
+
+.coord-axis.vertical {
+    width: 2px;
+    height: 100%;
+    background: #d8c1ae;
+    left: 50%;
+    transform: translateX(-1px);
+}
+
+.coord-axis.horizontal {
+    height: 2px;
+    width: 100%;
+    background: #d8c1ae;
+    top: 50%;
+    transform: translateY(-1px);
+}
+
+.coord-label {
+    position: absolute;
+    font-size: 12px;
+    color: #b08968;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.coord-label.top { top: 6px; left: 50%; transform: translateX(-50%); }
+.coord-label.bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+.coord-label.left { display:none; }
+.coord-label.right { display:none; }
+
+.coord-point {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.relation-section {
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+.relation-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a3427;
+    margin-bottom: 8px;
+}
+
+.relation-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.relation-card {
+    flex: 1 1 calc(33.333% - 8px);
+    background: #fffdf8;
+    border-radius: 12px;
+    border: 1px solid #f0e0d2;
+    padding: 8px 6px 10px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.relation-role {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #a17453;
+}
+
+.relation-plant-name {
+    font-weight: 500;
+    margin-bottom: 2px;
+    color: #4a3427;
+}
+
+.relation-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin: 4px auto 6px;
+    display: block;
+}
+
+.relation-text {
+    font-size: 11px;
+    color: #7b5d49;
+    line-height: 1.5;
+}
+
+.scent-section {
+    margin-top: 18px;
+}
+
+.scent-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a3427;
+    margin-bottom: 8px;
+}
+
+.scent-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.scent-card {
+    flex: 1 1 calc(50% - 8px);
+    background: #fffdf8;
+    border-radius: 12px;
+    border: 1px solid #f0e0d2;
+    padding: 9px 9px 11px;
+    font-size: 13px;
+}
+
+.scent-type {
+    font-weight: 600;
+    color: #a17453;
+    margin-bottom: 4px;
+}
+
+.scent-name {
+    font-weight: 600;
+    color: #4a3427;
+    margin-bottom: 3px;
+}
+
+.scent-text {
+    font-size: 12px;
+    color: #7b5d49;
+    line-height: 1.6;
+}
+
+.restart-btn {
+    width: 100%;
+    margin-top: 18px;
+    background: #f4e1c8;
+    color: #4a3427;
+}
+
+.restart-btn:hover {
+    background: #eed4b2;
+}
+
+@media (max-width: 520px) {
+    .header {
+        padding: 22px 16px;
+    }
+    .content {
+        padding: 20px 16px 24px;
+    }
+    .relation-card {
+        flex: 1 1 100%;
+    }
+    .scent-card {
+        flex: 1 1 100%;
+    }
+}
