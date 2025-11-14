@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>找到你的情緒座標 | 心理測驗</title>
+    <title>找到你的情緒座標 | 植物人格心理測驗</title>
     <style>
         * {
             margin: 0;
@@ -24,7 +24,7 @@
         .container {
             background: white;
             border-radius: 24px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
@@ -33,22 +33,22 @@
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 32px 28px;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 8px;
         }
 
         .header p {
-            font-size: 16px;
-            opacity: 0.9;
+            font-size: 15px;
+            opacity: 0.95;
         }
 
         .content {
-            padding: 40px 30px;
+            padding: 32px 28px 36px;
         }
 
         .start-screen {
@@ -56,16 +56,16 @@
         }
 
         .start-screen h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            margin-bottom: 18px;
             color: #333;
         }
 
         .start-screen p {
-            font-size: 16px;
+            font-size: 15px;
             color: #666;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 26px;
         }
 
         .question-screen {
@@ -77,7 +77,7 @@
             height: 8px;
             background: #e0e0e0;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 22px;
             overflow: hidden;
         }
 
@@ -88,31 +88,32 @@
         }
 
         .question-number {
-            font-size: 14px;
+            font-size: 13px;
             color: #999;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .question-text {
-            font-size: 20px;
+            font-size: 18px;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             font-weight: 500;
+            line-height: 1.6;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .option {
-            padding: 20px;
+            padding: 16px 18px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
+            transition: all 0.25s ease;
+            font-size: 15px;
             color: #333;
             background: white;
         }
@@ -120,23 +121,23 @@
         .option:hover {
             border-color: #667eea;
             background: #f8f9ff;
-            transform: translateX(5px);
+            transform: translateX(4px);
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 16px 40px;
+            padding: 14px 32px;
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             font-weight: 500;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
@@ -145,45 +146,59 @@
         }
 
         .plant-icon {
-            font-size: 80px;
+            font-size: 60px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .plant-name {
             text-align: center;
-            font-size: 32px;
+            font-size: 24px;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 6px;
             font-weight: 600;
         }
 
+        .plant-tagline {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
         .description {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 30px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 26px;
         }
 
         .coord-container {
             background: #f8f9ff;
-            padding: 30px;
+            padding: 22px;
             border-radius: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .coord-title {
             text-align: center;
-            font-size: 18px;
+            font-size: 15px;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             font-weight: 500;
+        }
+
+        .coord-subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 16px;
         }
 
         .coord-map {
             position: relative;
             width: 100%;
-            height: 300px;
+            height: 260px;
             background: white;
             border-radius: 12px;
             border: 2px solid #e0e0e0;
@@ -211,19 +226,19 @@
 
         .coord-label {
             position: absolute;
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
         }
 
-        .coord-label.top { top: 10px; left: 50%; transform: translateX(-50%); }
-        .coord-label.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
-        .coord-label.left { left: 10px; top: 50%; transform: translateY(-50%); }
-        .coord-label.right { right: 10px; top: 50%; transform: translateY(-50%); }
+        .coord-label.top { top: 8px; left: 50%; transform: translateX(-50%); }
+        .coord-label.bottom { bottom: 8px; left: 50%; transform: translateX(-50%); }
+        .coord-label.left { left: 8px; top: 50%; transform: translateY(-50%); }
+        .coord-label.right { right: 8px; top: 50%; transform: translateY(-50%); }
 
         .coord-point {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             animation: pulse 2s infinite;
@@ -231,61 +246,35 @@
 
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
-        .recommendation {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-
-        .recommendation:hover {
-            border-color: #667eea;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .rec-type {
-            font-size: 14px;
-            color: #999;
+        .relation-section {
+            margin-top: 10px;
             margin-bottom: 8px;
         }
 
-        .rec-product {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
+        .relation-title {
+            font-size: 16px;
             font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
         }
 
-        .rec-desc {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .rec-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
+        .relation-item {
+            margin-bottom: 8px;
             font-size: 14px;
-            transition: transform 0.2s ease;
+            color: #555;
+            line-height: 1.6;
         }
 
-        .rec-btn:hover {
-            transform: translateY(-2px);
+        .relation-label {
+            font-weight: 600;
         }
 
         .restart-btn {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 16px;
             background: #f0f0f0;
             color: #333;
         }
@@ -293,293 +282,459 @@
         .restart-btn:hover {
             background: #e0e0e0;
         }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 24px 18px;
+            }
+            .content {
+                padding: 22px 18px 26px;
+            }
+            .plant-name {
+                font-size: 22px;
+            }
+            .question-text {
+                font-size: 17px;
+            }
+            .option {
+                font-size: 14px;
+                padding: 14px 14px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🌿 找到你的情緒座標</h1>
-            <p>探索你的內在能量，找到最適合你的療癒香氣</p>
-        </div>
-
-        <div class="content">
-            <!-- 開始畫面 -->
-            <div class="start-screen" id="startScreen">
-                <h2>歡迎來到情緒座標測驗</h2>
-                <p>
-                    每個人都像一種獨特的植物<br>
-                    有自己的能量、溫度與療癒方式<br><br>
-                    透過 10 個生活情境問題<br>
-                    我們將幫你找到專屬的情緒座標<br>
-                    以及最適合你的香氣能量
-                </p>
-                <button class="btn" onclick="startQuiz()">開始測驗</button>
-            </div>
-
-            <!-- 測驗畫面 -->
-            <div class="question-screen" id="questionScreen">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="question-number" id="questionNumber">問題 1 / 10</div>
-                <div class="question-text" id="questionText"></div>
-                <div class="options" id="optionsContainer"></div>
-            </div>
-
-            <!-- 結果畫面 -->
-            <div class="result-screen" id="resultScreen">
-                <div class="plant-icon" id="plantIcon"></div>
-                <div class="plant-name" id="plantName"></div>
-                <div class="description" id="plantDescription"></div>
-
-                <div class="coord-container">
-                    <div class="coord-title">你的情緒座標</div>
-                    <div class="coord-map">
-                        <div class="coord-axis vertical"></div>
-                        <div class="coord-axis horizontal"></div>
-                        <div class="coord-label top">能量 ↑</div>
-                        <div class="coord-label bottom">安定 ↓</div>
-                        <div class="coord-label left">← 清涼</div>
-                        <div class="coord-label right">溫暖 →</div>
-                        <div class="coord-point" id="coordPoint"></div>
-                    </div>
-                </div>
-
-                <div id="recommendationsContainer"></div>
-
-                <button class="btn restart-btn" onclick="restartQuiz()">重新測驗</button>
-            </div>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>🌿 找到你的情緒座標</h1>
+        <p>用植物人格，看看你正長在什麼樣的能量氣候裡</p>
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "下班回到家，你第一個想做的事是：",
-                options: [
-                    { text: "關上房門，讓世界的聲音都安靜下來", type: "lavender" },
-                    { text: "窩進沙發角落，點一盞暖黃色的燈", type: "chamomile" },
-                    { text: "打開窗戶，讓新鮮空氣把疲憊沖散", type: "mint" }
-                ]
-            },
-            {
-                question: "如果週末早上沒有安排，你會想：",
-                options: [
-                    { text: "繼續窩在被窩裡，不想被打擾", type: "lavender" },
-                    { text: "煮杯咖啡，慢慢待在家裡什麼都不做", type: "chamomile" },
-                    { text: "拉開窗簾，讓陽光叫醒自己，開始做點什麼", type: "mint" }
-                ]
-            },
-            {
-                question: "當壓力排山倒海而來，你最需要的是：",
-                options: [
-                    { text: "一個安靜的空間，讓自己喘口氣", type: "lavender" },
-                    { text: "一個溫暖的擁抱，或是被理解的感覺", type: "chamomile" },
-                    { text: "重新整理思緒，找回節奏和方向", type: "mint" }
-                ]
-            },
-            {
-                question: "閉上眼睛，哪個畫面最讓你感到放鬆？",
-                options: [
-                    { text: "夜晚的房間，只有微弱的光，世界很靜", type: "lavender" },
-                    { text: "木質家具、毛毯、暖色調的溫柔空間", type: "chamomile" },
-                    { text: "清晨的窗邊，透亮的光線灑進來", type: "mint" }
-                ]
-            },
-            {
-                question: "哪種狀態會讓你特別不舒服？",
-                options: [
-                    { text: "太多人、太吵、太多刺激，無法專心", type: "lavender" },
-                    { text: "冷冰冰的空間，沒有溫度，感覺孤單", type: "chamomile" },
-                    { text: "昏暗沉悶的環境，提不起勁，動不了", type: "mint" }
-                ]
-            },
-            {
-                question: "如果今晚只有你一個人，你會想：",
-                options: [
-                    { text: "關掉所有干擾，好好沉澱自己", type: "lavender" },
-                    { text: "泡杯熱茶，窩在柔軟的地方，感受溫暖", type: "chamomile" },
-                    { text: "把環境整理乾淨，讓自己重新充電", type: "mint" }
-                ]
-            },
-            {
-                question: "最近的你，比較像哪一種狀態？",
-                options: [
-                    { text: "常常緊繃，腦袋停不下來，需要安靜", type: "lavender" },
-                    { text: "有點疲憊，想要被接住、被陪伴", type: "chamomile" },
-                    { text: "覺得迷糊，想要清醒一點、有動力一點", type: "mint" }
-                ]
-            },
-            {
-                question: "如果可以瞬間移動，你最想去哪裡？",
-                options: [
-                    { text: "深夜的圖書館，或是安靜的山林小屋", type: "lavender" },
-                    { text: "有壁爐的溫暖小屋，或朋友家的沙發", type: "chamomile" },
-                    { text: "海邊的清晨，或是充滿綠意的咖啡廳", type: "mint" }
-                ]
-            },
-            {
-                question: "如果要選一種氣味陪伴你，你會選：",
-                options: [
-                    { text: "木質調、草本調，讓人安定下來的香", type: "lavender" },
-                    { text: "溫暖柔和的香，像被毛毯包圍的感覺", type: "chamomile" },
-                    { text: "清新柑橘調，讓空氣流動起來的香", type: "mint" }
-                ]
-            },
-            {
-                question: "如果現在要對自己說一句話，你會說：",
-                options: [
-                    { text: "「你可以慢下來，不用這麼緊繃」", type: "lavender" },
-                    { text: "「你值得被溫柔對待」", type: "chamomile" },
-                    { text: "「你可以重新開始，沒關係的」", type: "mint" }
-                ]
-            }
-        ];
+    <div class="content">
+        <!-- 開始畫面 -->
+        <div class="start-screen" id="startScreen">
+            <h2>歡迎來到植物人格 × 情緒座標測驗</h2>
+            <p>
+                想像一下，你是一株植物。<br>
+                有自己的氣候、步調，和專屬的療癒方式。<br><br>
+                透過 10 個生活情境問題，<br>
+                我們會幫你找到：<br>
+                你現在長在「什麼溫度 × 什麼能量」的情緒座標，<br>
+                以及——<br>
+                你的另一半、朋友、仇人<br>
+                可能是哪一種植物人格。
+            </p>
+            <button class="btn" onclick="startQuiz()">開始測驗</button>
+        </div>
 
-        const plantData = {
-            lavender: {
-                icon: "🌾",
-                name: "你是薰衣草",
-                description: `你總是給人沉穩安心的感覺，別人覺得你很穩定，可以依靠。<br><br>
-                    <strong>但其實——</strong><br>
-                    你的內心比任何人都敏感細膩。你能感受到空氣中每一絲細微的變化，你接收著所有人的情緒和能量。你看起來平靜，但肩膀從來沒有真正放鬆過。<br><br>
-                    <strong>親愛的薰衣草：</strong><br>
-                    你不是脆弱，你只是需要被安定。`,
-                coord: { x: 30, y: 70 },
-                color: "#9b87c7",
-                similar: {
-                    product: "夜和 Night Accord",
-                    desc: "讓世界的聲音都退下，讓你真正地、深深地呼吸",
-                    reason: "你需要的就是這份安定"
-                },
-                complement: {
-                    product: "暖居 Warm Nest",
-                    desc: "讓冷靜的你，也能感受到被擁抱的溫暖",
-                    reason: "也許你需要多一點溫度"
-                }
-            },
-            chamomile: {
-                icon: "🌸",
-                name: "你是洋甘菊",
-                description: `你溫暖、柔軟，總是照顧別人。你是朋友圈裡的療癒系存在，大家有事都會想到你。<br><br>
-                    <strong>但其實——</strong><br>
-                    你也會累，也需要被接住。你習慣把溫暖給別人，卻常常忘了留給自己。你害怕孤單，需要感受到「有人在」。你的能量來自連結，但有時也會過度消耗。<br><br>
-                    <strong>親愛的洋甘菊：</strong><br>
-                    你值得被溫柔對待。`,
-                coord: { x: 75, y: 60 },
-                color: "#f4b183",
-                similar: {
-                    product: "暖居 Warm Nest",
-                    desc: "讓你的家成為真正能回歸的地方，讓你也被照顧",
-                    reason: "你需要的就是這份溫暖"
-                },
-                complement: {
-                    product: "朝光 Dawnlight",
-                    desc: "讓溫柔的你，也能找到前進的動力",
-                    reason: "也許你需要一點清醒的力量"
-                }
-            },
-            mint: {
-                icon: "🍃",
-                name: "你是薄荷葉",
-                description: `你清爽、有活力，總是很有想法。你看起來效率很高，什麼都能處理，大家覺得你充滿行動力。<br><br>
-                    <strong>但其實——</strong><br>
-                    你也會疲憊、會迷失方向。你害怕停下來，因為一停就會感到空虛。你需要不斷前進，但有時會忘了為什麼出發。你的清晰感需要被重新喚醒。<br><br>
-                    <strong>親愛的薄荷葉：</strong><br>
-                    你可以重新開始，沒關係的。`,
-                coord: { x: 50, y: 20 },
-                color: "#70c1b3",
-                similar: {
-                    product: "朝光 Dawnlight",
-                    desc: "打開窗戶，讓空氣流動，找回最初的動力和方向感",
-                    reason: "你需要的就是這份清晰"
-                },
-                complement: {
-                    product: "夜和 Night Accord",
-                    desc: "讓忙碌的你，也能真正放鬆",
-                    reason: "也許你需要慢下來"
-                }
+        <!-- 測驗畫面 -->
+        <div class="question-screen" id="questionScreen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-number" id="questionNumber">問題 1 / 10</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <!-- 結果畫面 -->
+        <div class="result-screen" id="resultScreen">
+            <div class="plant-icon" id="plantIcon"></div>
+            <div class="plant-name" id="plantName"></div>
+            <div class="plant-tagline" id="plantTagline"></div>
+            <div class="description" id="plantDescription"></div>
+
+            <div class="coord-container">
+                <div class="coord-title" id="coordTitle">你的情緒座標</div>
+                <div class="coord-subtitle" id="coordSubtitle"></div>
+                <div class="coord-map">
+                    <div class="coord-axis vertical"></div>
+                    <div class="coord-axis horizontal"></div>
+                    <div class="coord-label top">能量 ↑</div>
+                    <div class="coord-label bottom">安定 ↓</div>
+                    <div class="coord-label left">← 清涼</div>
+                    <div class="coord-label right">溫暖 →</div>
+                    <div class="coord-point" id="coordPoint"></div>
+                </div>
+            </div>
+
+            <div class="relation-section" id="relationSection">
+                <div class="relation-title">🌱 與你相處的植物們</div>
+                <div class="relation-item" id="relationPartner"></div>
+                <div class="relation-item" id="relationFriend"></div>
+                <div class="relation-item" id="relationEnemy"></div>
+            </div>
+
+            <button class="btn restart-btn" onclick="restartQuiz()">重新測驗</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 問題設定（v1：之後我們可以一起微調每個選項對應人格）
+    const questions = [
+        {
+            question: "下班或結束一天後，你最理想的放鬆方式是：",
+            options: [
+                { text: "關上房門，點上小燈，讓世界安靜下來。", type: "lavender" },
+                { text: "待在有木頭香氣的空間，什麼都不說也沒關係。", type: "cypress" },
+                { text: "泡杯花草茶，拉條毛毯，慢慢讓心軟下來。", type: "chamomile" },
+                { text: "打開窗戶、拉開窗簾，讓空氣和光線整個灌進來。", type: "mint" }
+            ]
+        },
+        {
+            question: "如果週末行程突然被取消，你心裡最真實的感覺是：",
+            options: [
+                { text: "太好了，我終於可以一個人安靜一下。", type: "lavender" },
+                { text: "有點失落，但也覺得剛好可以好好整理自己。", type: "hinoki" },
+                { text: "那就安排一個有點可愛、療癒的小儀式給自己。", type: "chamomile" },
+                { text: "那我乾脆排滿代辦，把效率開到最高。", type: "eucalyptus" }
+            ]
+        },
+        {
+            question: "最近壓力大的時候，你最想要的是：",
+            options: [
+                { text: "完全不被打擾的獨處和深呼吸時間。", type: "cypress" },
+                { text: "有人陪在旁邊，不一定要說話，但要感覺被在乎。", type: "hinoki" },
+                { text: "一個可以好好崩潰、哭完再重啟的安全空間。", type: "damask" },
+                { text: "有人拉我一把，幫我把事情拆開、重新整理。", type: "eucalyptus" }
+            ]
+        },
+        {
+            question: "閉上眼睛，哪種畫面最讓你覺得「這就是我想待的地方」？",
+            options: [
+                { text: "深夜的小書房，只有柔和的燈光和紙張的味道。", type: "lavender" },
+                { text: "山林裡的木屋，空氣乾淨、木質香氣很明顯。", type: "cypress" },
+                { text: "陽光灑進來的老房子客廳，桌上有花、有茶。", type: "chamomile" },
+                { text: "帶一點花香和喧鬧的人群，覺得自己正在被看見。", type: "peony" }
+            ]
+        },
+        {
+            question: "在一段關係裡，你最在意的是：",
+            options: [
+                { text: "被理解、被聽見細微的情緒。", type: "damask" },
+                { text: "彼此都能保有一點自己的空間和步調。", type: "cypress" },
+                { text: "穩定、可靠，說到的事情會好好做到。", type: "hinoki" },
+                { text: "可以一起冒險、一起成長，彼此都在變得更好。", type: "mint" }
+            ]
+        },
+        {
+            question: "當你感到疲憊的時候，你比較像：",
+            options: [
+                { text: "電量歸零，需要徹底安靜才能重開機。", type: "lavender" },
+                { text: "明明很累，還是會把該做的事情硬撐完。", type: "hinoki" },
+                { text: "想要暫停世界，慢吞吞地只做讓自己舒服的事。", type: "chamomile" },
+                { text: "看起來還是很亢奮，但心裡已經在亮紅燈。", type: "mint" }
+            ]
+        },
+        {
+            question: "如果形容你的處事風格，你覺得比較像：",
+            options: [
+                { text: "看起來冷靜，其實心裡裝了很多感受。", type: "lavender" },
+                { text: "寧願慢一點、穩一點，也不喜歡被催。", type: "cypress" },
+                { text: "容易投入、容易心動，也容易受傷。", type: "damask" },
+                { text: "做事速度快、決定也快，討厭拖泥帶水。", type: "eucalyptus" }
+            ]
+        },
+        {
+            question: "有人突然對你很熱情，你的第一反應是：",
+            options: [
+                { text: "有點慌，會先觀察一陣子再決定要不要靠近。", type: "cypress" },
+                { text: "很開心，但會小心不要一下子掏太多真心。", type: "chamomile" },
+                { text: "如果頻率對，就會很快打開自己。", type: "damask" },
+                { text: "如果對方氣場夠強、很有自信，會莫名被吸引。", type: "peony" }
+            ]
+        },
+        {
+            question: "在工作或生活的節奏上，你比較希望自己是：",
+            options: [
+                { text: "專注在少數重要的事，其他就簡化到最低。", type: "cypress" },
+                { text: "做事穩穩來，但品質要好。", type: "hinoki" },
+                { text: "腦袋清醒、判斷快速，可以幫大家理清狀況。", type: "eucalyptus" },
+                { text: "有舞台、有目標，會越做越起勁。", type: "peony" }
+            ]
+        },
+        {
+            question: "如果現在要對自己說一句話，你最想選的是：",
+            options: [
+                { text: "「你可以慢一點，沒有人在追你。」", type: "lavender" },
+                { text: "「你不需要照顧所有人，偶爾也可以把自己放在前面。」", type: "chamomile" },
+                { text: "「你值得被熱烈而真實地愛著。」", type: "damask" },
+                { text: "「你可以大膽一點，你的光並不會冒犯任何人。」", type: "peony" }
+            ]
+        }
+    ];
+
+    // 八植物人格資料
+    const plantData = {
+        lavender: {
+            icon: "🌾",
+            name: "薰衣草型",
+            tagline: "Calm × Cool｜敏感而需要安定的靈魂",
+            coord: { x: 30, y: 70 },
+            color: "#9b87c7",
+            field: "低能量 × 清涼｜Calm Field",
+            fieldDesc: "你喜歡安靜、有界線的空間，才能聽見自己的聲音。",
+            description: `
+                你看起來總是很穩，但其實感受力比任何人都強。<br><br>
+                你會默默接住很多情緒、很多訊號，別人的心情你一眼就能感覺到。<br>
+                所以你特別需要「退回自己」的時間，讓思緒慢慢沉澱，讓身體和心重新對準。<br><br>
+                你不是冷淡，只是太敏銳；安靜，對你來說是一種保護。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>扁柏型或洋甘菊型</strong> —— 穩定、溫柔，又不會給你太多壓迫感的人。",
+                friend: "你的朋友可能是：<br><strong>檜木型</strong> —— 可以一起安靜做自己的夥伴，不用一直聊天也不尷尬。",
+                enemy: "你的仇人可能是：<br><strong>牡丹型</strong> —— 太外放、太有氣場，容易讓你覺得被壓過、喘不過氣。"
             }
+        },
+        cypress: {
+            icon: "🌲",
+            name: "檜木型",
+            tagline: "Calm × Cool｜獨立、清晰、有自己步調的人",
+            coord: { x: 38, y: 68 },
+            color: "#5a7a6f",
+            field: "低能量 × 清涼｜Calm Field",
+            fieldDesc: "你像山裡的樹，穩穩地站在自己的位置上。",
+            description: `
+                你不喜歡被打擾，也不太需要別人教你怎麼活。<br><br>
+                你知道自己適合什麼、不適合什麼，清楚自己的界線，<br>
+                不會追求虛假的熱鬧，更在意內心是否踏實。<br><br>
+                你不是難親近，只是習慣用自己的步調，慢慢選擇要讓誰走進你的森林裡。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>洋甘菊型或大馬士革玫瑰型</strong> —— 會讓你的世界多一點柔軟與情緒的顏色。",
+                friend: "你的朋友可能是：<br><strong>薰衣草型或扁柏型</strong> —— 大家都懂「不用一直聯絡，感情也不會變淡」。",
+                enemy: "你的仇人可能是：<br><strong>薄荷葉型</strong> —— 太急、太快、太吵，會讓你覺得非常煩躁。"
+            }
+        },
+        hinoki: {
+            icon: "🪵",
+            name: "扁柏型",
+            tagline: "Calm × Warm｜沉穩的守護者",
+            coord: { x: 58, y: 68 },
+            color: "#c49a6c",
+            field: "低能量 × 溫暖｜Harmony Field",
+            fieldDesc: "你溫柔但不黏人，用行動守護，而不是用言語黏著。",
+            description: `
+                你給人的感覺是「很可靠」。<br><br>
+                你不一定會說很多安慰的話，但你會記得別人的需求，<br>
+                在對的時候伸出手、幫忙把事情補上。<br><br>
+                你在乎的不是表面上的熱絡，而是那種可以長期並肩的穩定感。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>薰衣草型或大馬士革玫瑰型</strong> —— 一個需要被安定，一個需要被穩穩接住。",
+                friend: "你的朋友可能是：<br><strong>洋甘菊型</strong> —— 你們彼此都會不知不覺照顧對方的狀態。",
+                enemy: "你的仇人可能是：<br><strong>薄荷葉型</strong> —— 對方總希望你快一點、衝一點，但你只會覺得「為什麼要那麼趕」。"
+            }
+        },
+        chamomile: {
+            icon: "🌼",
+            name: "洋甘菊型",
+            tagline: "Calm × Warm｜柔軟卻有韌性的療癒系",
+            coord: { x: 68, y: 62 },
+            color: "#f4c37b",
+            field: "低能量 × 溫暖｜Harmony Field",
+            fieldDesc: "你像一杯溫熱的花草茶，是很多人心裡的安全角落。",
+            description: `
+                你很容易心軟，也很容易被別人的情緒牽動。<br><br>
+                你喜歡照顧人、傾聽、讓別人覺得被理解，<br>
+                但有時也會因此忘記自己到底想要什麼。<br><br>
+                溫柔是你的力量，不是你的弱點──只是你也需要有人願意對你溫柔。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>檜木型或扁柏型</strong> —— 讓你可以放心依靠，又不會情緒失控的人。",
+                friend: "你的朋友可能是：<br><strong>薰衣草型或大馬士革玫瑰型</strong> —— 你們懂彼此的敏感與情緒。",
+                enemy: "你的仇人可能是：<br><strong>尤加利型</strong> —— 太理性、太講效率，會讓你覺得「我不是專案」。"
+            }
+        },
+        mint: {
+            icon: "🍃",
+            name: "薄荷葉型",
+            tagline: "Vital × Cool｜行動派的清醒製造機",
+            coord: { x: 38, y: 30 },
+            color: "#52c1a8",
+            field: "高能量 × 清涼｜Vital Field",
+            fieldDesc: "你像一口冰水，讓人清醒，也讓自己停不太下來。",
+            description: `
+                你腦袋轉得快、行動也快，很討厭浪費時間。<br><br>
+                你喜歡把事情往前推、往前走，看到停滯就會很想改變現況。<br>
+                但有時候，你也會在高速前進的途中，突然覺得好累、好空。<br><br>
+                對你來說，真正重要的不是「做很多」，而是「做對的事」。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>檜木型或扁柏型</strong> —— 在你衝得太快的時候，幫你踩一下煞車。",
+                friend: "你的朋友可能是：<br><strong>尤加利型或牡丹型</strong> —— 你們可以一起把氣氛炒熱、把計畫推進。",
+                enemy: "你的仇人可能是：<br><strong>薰衣草型</strong> —— 對方想慢慢來，你卻一直想快一點，很容易互相誤解。"
+            }
+        },
+        eucalyptus: {
+            icon: "🌿",
+            name: "尤加利型",
+            tagline: "Vital × Cool｜冷靈感與快速判斷的類型",
+            coord: { x: 42, y: 26 },
+            color: "#7fb8b0",
+            field: "高能量 × 清涼｜Vital Field",
+            fieldDesc: "你像清晨的山風，帶著清晰與決斷力。",
+            description: `
+                你看事情的角度很直接，也很清楚問題核心在哪裡。<br><br>
+                你擅長拆解狀況、做出決定，別人卡住的地方，<br>
+                對你來說往往只是需要整理一下。<br><br>
+                你不是真的冷淡，而是你在乎的，是事情能不能一起被處理好。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>洋甘菊型或薰衣草型</strong> —— 幫你連回情緒與柔軟，不會只剩下效率。",
+                friend: "你的朋友可能是：<br><strong>薄荷葉型</strong> —— 兩個一起動起來，可以做很多事。",
+                enemy: "你的仇人可能是：<br><strong>大馬士革玫瑰型</strong> —— 對方太感性、你太理性，很容易覺得彼此「聽不懂」。"
+            }
+        },
+        damask: {
+            icon: "🌹",
+            name: "大馬士革玫瑰型",
+            tagline: "Vital × Warm｜浪漫而真實的情緒派",
+            coord: { x: 70, y: 34 },
+            color: "#e88aa9",
+            field: "高能量 × 溫暖｜Romance Field",
+            fieldDesc: "你活得認真又用力，對感受有很高的誠實度。",
+            description: `
+                你容易心動，也容易受傷。<br><br>
+                你在乎的是「這件事／這段關係到底真不真」，<br>
+                而不是表面上的合不合適。<br><br>
+                當你被好好對待時，你會回應十倍的溫柔與投入；<br>
+                當你感覺不到真心時，你也會很快抽離。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>扁柏型或檜木型</strong> —— 在你情緒起伏時，讓你覺得踏實、有地方可以靠。",
+                friend: "你的朋友可能是：<br><strong>洋甘菊型或薰衣草型</strong> —— 你們可以講很多心裡話，一起分析情緒。",
+                enemy: "你的仇人可能是：<br><strong>尤加利型</strong> —— 你在講感受，他在講邏輯，很容易互相覺得「你不懂我」。"
+            }
+        },
+        peony: {
+            icon: "🌸",
+            name: "牡丹型",
+            tagline: "Vital × Warm｜自帶舞台感的光芒型人格",
+            coord: { x: 76, y: 26 },
+            color: "#f29bb5",
+            field: "高能量 × 溫暖｜Radiance Field",
+            fieldDesc: "你不一定外向，但你天生有存在感。",
+            description: `
+                你對自己其實有一套標準，也有想活成的樣子。<br><br>
+                你喜歡把生活過得有一點美感、有一點氣勢，<br>
+                不只是安穩過日子，而是要過得「像你自己」。<br><br>
+                當你站穩時，你會成為別人心中很有魅力、很有光的人。
+            `,
+            relationships: {
+                partner: "你的另一半 / 曖昧對象可能是：<br><strong>薰衣草型或洋甘菊型</strong> —— 在你發光時，他們會讓你記得回到心裡的安定。",
+                friend: "你的朋友可能是：<br><strong>薄荷葉型或大馬士革玫瑰型</strong> —— 一起興奮、一起享受，彼此都不會嫌彼此太多。",
+                enemy: "你的仇人可能是：<br><strong>檜木型</strong> —— 你覺得對方太冷淡、對方覺得你太張揚，很容易互看不順眼。"
+            }
+        }
+    };
+
+    let currentQuestion = 0;
+    let answers = {
+        lavender: 0,
+        cypress: 0,
+        hinoki: 0,
+        chamomile: 0,
+        mint: 0,
+        eucalyptus: 0,
+        damask: 0,
+        peony: 0
+    };
+
+    function startQuiz() {
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('questionScreen').style.display = 'block';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById('questionNumber').textContent =
+            `問題 ${currentQuestion + 1} / ${questions.length}`;
+        document.getElementById('questionText').textContent = q.question;
+        document.getElementById('progressFill').style.width =
+            `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+
+        q.options.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.textContent = opt.text;
+            div.onclick = () => selectAnswer(opt.type);
+            container.appendChild(div);
+        });
+    }
+
+    function selectAnswer(type) {
+        answers[type]++;
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            setTimeout(showQuestion, 200);
+        } else {
+            setTimeout(showResult, 200);
+        }
+    }
+
+    function showResult() {
+        // 找出最高分人格
+        const resultKey = Object.keys(answers).reduce((a, b) =>
+            answers[a] > answers[b] ? a : b
+        );
+        const data = plantData[resultKey];
+
+        document.getElementById('questionScreen').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
+
+        document.getElementById('plantIcon').textContent = data.icon;
+        document.getElementById('plantName').textContent = data.name;
+        document.getElementById('plantTagline').textContent = data.tagline;
+        document.getElementById('plantDescription').innerHTML = data.description;
+
+        // 座標圖
+        const point = document.getElementById('coordPoint');
+        point.style.left = `${data.coord.x}%`;
+        point.style.top = `${data.coord.y}%`;
+        point.style.background = data.color;
+        point.style.boxShadow = `0 0 16px ${data.color}`;
+
+        document.getElementById('coordTitle').textContent =
+            `你的情緒座標：${data.field}`;
+        document.getElementById('coordSubtitle').textContent = data.fieldDesc;
+
+        // 關係建議
+        document.getElementById('relationPartner').innerHTML = `
+            <span class="relation-label">💞 你的另一半 / 曖昧對象可能是：</span><br>
+            ${data.relationships.partner}
+        `;
+        document.getElementById('relationFriend').innerHTML = `
+            <span class="relation-label">🤝 你的朋友可能是：</span><br>
+            ${data.relationships.friend}
+        `;
+        document.getElementById('relationEnemy').innerHTML = `
+            <span class="relation-label">🔥 你的仇人可能是：</span><br>
+            ${data.relationships.enemy}
+        `;
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        answers = {
+            lavender: 0,
+            cypress: 0,
+            hinoki: 0,
+            chamomile: 0,
+            mint: 0,
+            eucalyptus: 0,
+            damask: 0,
+            peony: 0
         };
-
-        let currentQuestion = 0;
-        let answers = { lavender: 0, chamomile: 0, mint: 0 };
-
-        function startQuiz() {
-            document.getElementById('startScreen').style.display = 'none';
-            document.getElementById('questionScreen').style.display = 'block';
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = questions[currentQuestion];
-            document.getElementById('questionNumber').textContent = `問題 ${currentQuestion + 1} / ${questions.length}`;
-            document.getElementById('questionText').textContent = q.question;
-            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
-
-            const container = document.getElementById('optionsContainer');
-            container.innerHTML = '';
-
-            q.options.forEach((opt, idx) => {
-                const div = document.createElement('div');
-                div.className = 'option';
-                div.textContent = opt.text;
-                div.onclick = () => selectAnswer(opt.type);
-                container.appendChild(div);
-            });
-        }
-
-        function selectAnswer(type) {
-            answers[type]++;
-            currentQuestion++;
-
-            if (currentQuestion < questions.length) {
-                setTimeout(showQuestion, 300);
-            } else {
-                setTimeout(showResult, 300);
-            }
-        }
-
-        function showResult() {
-            const result = Object.keys(answers).reduce((a, b) => answers[a] > answers[b] ? a : b);
-            const data = plantData[result];
-
-            document.getElementById('questionScreen').style.display = 'none';
-            document.getElementById('resultScreen').style.display = 'block';
-
-            document.getElementById('plantIcon').textContent = data.icon;
-            document.getElementById('plantName').textContent = data.name;
-            document.getElementById('plantDescription').innerHTML = data.description;
-
-            const point = document.getElementById('coordPoint');
-            point.style.left = `${data.coord.x}%`;
-            point.style.top = `${data.coord.y}%`;
-            point.style.background = data.color;
-            point.style.boxShadow = `0 0 20px ${data.color}`;
-
-            const container = document.getElementById('recommendationsContainer');
-            container.innerHTML = `
-                <div class="recommendation">
-                    <div class="rec-type">💜 你會喜歡的香氣能量</div>
-                    <div class="rec-product">${data.similar.product}</div>
-                    <div class="rec-desc">「${data.similar.reason}」<br><br>${data.similar.desc}</div>
-                    <a href="#" class="rec-btn">了解更多</a>
-                </div>
-                <div class="recommendation">
-                    <div class="rec-type">🌟 能讓你平衡的香氣能量</div>
-                    <div class="rec-product">${data.complement.product}</div>
-                    <div class="rec-desc">「${data.complement.reason}」<br><br>${data.complement.desc}</div>
-                    <a href="#" class="rec-btn">了解更多</a>
-                </div>
-            `;
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            answers = { lavender: 0, chamomile: 0, mint: 0 };
-            document.getElementById('resultScreen').style.display = 'none';
-            document.getElementById('startScreen').style.display = 'block';
-        }
-    </script>
+        document.getElementById('resultScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+    }
+</script>
 </body>
 </html>
