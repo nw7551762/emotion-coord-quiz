@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找到你的情緒座標 | 心理測驗</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .start-screen p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .question-screen {
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #333;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-screen {
+            display: none;
+        }
+
+        .plant-icon {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .plant-name {
+            text-align: center;
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .coord-container {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .coord-title {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .coord-map {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .coord-axis {
+            position: absolute;
+        }
+
+        .coord-axis.vertical {
+            width: 2px;
+            height: 100%;
+            background: #ccc;
+            left: 50%;
+            transform: translateX(-1px);
+        }
+
+        .coord-axis.horizontal {
+            height: 2px;
+            width: 100%;
+            background: #ccc;
+            top: 50%;
+            transform: translateY(-1px);
+        }
+
+        .coord-label {
+            position: absolute;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .coord-label.top { top: 10px; left: 50%; transform: translateX(-50%); }
+        .coord-label.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .coord-label.left { left: 10px; top: 50%; transform: translateY(-50%); }
+        .coord-label.right { right: 10px; top: 50%; transform: translateY(-50%); }
+
+        .coord-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .recommendation {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .rec-type {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .rec-product {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .rec-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .rec-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .rec-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .restart-btn {
+            width: 100%;
+            margin-top: 20px;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .restart-btn:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 找到你的情緒座標</h1>
+            <p>探索你的內在能量，找到最適合你的療癒香氣</p>
+        </div>
+
+        <div class="content">
+            <!-- 開始畫面 -->
+            <div class="start-screen" id="startScreen">
+                <h2>歡迎來到情緒座標測驗</h2>
+                <p>
+                    每個人都像一種獨特的植物<br>
+                    有自己的能量、溫度與療癒方式<br><br>
+                    透過 10 個生活情境問題<br>
+                    我們將幫你找到專屬的情緒座標<br>
+                    以及最適合你的香氣能量
+                </p>
+                <button class="btn" onclick="startQuiz()">開始測驗</button>
+            </div>
+
+            <!-- 測驗畫面 -->
+            <div class="question-screen" id="questionScreen">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="question-number" id="questionNumber">問題 1 / 10</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+
+            <!-- 結果畫面 -->
+            <div class="result-screen" id="resultScreen">
+                <div class="plant-icon" id="plantIcon"></div>
+                <div class="plant-name" id="plantName"></div>
+                <div class="description" id="plantDescription"></div>
+
+                <div class="coord-container">
+                    <div class="coord-title">你的情緒座標</div>
+                    <div class="coord-map">
+                        <div class="coord-axis vertical"></div>
+                        <div class="coord-axis horizontal"></div>
+                        <div class="coord-label top">能量 ↑</div>
+                        <div class="coord-label bottom">安定 ↓</div>
+                        <div class="coord-label left">← 清涼</div>
+                        <div class="coord-label right">溫暖 →</div>
+                        <div class="coord-point" id="coordPoint"></div>
+                    </div>
+                </div>
+
+                <div id="recommendationsContainer"></div>
+
+                <button class="btn restart-btn" onclick="restartQuiz()">重新測驗</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "下班回到家，你第一個想做的事是：",
+                options: [
+                    { text: "關上房門，讓世界的聲音都安靜下來", type: "lavender" },
+                    { text: "窩進沙發角落，點一盞暖黃色的燈", type: "chamomile" },
+                    { text: "打開窗戶，讓新鮮空氣把疲憊沖散", type: "mint" }
+                ]
+            },
+            {
+                question: "如果週末早上沒有安排，你會想：",
+                options: [
+                    { text: "繼續窩在被窩裡，不想被打擾", type: "lavender" },
+                    { text: "煮杯咖啡，慢慢待在家裡什麼都不做", type: "chamomile" },
+                    { text: "拉開窗簾，讓陽光叫醒自己，開始做點什麼", type: "mint" }
+                ]
+            },
+            {
+                question: "當壓力排山倒海而來，你最需要的是：",
+                options: [
+                    { text: "一個安靜的空間，讓自己喘口氣", type: "lavender" },
+                    { text: "一個溫暖的擁抱，或是被理解的感覺", type: "chamomile" },
+                    { text: "重新整理思緒，找回節奏和方向", type: "mint" }
+                ]
+            },
+            {
+                question: "閉上眼睛，哪個畫面最讓你感到放鬆？",
+                options: [
+                    { text: "夜晚的房間，只有微弱的光，世界很靜", type: "lavender" },
+                    { text: "木質家具、毛毯、暖色調的溫柔空間", type: "chamomile" },
+                    { text: "清晨的窗邊，透亮的光線灑進來", type: "mint" }
+                ]
+            },
+            {
+                question: "哪種狀態會讓你特別不舒服？",
+                options: [
+                    { text: "太多人、太吵、太多刺激，無法專心", type: "lavender" },
+                    { text: "冷冰冰的空間，沒有溫度，感覺孤單", type: "chamomile" },
+                    { text: "昏暗沉悶的環境，提不起勁，動不了", type: "mint" }
+                ]
+            },
+            {
+                question: "如果今晚只有你一個人，你會想：",
+                options: [
+                    { text: "關掉所有干擾，好好沉澱自己", type: "lavender" },
+                    { text: "泡杯熱茶，窩在柔軟的地方，感受溫暖", type: "chamomile" },
+                    { text: "把環境整理乾淨，讓自己重新充電", type: "mint" }
+                ]
+            },
+            {
+                question: "最近的你，比較像哪一種狀態？",
+                options: [
+                    { text: "常常緊繃，腦袋停不下來，需要安靜", type: "lavender" },
+                    { text: "有點疲憊，想要被接住、被陪伴", type: "chamomile" },
+                    { text: "覺得迷糊，想要清醒一點、有動力一點", type: "mint" }
+                ]
+            },
+            {
+                question: "如果可以瞬間移動，你最想去哪裡？",
+                options: [
+                    { text: "深夜的圖書館，或是安靜的山林小屋", type: "lavender" },
+                    { text: "有壁爐的溫暖小屋，或朋友家的沙發", type: "chamomile" },
+                    { text: "海邊的清晨，或是充滿綠意的咖啡廳", type: "mint" }
+                ]
+            },
+            {
+                question: "如果要選一種氣味陪伴你，你會選：",
+                options: [
+                    { text: "木質調、草本調，讓人安定下來的香", type: "lavender" },
+                    { text: "溫暖柔和的香，像被毛毯包圍的感覺", type: "chamomile" },
+                    { text: "清新柑橘調，讓空氣流動起來的香", type: "mint" }
+                ]
+            },
+            {
+                question: "如果現在要對自己說一句話，你會說：",
+                options: [
+                    { text: "「你可以慢下來，不用這麼緊繃」", type: "lavender" },
+                    { text: "「你值得被溫柔對待」", type: "chamomile" },
+                    { text: "「你可以重新開始，沒關係的」", type: "mint" }
+                ]
+            }
+        ];
+
+        const plantData = {
+            lavender: {
+                icon: "🌾",
+                name: "你是薰衣草",
+                description: `你總是給人沉穩安心的感覺，別人覺得你很穩定，可以依靠。<br><br>
+                    <strong>但其實——</strong><br>
+                    你的內心比任何人都敏感細膩。你能感受到空氣中每一絲細微的變化，你接收著所有人的情緒和能量。你看起來平靜，但肩膀從來沒有真正放鬆過。<br><br>
+                    <strong>親愛的薰衣草：</strong><br>
+                    你不是脆弱，你只是需要被安定。`,
+                coord: { x: 30, y: 70 },
+                color: "#9b87c7",
+                similar: {
+                    product: "夜和 Night Accord",
+                    desc: "讓世界的聲音都退下，讓你真正地、深深地呼吸",
+                    reason: "你需要的就是這份安定"
+                },
+                complement: {
+                    product: "暖居 Warm Nest",
+                    desc: "讓冷靜的你，也能感受到被擁抱的溫暖",
+                    reason: "也許你需要多一點溫度"
+                }
+            },
+            chamomile: {
+                icon: "🌸",
+                name: "你是洋甘菊",
+                description: `你溫暖、柔軟，總是照顧別人。你是朋友圈裡的療癒系存在，大家有事都會想到你。<br><br>
+                    <strong>但其實——</strong><br>
+                    你也會累，也需要被接住。你習慣把溫暖給別人，卻常常忘了留給自己。你害怕孤單，需要感受到「有人在」。你的能量來自連結，但有時也會過度消耗。<br><br>
+                    <strong>親愛的洋甘菊：</strong><br>
+                    你值得被溫柔對待。`,
+                coord: { x: 75, y: 60 },
+                color: "#f4b183",
+                similar: {
+                    product: "暖居 Warm Nest",
+                    desc: "讓你的家成為真正能回歸的地方，讓你也被照顧",
+                    reason: "你需要的就是這份溫暖"
+                },
+                complement: {
+                    product: "朝光 Dawnlight",
+                    desc: "讓溫柔的你，也能找到前進的動力",
+                    reason: "也許你需要一點清醒的力量"
+                }
+            },
+            mint: {
+                icon: "🍃",
+                name: "你是薄荷葉",
+                description: `你清爽、有活力，總是很有想法。你看起來效率很高，什麼都能處理，大家覺得你充滿行動力。<br><br>
+                    <strong>但其實——</strong><br>
+                    你也會疲憊、會迷失方向。你害怕停下來，因為一停就會感到空虛。你需要不斷前進，但有時會忘了為什麼出發。你的清晰感需要被重新喚醒。<br><br>
+                    <strong>親愛的薄荷葉：</strong><br>
+                    你可以重新開始，沒關係的。`,
+                coord: { x: 50, y: 20 },
+                color: "#70c1b3",
+                similar: {
+                    product: "朝光 Dawnlight",
+                    desc: "打開窗戶，讓空氣流動，找回最初的動力和方向感",
+                    reason: "你需要的就是這份清晰"
+                },
+                complement: {
+                    product: "夜和 Night Accord",
+                    desc: "讓忙碌的你，也能真正放鬆",
+                    reason: "也許你需要慢下來"
+                }
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = { lavender: 0, chamomile: 0, mint: 0 };
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('questionScreen').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `問題 ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.textContent = opt.text;
+                div.onclick = () => selectAnswer(opt.type);
+                container.appendChild(div);
+            });
+        }
+
+        function selectAnswer(type) {
+            answers[type]++;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                setTimeout(showQuestion, 300);
+            } else {
+                setTimeout(showResult, 300);
+            }
+        }
+
+        function showResult() {
+            const result = Object.keys(answers).reduce((a, b) => answers[a] > answers[b] ? a : b);
+            const data = plantData[result];
+
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+
+            document.getElementById('plantIcon').textContent = data.icon;
+            document.getElementById('plantName').textContent = data.name;
+            document.getElementById('plantDescription').innerHTML = data.description;
+
+            const point = document.getElementById('coordPoint');
+            point.style.left = `${data.coord.x}%`;
+            point.style.top = `${data.coord.y}%`;
+            point.style.background = data.color;
+            point.style.boxShadow = `0 0 20px ${data.color}`;
+
+            const container = document.getElementById('recommendationsContainer');
+            container.innerHTML = `
+                <div class="recommendation">
+                    <div class="rec-type">💜 你會喜歡的香氣能量</div>
+                    <div class="rec-product">${data.similar.product}</div>
+                    <div class="rec-desc">「${data.similar.reason}」<br><br>${data.similar.desc}</div>
+                    <a href="#" class="rec-btn">了解更多</a>
+                </div>
+                <div class="recommendation">
+                    <div class="rec-type">🌟 能讓你平衡的香氣能量</div>
+                    <div class="rec-product">${data.complement.product}</div>
+                    <div class="rec-desc">「${data.complement.reason}」<br><br>${data.complement.desc}</div>
+                    <a href="#" class="rec-btn">了解更多</a>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = { lavender: 0, chamomile: 0, mint: 0 };
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
