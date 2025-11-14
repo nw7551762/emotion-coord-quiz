@@ -1,122 +1,94 @@
+/* ====== 星宇暖橘初始頁 ====== */
+
 .header.hero {
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle at top, #ffe9c2 0%, #fda085 35%, #1a1a1f 80%);
-    color: #fdf5ec;
-    padding: 40px 24px 80px;
-}
-
-/* 遮罩：下方圓形像行星 */
-.header.hero::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -40px;
-    transform: translateX(-50%);
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffffff 0%, #ffe9c2 45%, transparent 70%);
-    opacity: 0.9;
+    background: radial-gradient(circle at top, #ffe8d2 0%, #f9bb87 40%, #1b1b1e 90%);
+    color: #fff8ef;
+    padding: 60px 24px 90px;
+    text-align: center;
 }
 
 /* 背後彩色光暈 */
 .hero-glow {
     position: absolute;
-    inset: -40px -80px auto;
-    background: radial-gradient(circle at 20% 0%, rgba(255,255,255,0.65) 0%, transparent 55%),
-                radial-gradient(circle at 80% 0%, rgba(255,200,170,0.8) 0%, transparent 60%),
-                radial-gradient(circle at 50% 40%, rgba(255,248,229,0.9) 0%, transparent 60%);
+    inset: -60px -80px auto;
+    background:
+        radial-gradient(circle at 30% 0%, rgba(255,255,255,0.6) 0%, transparent 60%),
+        radial-gradient(circle at 80% 10%, rgba(255,200,160,0.7) 0%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(255,240,220,0.8) 0%, transparent 70%);
     mix-blend-mode: screen;
-    opacity: 0.95;
 }
 
-/* 中央下墜的光柱 */
+/* 中央光柱 */
 .hero-core {
     position: absolute;
-    top: 10%;
+    top: 15%;
     left: 50%;
-    width: 16px;
-    height: 150px;
+    width: 12px;
+    height: 140px;
     transform: translateX(-50%);
-    background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,206,160,0.1));
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,206,160,0.1));
     border-radius: 999px;
-}
-
-/* 軌道 */
-.hero-orbit {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.2);
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.hero-orbit-1 {
-    width: 260px;
-    height: 260px;
-}
-
-.hero-orbit-2 {
-    width: 340px;
-    height: 340px;
-    opacity: 0.35;
 }
 
 /* 文字區 */
 .hero-text {
     position: relative;
-    text-align: center;
+    z-index: 3;
     max-width: 420px;
     margin: 0 auto;
-    z-index: 2;
 }
 
 .hero-label {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #ffe6c5;
+    margin-bottom: 12px;
+    opacity: 0.9;
 }
 
 .header.hero h1 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    letter-spacing: 0.08em;
+    font-size: 30px;
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
 }
 
 .header.hero p {
     font-size: 14px;
     line-height: 1.8;
-    color: #fff7eb;
+    opacity: 0.9;
 }
 
+/* 開始畫面 */
+.start-screen h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
 
-    <div class="hero-text">
-        <div class="hero-label">NUAN-YI PCA EMOTION MAP</div>
-        <h1>你的命定情緒座標</h1>
-        <p>
-            在實驗室，我用 PCA 讀分子。<br>
-            在這裡，我用同一張座標圖，讀你的情緒能量。
-        </p>
-    </div>
-</div>
+.start-screen p {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
 
-<div class="content">
-    <!-- 開始畫面 -->
-    <div class="start-screen" id="startScreen">
-        <h2>宇宙裡，每個人都是一個情緒光點</h2>
-        <p>
-            在煖意的 PCA 情緒座標上，<br>
-            有人停在安定靜心的夜色，有人站在光合啟動的清晨。<br><br>
-            透過 10 個生活情境，我會幫你標出現在所在的位置，<br>
-            看看你比較像薰衣草、扁柏、洋甘菊，還是那顆閃到不行的牡丹星。<br><br>
-            準備好了，就讓情緒開始被「量化」，也被好好理解。
-        </p>
-        <button class="btn" onclick="startQuiz()">開始掃描我的情緒座標</button>
-    </div>
+.btn {
+    background: linear-gradient(135deg, #f9bb87 0%, #f88e4b 100%);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    box-shadow: 0 10px 25px rgba(248, 142, 75, 0.4);
+    transform: translateY(-2px);
+}
         <!-- 測驗畫面 -->
         <div class="question-screen" id="questionScreen">
             <div class="progress-bar">
