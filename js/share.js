@@ -18,47 +18,142 @@ export class ShareManager {
   }
 
   /**
-   * 生成分享圖片並下載
-   * @param {HTMLElement} resultElement - 結果畫面元素
+   * 建立 Instagram 專用分享卡片 DOM
    * @param {string} resultKey - 植物類型 key
+   * @returns {HTMLElement} 分享卡片 DOM 元素
    */
-  async generateShareImage(resultElement, resultKey) {
+  async createShareCardDOM(resultKey) {
+    // 動態載入植物資料
+    const { plantData } = await import('./data/plants.js');
+    const plant = plantData[resultKey];
+
+    // 建立卡片容器
+    const card = document.createElement('div');
+    card.className = 'ig-share-card';
+
+    // 頭部區域
+    const header = document.createElement('div');
+    header.className = 'ig-share-card__header';
+    header.innerHTML = `<h1 class="ig-share-card__title">🌿 找到你的情緒座標</h1>`;
+    card.appendChild(header);
+
+    // 主要內容區域
+    const body = document.createElement('div');
+    body.className = 'ig-share-card__body';
+
+    // 植物資訊區域
+    const plantSection = document.createElement('div');
+    plantSection.className = 'ig-share-card__plant';
+    plantSection.innerHTML = `
+      <span class="ig-share-card__icon">${plant.icon}</span>
+      <h2 class="ig-share-card__plant-name">${plant.name}</h2>
+      <p class="ig-share-card__plant-tagline">${plant.tagline}</p>
+    `;
+    body.appendChild(plantSection);
+
+    // 座標圖區域
+    const coordSection = document.createElement('div');
+    coordSection.className = 'ig-share-card__coord';
+    coordSection.innerHTML = `
+      <h3 class="ig-share-card__coord-title">你的情緒座標位置</h3>
+      <div class="ig-share-card__coord-map">
+        <div class="ig-share-card__axis ig-share-card__axis--vertical"></div>
+        <div class="ig-share-card__axis ig-share-card__axis--horizontal"></div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--top">Temperature 溫度</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--left">Energy 能量</div>
+        <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${100 - plant.coord.y}%; background-color: ${plant.color};"></div>
+      </div>
+    `;
+    body.appendChild(coordSection);
+
+    // 關係區域（精選另一半和朋友）
+    const relationsSection = document.createElement('div');
+    relationsSection.className = 'ig-share-card__relations';
+
+    // 找出另一半和朋友的植物名稱
+    const partnerPlant = plant.relationships.partner.plants[0];
+    const friendPlant = plant.relationships.friend.plants[0];
+    const partnerName = plantData[partnerPlant]?.name || partnerPlant;
+    const friendName = plantData[friendPlant]?.name || friendPlant;
+
+    relationsSection.innerHTML = `
+      <h3 class="ig-share-card__relations-title">🌱 與你相處的植物們</h3>
+      <div class="ig-share-card__relation-item">
+        <span class="ig-share-card__relation-emoji">💝</span>
+        <span>最適合的另一半：<span class="ig-share-card__relation-name">${partnerName}</span></span>
+      </div>
+      <div class="ig-share-card__relation-item">
+        <span class="ig-share-card__relation-emoji">👫</span>
+        <span>最適合的朋友：<span class="ig-share-card__relation-name">${friendName}</span></span>
+      </div>
+    `;
+    body.appendChild(relationsSection);
+
+    // 香氣區域
+    const scentsSection = document.createElement('div');
+    scentsSection.className = 'ig-share-card__scents';
+    scentsSection.innerHTML = `
+      <h3 class="ig-share-card__scents-title">🔮 適合你的香氣能量</h3>
+      <div class="ig-share-card__scent-item">
+        <span class="ig-share-card__scent-type">相似香氣：</span>
+        <span class="ig-share-card__scent-name">${plant.scent.similar.name}</span>
+      </div>
+      <div class="ig-share-card__scent-item">
+        <span class="ig-share-card__scent-type">平衡香氣：</span>
+        <span class="ig-share-card__scent-name">${plant.scent.balance.name}</span>
+      </div>
+    `;
+    body.appendChild(scentsSection);
+
+    card.appendChild(body);
+
+    // 頁尾 CTA 區域
+    const footer = document.createElement('div');
+    footer.className = 'ig-share-card__footer';
+    footer.innerHTML = `
+      <p class="ig-share-card__url">nw7551762.github.io/<br>emotion-coord-quiz</p>
+      <p class="ig-share-card__cta">來測測看你的情緒座標！</p>
+    `;
+    card.appendChild(footer);
+
+    return card;
+  }
+
+  /**
+   * 生成 Instagram 專用分享圖片
+   * @param {string} resultKey - 植物類型 key
+   * @returns {Promise<boolean>} 是否成功生成並分享/下載
+   */
+  async generateInstagramImage(resultKey) {
     // 檢查是否有 html2canvas 函式庫
     if (typeof html2canvas === 'undefined') {
       alert('圖片生成功能需要載入 html2canvas 函式庫。\n請稍後再試或使用其他分享方式。');
-      return;
+      return false;
     }
 
     try {
-      // 暫時隱藏不需要的元素（如分享按鈕區）
-      const shareSection = resultElement.querySelector('.share-section');
-      const restartBtn = resultElement.querySelector('.restart-btn');
+      // 1. 建立分享卡片 DOM
+      const shareCard = await this.createShareCardDOM(resultKey);
+      document.body.appendChild(shareCard);
 
-      const hiddenElements = [];
-      if (shareSection) {
-        shareSection.style.display = 'none';
-        hiddenElements.push(shareSection);
-      }
-      if (restartBtn) {
-        restartBtn.style.display = 'none';
-        hiddenElements.push(restartBtn);
-      }
+      // 2. 等待一小段時間確保 DOM 完全渲染
+      await new Promise(resolve => setTimeout(resolve, 100));
 
-      // 生成圖片
-      const canvas = await html2canvas(resultElement, {
-        backgroundColor: '#ffffff',
-        scale: 2, // 提高解析度
+      // 3. 使用 html2canvas 截圖
+      const canvas = await html2canvas(shareCard, {
+        width: 1080,
+        height: 1350,
+        scale: 1, // IG 優化尺寸，不需要額外放大
+        backgroundColor: '#fffaf5',
         logging: false,
         useCORS: true,
         allowTaint: true
       });
 
-      // 恢復隱藏的元素
-      hiddenElements.forEach(el => {
-        el.style.display = '';
-      });
+      // 4. 移除臨時 DOM
+      document.body.removeChild(shareCard);
 
-      // 轉換為 blob
+      // 5. 轉換為 blob 並分享/下載
       return new Promise((resolve) => {
         canvas.toBlob(async (blob) => {
           if (!blob) {
@@ -157,15 +252,18 @@ export class ShareManager {
     } catch (error) {
       console.error('生成圖片失敗:', error);
       alert('圖片生成失敗，請稍後再試。');
-
-      // 恢復隱藏的元素
-      const shareSection = resultElement.querySelector('.share-section');
-      const restartBtn = resultElement.querySelector('.restart-btn');
-      if (shareSection) shareSection.style.display = '';
-      if (restartBtn) restartBtn.style.display = '';
-
       return false;
     }
+  }
+
+  /**
+   * 生成分享圖片並下載（舊版方法，保留向後相容）
+   * @param {HTMLElement} resultElement - 結果畫面元素
+   * @param {string} resultKey - 植物類型 key
+   */
+  async generateShareImage(resultElement, resultKey) {
+    // 使用新的 Instagram 專用方法
+    return await this.generateInstagramImage(resultKey);
   }
 
   /**

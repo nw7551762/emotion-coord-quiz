@@ -1,0 +1,245 @@
+/**
+ * share-card.css
+ * Instagram 專用分享卡片樣式
+ * 尺寸：1080 × 1350 px (4:5 比例，IG 貼文最佳尺寸)
+ */
+
+/* 分享卡片容器 - 固定尺寸，避免跑版 */
+.ig-share-card {
+  width: 1080px;
+  height: 1350px;
+  background: #fffaf5;
+  position: fixed;
+  top: -10000px;
+  left: -10000px;
+  /* 隱藏在畫面外，避免干擾使用者 */
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* 關鍵：禁用所有動畫和過渡效果 */
+  animation: none !important;
+  transition: none !important;
+}
+
+/* 確保子元素也不要動畫 */
+.ig-share-card * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* 頭部區域 - 品牌漸層背景 */
+.ig-share-card__header {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  padding: 40px 60px;
+  text-align: center;
+}
+
+.ig-share-card__title {
+  font-size: 48px;
+  color: #5c3b2a;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 主要內容區域 */
+.ig-share-card__body {
+  flex: 1;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* 植物圖示與名稱區域 */
+.ig-share-card__plant {
+  text-align: center;
+}
+
+.ig-share-card__icon {
+  font-size: 160px;
+  line-height: 1;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.ig-share-card__plant-name {
+  font-size: 56px;
+  color: #4a3427;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.ig-share-card__plant-tagline {
+  font-size: 32px;
+  color: #a17453;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 座標圖區域 */
+.ig-share-card__coord {
+  width: 100%;
+  text-align: center;
+}
+
+.ig-share-card__coord-title {
+  font-size: 36px;
+  color: #4a3427;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+}
+
+.ig-share-card__coord-map {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: #fffdf8;
+  border-radius: 20px;
+  border: 3px solid #f0e0d2;
+  margin: 0 auto;
+}
+
+/* 座標軸 */
+.ig-share-card__axis {
+  position: absolute;
+}
+
+.ig-share-card__axis--vertical {
+  width: 3px;
+  height: 100%;
+  background: #d8c1ae;
+  left: 50%;
+  transform: translateX(-1.5px);
+}
+
+.ig-share-card__axis--horizontal {
+  height: 3px;
+  width: 100%;
+  background: #d8c1ae;
+  top: 50%;
+  transform: translateY(-1.5px);
+}
+
+/* 座標標籤 */
+.ig-share-card__coord-label {
+  position: absolute;
+  font-size: 28px;
+  color: #b08968;
+  font-weight: 500;
+}
+
+.ig-share-card__coord-label--top {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ig-share-card__coord-label--left {
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
+}
+
+/* 座標點 */
+.ig-share-card__coord-point {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 4px solid white;
+}
+
+/* 關係區域 */
+.ig-share-card__relations {
+  width: 100%;
+  background: #fff3e4;
+  padding: 30px 40px;
+  border-radius: 16px;
+}
+
+.ig-share-card__relations-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #4a3427;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.ig-share-card__relation-item {
+  font-size: 28px;
+  color: #6a4d38;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ig-share-card__relation-emoji {
+  font-size: 32px;
+}
+
+.ig-share-card__relation-name {
+  font-weight: 600;
+  color: #4a3427;
+}
+
+/* 香氣區域 */
+.ig-share-card__scents {
+  width: 100%;
+  background: #fffdf8;
+  padding: 30px 40px;
+  border-radius: 16px;
+  border: 2px solid #f0e0d2;
+}
+
+.ig-share-card__scents-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #4a3427;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.ig-share-card__scent-item {
+  font-size: 26px;
+  color: #6a4d38;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+.ig-share-card__scent-type {
+  font-weight: 600;
+  color: #a17453;
+}
+
+.ig-share-card__scent-name {
+  font-weight: 600;
+  color: #4a3427;
+}
+
+/* 頁尾 CTA 區域 */
+.ig-share-card__footer {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  padding: 36px 60px;
+  text-align: center;
+}
+
+.ig-share-card__url {
+  font-size: 32px;
+  color: #5c3b2a;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.ig-share-card__cta {
+  font-size: 28px;
+  color: #5c3b2a;
+  margin: 0;
+  opacity: 0.9;
+}

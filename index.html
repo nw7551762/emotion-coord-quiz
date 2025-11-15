@@ -1,271 +1,269 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>找到你的情緒座標 | 你是哪種植物？</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/share-card.css">
     <!-- html2canvas for share image generation -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
+
 <body>
-<!-- 森林背景層 -->
-<div class="forest-background">
-    <div class="bg-layer bg-layer-far"></div>
-    <div class="bg-layer bg-layer-mid"></div>
-    <div class="bg-layer bg-layer-near"></div>
-</div>
-
-<!-- 載入動畫畫面 -->
-<div class="loading-screen" id="loadingScreen">
-    <div class="loading-icon">🌿</div>
-    <div class="loading-text" id="loadingText">正在分析你的情緒座標...</div>
-    <div class="loading-spinner"></div>
-</div>
-
-<div class="container">
-    <div class="header">
-        <h1>🌿 找到你的情緒座標</h1>
-        <p>用植物人格，看見你現在的能量與溫度！</p>
+    <!-- 森林背景層 -->
+    <div class="forest-background">
+        <div class="bg-layer bg-layer-far"></div>
+        <div class="bg-layer bg-layer-mid"></div>
+        <div class="bg-layer bg-layer-near"></div>
     </div>
 
-    <div class="content">
-        <!-- 開始畫面 -->
-        <div class="start-screen" id="startScreen">
-            <h2>情緒座標測驗</h2>
-            <p>
-                想像你是一株植物。<br>
-                有習慣的氣候、適合生長的溫度。<br><br>
-                透過 10 個生活情境問題，<br>
-                我們會幫你找到現在的情緒座標，<br>
-                還有療癒能量，以及適合與你一起生活的植物們！
-            </p>
-            <button class="btn" id="startBtn">開始測驗</button>
+    <!-- 載入動畫畫面 -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-icon">🌿</div>
+        <div class="loading-text" id="loadingText">正在分析你的情緒座標...</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🌿 找到你的情緒座標</h1>
+            <p>用植物人格，看見你現在的能量與溫度！</p>
         </div>
 
-        <!-- 測驗畫面 -->
-        <div class="question-screen" id="questionScreen">
-            <div class="progress-insight" id="progressInsight"></div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+        <div class="content">
+            <!-- 開始畫面 -->
+            <div class="start-screen" id="startScreen">
+                <h2>情緒座標測驗</h2>
+                <p>
+                    想像你是一株植物。<br>
+                    有習慣的氣候、適合生長的溫度。<br><br>
+                    透過 10 個生活情境問題，<br>
+                    我們會幫你找到現在的情緒座標，<br>
+                    還有療癒能量，以及適合與你一起生活的植物們！
+                </p>
+                <button class="btn" id="startBtn">開始測驗</button>
             </div>
-            <div class="question-number" id="questionNumber">第 1 步 / 共 10 步</div>
-            <div class="question-text" id="questionText"></div>
-            <div class="options" id="optionsContainer"></div>
-            <div class="feedback-message" id="feedbackMessage"></div>
-        </div>
 
-        <!-- 結果畫面 -->
-        <div class="result-screen" id="resultScreen">
-            <div class="plant-icon" id="plantIcon"></div>
-            <div class="plant-name" id="plantName"></div>
-            <div class="plant-tagline" id="plantTagline"></div>
-            <div class="description" id="plantDescription"></div>
-
-            <div class="coord-container">
-                <div class="coord-title" id="coordTitle"></div>
-                <div class="coord-subtitle" id="coordSubtitle"></div>
-                <div class="coord-map">
-                    <div class="coord-axis vertical"></div>
-                    <div class="coord-axis horizontal"></div>
-                    <div class="coord-label top">Temperature</div>
-                    <div class="coord-label bottom"></div>
-                    <div class="coord-label left">Energy</div>
-                    <div class="coord-label right"></div>
-                    <div class="coord-point" id="coordPoint"></div>
+            <!-- 測驗畫面 -->
+            <div class="question-screen" id="questionScreen">
+                <div class="progress-insight" id="progressInsight"></div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
                 </div>
+                <div class="question-number" id="questionNumber">第 1 步 / 共 10 步</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="feedback-message" id="feedbackMessage"></div>
             </div>
 
-            <div class="relation-section">
-                <div class="relation-title">🌱 與你相處的植物們</div>
-                <div class="relation-grid" id="relationGrid"></div>
-            </div>
+            <!-- 結果畫面 -->
+            <div class="result-screen" id="resultScreen">
+                <div class="plant-icon" id="plantIcon"></div>
+                <div class="plant-name" id="plantName"></div>
+                <div class="plant-tagline" id="plantTagline"></div>
+                <div class="description" id="plantDescription"></div>
 
-            <div class="scent-section">
-                <div class="scent-title">🔮 適合你的香氣能量</div>
-                <div class="scent-grid" id="scentGrid"></div>
-            </div>
-
-            <!-- 分享區塊 -->
-            <div class="share-section" id="shareSection">
-                <div class="share-title">📤 分享你的植物人格</div>
-                <div class="share-buttons">
-                    <button class="share-btn download" id="downloadBtn">📥 下載結果圖</button>
-                    <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
-                    <button class="share-btn social" id="shareIgBtn">📸 分享到 Instagram</button>
+                <div class="coord-container">
+                    <div class="coord-title" id="coordTitle"></div>
+                    <div class="coord-subtitle" id="coordSubtitle"></div>
+                    <div class="coord-map">
+                        <div class="coord-axis vertical"></div>
+                        <div class="coord-axis horizontal"></div>
+                        <div class="coord-label top">Temperature</div>
+                        <div class="coord-label bottom"></div>
+                        <div class="coord-label left">Energy</div>
+                        <div class="coord-label right"></div>
+                        <div class="coord-point" id="coordPoint"></div>
+                    </div>
                 </div>
-                <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
-            </div>
 
-            <button class="btn restart-btn" id="restartBtn">重新測驗</button>
+                <div class="relation-section">
+                    <div class="relation-title">🌱 與你相處的植物們</div>
+                    <div class="relation-grid" id="relationGrid"></div>
+                </div>
+
+                <div class="scent-section">
+                    <div class="scent-title">🔮 適合你的香氣能量</div>
+                    <div class="scent-grid" id="scentGrid"></div>
+                </div>
+
+                <!-- 分享區塊 -->
+                <div class="share-section" id="shareSection">
+                    <div class="share-title">📤 分享你的植物人格</div>
+                    <div class="share-buttons">
+                        <button class="share-btn download" id="downloadBtn">📥 分享結果圖</button>
+                        <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
+                    </div>
+                    <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
+                </div>
+
+                <button class="btn restart-btn" id="restartBtn">重新測驗</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script type="module">
-    import { QuizManager } from './js/quiz.js';
-    import { UIManager } from './js/ui.js';
-    import { AnimationManager } from './js/animations.js';
-    import { FeedbackManager } from './js/feedback.js';
-    import { ShareManager } from './js/share.js';
+    <script type="module">
+        import { QuizManager } from './js/quiz.js';
+        import { UIManager } from './js/ui.js';
+        import { AnimationManager } from './js/animations.js';
+        import { FeedbackManager } from './js/feedback.js';
+        import { ShareManager } from './js/share.js';
 
-    // 初始化應用
-    const quiz = new QuizManager();
-    const ui = new UIManager();
-    const anim = new AnimationManager();
-    const feedback = new FeedbackManager();
-    const share = new ShareManager();
+        // 初始化應用
+        const quiz = new QuizManager();
+        const ui = new UIManager();
+        const anim = new AnimationManager();
+        const feedback = new FeedbackManager();
+        const share = new ShareManager();
 
-    let currentResultKey = null;
+        let currentResultKey = null;
 
-    // 初始化森林背景層
-    anim.initBackgroundLayers();
+        // 初始化森林背景層
+        anim.initBackgroundLayers();
 
-    // 開始測驗
-    function startQuiz() {
-        ui.clearFeedback();
-        anim.fadeOut(ui.startScreen, 300).then(() => {
-            ui.showQuestionScreen();
-            anim.fadeIn(ui.questionScreen, 300);
-            // 更新到第一題的森林深度
-            anim.updateForestDepth(1);
-            showQuestion();
-        });
-    }
-
-    // 顯示題目
-    function showQuestion() {
-        const question = quiz.getCurrentQuestion();
-        ui.updateQuestion(
-            question,
-            quiz.getCurrentQuestionNumber(),
-            quiz.getTotalQuestions(),
-            quiz.getProgress()
-        );
-        ui.renderOptions(question.options, selectAnswer);
-
-        // 檢查是否需要顯示階段性提示
-        const insight = feedback.getProgressInsight(quiz.getCurrentQuestionNumber());
-        if (insight) {
-            ui.showProgressInsight(insight);
+        // 開始測驗
+        function startQuiz() {
+            ui.clearFeedback();
+            anim.fadeOut(ui.startScreen, 300).then(() => {
+                ui.showQuestionScreen();
+                anim.fadeIn(ui.questionScreen, 300);
+                // 更新到第一題的森林深度
+                anim.updateForestDepth(1);
+                showQuestion();
+            });
         }
-    }
 
-    // 選擇答案
-    function selectAnswer(type) {
-        // 顯示即時反饋
-        const feedbackText = feedback.getAnswerFeedback(type);
-        ui.showFeedback(feedbackText);
+        // 顯示題目
+        function showQuestion() {
+            const question = quiz.getCurrentQuestion();
+            ui.updateQuestion(
+                question,
+                quiz.getCurrentQuestionNumber(),
+                quiz.getTotalQuestions(),
+                quiz.getProgress()
+            );
+            ui.renderOptions(question.options, selectAnswer);
 
-        // 記錄答案
-        quiz.recordAnswer(type);
-
-        if (quiz.hasNextQuestion()) {
-            // 等待反饋顯示後使用森林探索動畫切換到下一題
-            setTimeout(() => {
-                const nextQuestionNumber = quiz.getCurrentQuestionNumber();
-
-                // 更新森林深度
-                anim.updateForestDepth(nextQuestionNumber);
-
-                // 更新進度腳印
-                anim.updateProgressTrail(nextQuestionNumber, quiz.getTotalQuestions());
-
-                // 使用森林切換動畫
-                anim.transitionToNextQuestion(
-                    ui.questionScreen,
-                    ui.questionScreen,
-                    () => {
-                        showQuestion();
-                    }
-                );
-            }, 1200);
-        } else {
-            // 完成所有題目，顯示結果
-            setTimeout(showResult, 1200);
-        }
-    }
-
-    // 顯示結果
-    async function showResult() {
-        // 第一階段：題目畫面淡出
-        await anim.fadeOut(ui.questionScreen, 500);
-
-        // 第二階段：計算結果
-        currentResultKey = quiz.calculateResult();
-
-        // 取得植物資料
-        const { plantData } = await import('./js/data/plants.js');
-        const plantColor = plantData[currentResultKey].color;
-
-        // 第三階段：森林核心揭曉動畫
-        await anim.revealResultWithForest(plantColor, ui.resultScreen);
-
-        // 第四階段：顯示結果內容
-        ui.renderResult(currentResultKey);
-
-        // 第五階段：打字機效果顯示描述
-        setTimeout(() => {
-            const descElement = document.getElementById('plantDescription');
-            const descText = descElement.innerHTML;
-            descElement.innerHTML = '';
-            anim.typewriterEffect(descElement, descText, 30);
-        }, 500);
-
-        // 初始化分享功能
-        initShareButtons(currentResultKey);
-    }
-
-    // 初始化分享按鈕事件
-    let shareButtonsInitialized = false;
-    function initShareButtons(resultKey) {
-        if (shareButtonsInitialized) {
-            // 已經初始化過，只需更新 resultKey
-            return;
-        }
-        shareButtonsInitialized = true;
-
-        // 下載結果圖
-        document.getElementById('downloadBtn').addEventListener('click', async () => {
-            await share.generateShareImage(ui.resultScreen, currentResultKey);
-        });
-
-        // 複製連結
-        document.getElementById('copyLinkBtn').addEventListener('click', async () => {
-            const success = await share.copyLink();
-            const copySuccess = document.getElementById('copySuccess');
-            if (success && copySuccess) {
-                copySuccess.classList.add('show');
-                setTimeout(() => {
-                    copySuccess.classList.remove('show');
-                }, 2000);
+            // 檢查是否需要顯示階段性提示
+            const insight = feedback.getProgressInsight(quiz.getCurrentQuestionNumber());
+            if (insight) {
+                ui.showProgressInsight(insight);
             }
-        });
+        }
 
-        // 分享到 Instagram
-        document.getElementById('shareIgBtn').addEventListener('click', async () => {
-            await share.shareToInstagram(ui.resultScreen, currentResultKey);
-        });
-    }
+        // 選擇答案
+        function selectAnswer(type) {
+            // 顯示即時反饋
+            const feedbackText = feedback.getAnswerFeedback(type);
+            ui.showFeedback(feedbackText);
 
-    // 重新測驗
-    function restartQuiz() {
-        quiz.reset();
-        feedback.reset();
-        ui.clearFeedback();
+            // 記錄答案
+            quiz.recordAnswer(type);
 
-        // 重置森林動畫狀態
-        anim.resetForest();
+            if (quiz.hasNextQuestion()) {
+                // 等待反饋顯示後使用森林探索動畫切換到下一題
+                setTimeout(() => {
+                    const nextQuestionNumber = quiz.getCurrentQuestionNumber();
 
-        anim.fadeOut(ui.resultScreen, 300).then(() => {
-            ui.showStartScreen();
-            anim.fadeIn(ui.startScreen, 300);
-        });
-    }
+                    // 更新森林深度
+                    anim.updateForestDepth(nextQuestionNumber);
 
-    // 事件監聽
-    document.getElementById('startBtn').addEventListener('click', startQuiz);
-    document.getElementById('restartBtn').addEventListener('click', restartQuiz);
-</script>
+                    // 更新進度腳印
+                    anim.updateProgressTrail(nextQuestionNumber, quiz.getTotalQuestions());
+
+                    // 使用森林切換動畫
+                    anim.transitionToNextQuestion(
+                        ui.questionScreen,
+                        ui.questionScreen,
+                        () => {
+                            showQuestion();
+                        }
+                    );
+                }, 1200);
+            } else {
+                // 完成所有題目，顯示結果
+                setTimeout(showResult, 1200);
+            }
+        }
+
+        // 顯示結果
+        async function showResult() {
+            // 第一階段：題目畫面淡出
+            await anim.fadeOut(ui.questionScreen, 500);
+
+            // 第二階段：計算結果
+            currentResultKey = quiz.calculateResult();
+
+            // 取得植物資料
+            const { plantData } = await import('./js/data/plants.js');
+            const plantColor = plantData[currentResultKey].color;
+
+            // 第三階段：森林核心揭曉動畫
+            await anim.revealResultWithForest(plantColor, ui.resultScreen);
+
+            // 第四階段：顯示結果內容
+            ui.renderResult(currentResultKey);
+
+            // 第五階段：打字機效果顯示描述
+            setTimeout(() => {
+                const descElement = document.getElementById('plantDescription');
+                const descText = descElement.innerHTML;
+                descElement.innerHTML = '';
+                anim.typewriterEffect(descElement, descText, 30);
+            }, 500);
+
+            // 初始化分享功能
+            initShareButtons(currentResultKey);
+        }
+
+        // 初始化分享按鈕事件
+        let shareButtonsInitialized = false;
+        function initShareButtons(resultKey) {
+            if (shareButtonsInitialized) {
+                // 已經初始化過，只需更新 resultKey
+                return;
+            }
+            shareButtonsInitialized = true;
+
+            // 下載結果圖
+            document.getElementById('downloadBtn').addEventListener('click', async () => {
+                await share.generateShareImage(ui.resultScreen, currentResultKey);
+            });
+
+            // 複製連結
+            document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+                const success = await share.copyLink();
+                const copySuccess = document.getElementById('copySuccess');
+                if (success && copySuccess) {
+                    copySuccess.classList.add('show');
+                    setTimeout(() => {
+                        copySuccess.classList.remove('show');
+                    }, 2000);
+                }
+            });
+        }
+
+        // 重新測驗
+        function restartQuiz() {
+            quiz.reset();
+            feedback.reset();
+            ui.clearFeedback();
+
+            // 重置森林動畫狀態
+            anim.resetForest();
+
+            anim.fadeOut(ui.resultScreen, 300).then(() => {
+                ui.showStartScreen();
+                anim.fadeIn(ui.startScreen, 300);
+            });
+        }
+
+        // 事件監聽
+        document.getElementById('startBtn').addEventListener('click', startQuiz);
+        document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+    </script>
 </body>
+
 </html>
