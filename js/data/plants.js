@@ -1,6 +1,14 @@
 // 取得植物圖片路徑的輔助函式
 export function getPlantImage(key) {
-    return "images/" + key + ".png";
+    const plantNameMap = {
+        lavender: "薰衣草",
+        cypress: "扁柏",
+        hinoki: "檜木",
+        chamomile: "洋甘菊",
+        mint: "薄荷",
+        peony: "牡丹"
+    };
+    return "images/" + plantNameMap[key] + ".jpg";
 }
 
 // 植物類型資料

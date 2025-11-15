@@ -2,6 +2,8 @@
  * ShareManager - 負責分享功能
  * 包含圖卡生成、複製連結、社群分享
  */
+import { getPlantImage } from './data/plants.js';
+
 export class ShareManager {
   constructor() {
     // 各植物類型的分享文字模板
@@ -63,8 +65,10 @@ export class ShareManager {
       <div class="ig-share-card__coord-map">
         <div class="ig-share-card__axis ig-share-card__axis--vertical"></div>
         <div class="ig-share-card__axis ig-share-card__axis--horizontal"></div>
-        <div class="ig-share-card__coord-label ig-share-card__coord-label--top">Temperature 溫度</div>
-        <div class="ig-share-card__coord-label ig-share-card__coord-label--left">Energy 能量</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--right">Warm</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--left">Cool</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--top">Active</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--bottom">Calm</div>
         <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${100 - plant.coord.y}%; background-color: ${plant.color};"></div>
       </div>
     `;
@@ -74,7 +78,7 @@ export class ShareManager {
     const scentsSection = document.createElement('div');
     scentsSection.className = 'ig-share-card__scents';
     scentsSection.innerHTML = `
-      <h3 class="ig-share-card__scents-title">🔮 適合你的香氣能量</h3>
+      <h3 class="ig-share-card__scents-title">你需要的香氣能量</h3>
       <div class="ig-share-card__scent-item">
         <span class="ig-share-card__scent-type">相似香氣</span>
         <span class="ig-share-card__scent-name">${plant.scent.similar.name}</span>
@@ -94,7 +98,7 @@ export class ShareManager {
     const relationsSection = document.createElement('div');
     relationsSection.className = 'ig-share-card__relations';
 
-    // 找出另一半、朋友、仇人的植物名稱
+    // 找出另一半、朋友、仇人的植物名稱和圖片
     const partnerPlant = plant.relationships.partner.plants[0];
     const friendPlant = plant.relationships.friend.plants[0];
     const enemyPlant = plant.relationships.enemy.plants[0];
@@ -102,20 +106,28 @@ export class ShareManager {
     const friendName = plantData[friendPlant]?.name || friendPlant;
     const enemyName = plantData[enemyPlant]?.name || enemyPlant;
 
+    // 取得植物圖片路徑
+    const partnerImage = getPlantImage(partnerPlant);
+    const friendImage = getPlantImage(friendPlant);
+    const enemyImage = getPlantImage(enemyPlant);
+
     relationsSection.innerHTML = `
       <h3 class="ig-share-card__relations-title">🌱 與你相處的植物們</h3>
       <div class="ig-share-card__relations-grid">
         <div class="ig-share-card__relation-item">
+          <img src="${partnerImage}" class="ig-share-card__relation-image" alt="${partnerName}">
           <span class="ig-share-card__relation-emoji">💝</span>
           <span class="ig-share-card__relation-label">另一半</span>
           <span class="ig-share-card__relation-name">${partnerName}</span>
         </div>
         <div class="ig-share-card__relation-item">
+          <img src="${friendImage}" class="ig-share-card__relation-image" alt="${friendName}">
           <span class="ig-share-card__relation-emoji">👫</span>
           <span class="ig-share-card__relation-label">朋友</span>
           <span class="ig-share-card__relation-name">${friendName}</span>
         </div>
         <div class="ig-share-card__relation-item">
+          <img src="${enemyImage}" class="ig-share-card__relation-image" alt="${enemyName}">
           <span class="ig-share-card__relation-emoji">⚡</span>
           <span class="ig-share-card__relation-label">仇人</span>
           <span class="ig-share-card__relation-name">${enemyName}</span>
@@ -161,7 +173,7 @@ export class ShareManager {
       // 3. 使用 html2canvas 截圖
       const canvas = await html2canvas(shareCard, {
         width: 1080,
-        height: 1350,
+        height: 1600,
         scale: 1, // IG 優化尺寸，不需要額外放大
         backgroundColor: '#fffaf5',
         logging: false,

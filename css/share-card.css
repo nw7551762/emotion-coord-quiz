@@ -1,13 +1,13 @@
 /**
  * share-card.css
  * Instagram 專用分享卡片樣式
- * 尺寸：1080 × 1350 px (4:5 比例，IG 貼文最佳尺寸)
+ * 尺寸：1080 × 1600 px
  */
 
 /* 分享卡片容器 - 固定尺寸，避免跑版 */
 .ig-share-card {
   width: 1080px;
-  height: 1350px;
+  height: 1600px;
   background: #fffaf5;
   position: fixed;
   top: -10000px;
@@ -124,6 +124,20 @@
   transform: translateX(-1.5px);
 }
 
+/* 垂直軸箭頭（向上 +y Active） */
+.ig-share-card__axis--vertical::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 16px solid #b08968;
+}
+
 .ig-share-card__axis--horizontal {
   height: 3px;
   width: 100%;
@@ -132,25 +146,50 @@
   transform: translateY(-1.5px);
 }
 
+/* 水平軸箭頭（向右 +x Warm） */
+.ig-share-card__axis--horizontal::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid #b08968;
+}
+
 /* 座標標籤 */
 .ig-share-card__coord-label {
   position: absolute;
-  font-size: 28px;
+  font-size: 24px;
   color: #b08968;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .ig-share-card__coord-label--top {
-  top: 16px;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ig-share-card__coord-label--bottom {
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .ig-share-card__coord-label--left {
-  left: 16px;
+  left: 8px;
   top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
+  transform: translateY(-50%);
+}
+
+.ig-share-card__coord-label--right {
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* 座標點 */
@@ -168,7 +207,7 @@
 .ig-share-card__relations {
   width: 100%;
   background: #fff3e4;
-  padding: 24px 32px 28px;
+  padding: 28px 32px 32px;
   border-radius: 16px;
 }
 
@@ -176,13 +215,13 @@
   font-size: 28px;
   font-weight: 600;
   color: #4a3427;
-  margin: 0 0 20px 0;
+  margin: 0 0 24px 0;
   text-align: center;
 }
 
 .ig-share-card__relations-grid {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   justify-content: space-between;
 }
 
@@ -190,15 +229,29 @@
   flex: 1;
   text-align: center;
   background: #fffdf8;
-  padding: 20px 12px;
+  padding: 24px 12px;
   border-radius: 12px;
   border: 2px solid #f0e0d2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 植物圖片樣式 */
+.ig-share-card__relation-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f0e0d2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .ig-share-card__relation-emoji {
-  font-size: 48px;
+  font-size: 40px;
   display: block;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .ig-share-card__relation-label {
@@ -206,7 +259,7 @@
   color: #a17453;
   font-weight: 600;
   display: block;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .ig-share-card__relation-name {
@@ -219,10 +272,7 @@
 /* 香氣區域 */
 .ig-share-card__scents {
   flex: 1;
-  background: #fffdf8;
-  padding: 24px 32px;
-  border-radius: 16px;
-  border: 2px solid #f0e0d2;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
