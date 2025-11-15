@@ -49,7 +49,8 @@ export class ShareManager {
         backgroundColor: '#ffffff',
         scale: 2, // 提高解析度
         logging: false,
-        useCORS: true
+        useCORS: true,
+        allowTaint: true
       });
 
       // 恢復隱藏的元素
@@ -57,14 +58,100 @@ export class ShareManager {
         el.style.display = '';
       });
 
-      // 轉換為圖片並下載
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = `emotion-coord-${resultKey}.png`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
+      // 轉換為 blob
+      return new Promise((resolve) => {
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            alert('圖片生成失敗，請稍後再試。');
+            resolve(false);
+            return;
+          }
+
+          // 偵測是否為手機裝置
+          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+          if (isMobile) {
+            // 手機優先使用 Web Share API
+            if (navigator.share && navigator.canShare) {
+              const file = new File([blob], `emotion-coord-${resultKey}.png`, { type: 'image/png' });
+              const shareData = {
+                files: [file],
+                title: '我的情緒座標測驗結果',
+                text: this.shareTemplates[resultKey] || '來測測看你的情緒座標！'
+              };
+
+              if (navigator.canShare(shareData)) {
+                try {
+                  await navigator.share(shareData);
+                  resolve(true);
+                  return;
+                } catch (error) {
+                  // 使用者取消或不支援，繼續使用備用方案
+                  if (error.name !== 'AbortError') {
+                    console.error('分享失敗:', error);
+                  }
+                }
+              }
+            }
+
+            // 備用方案：開啟圖片預覽（使用者可長按儲存）
+            const url = URL.createObjectURL(blob);
+            const newWindow = window.open('', '_blank');
+            if (newWindow) {
+              newWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="zh-TW">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>情緒座標測驗結果</title>
+                  <style>
+                    body {
+                      margin: 0;
+                      padding: 20px;
+                      background: #f0f0f0;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      min-height: 100vh;
+                      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                    }
+                    img {
+                      max-width: 100%;
+                      height: auto;
+                      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                      border-radius: 8px;
+                    }
+                    .hint {
+                      margin-top: 20px;
+                      padding: 12px 20px;
+                      background: white;
+                      border-radius: 8px;
+                      text-align: center;
+                      color: #666;
+                      font-size: 14px;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <img src="${url}" alt="情緒座標測驗結果">
+                  <div class="hint">📱 長按圖片可儲存到相簿</div>
+                </body>
+                </html>
+              `);
+              newWindow.document.close();
+            } else {
+              // 無法開啟新視窗，fallback 到下載
+              this.downloadBlob(blob, `emotion-coord-${resultKey}.png`);
+            }
+          } else {
+            // 桌面裝置：觸發下載
+            this.downloadBlob(blob, `emotion-coord-${resultKey}.png`);
+          }
+
+          resolve(true);
+        });
       });
 
     } catch (error) {
@@ -76,7 +163,23 @@ export class ShareManager {
       const restartBtn = resultElement.querySelector('.restart-btn');
       if (shareSection) shareSection.style.display = '';
       if (restartBtn) restartBtn.style.display = '';
+
+      return false;
     }
+  }
+
+  /**
+   * 下載 blob 為檔案
+   * @param {Blob} blob - 要下載的 blob
+   * @param {string} filename - 檔案名稱
+   */
+  downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   /**
@@ -107,36 +210,42 @@ export class ShareManager {
   }
 
   /**
-   * 分享到 Line
+   * 分享到 Instagram
+   * Instagram 不支援直接透過 URL 分享連結，需使用以下方式：
+   * 1. 在行動裝置：使用 Web Share API 或引導使用者下載圖片後手動分享
+   * 2. 在桌面裝置：提示使用者下載圖片後上傳至 Instagram 網頁版
+   * @param {HTMLElement} resultElement - 結果畫面元素
    * @param {string} resultKey - 植物類型 key
    */
-  shareToLine(resultKey) {
-    const text = this.shareTemplates[resultKey] || '來測測看你的情緒座標！';
-    const url = this.baseUrl;
-    const lineUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-    window.open(lineUrl, '_blank', 'width=600,height=400');
-  }
+  async shareToInstagram(resultElement, resultKey) {
+    // 偵測是否為行動裝置
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-  /**
-   * 分享到 Facebook
-   * @param {string} resultKey - 植物類型 key
-   */
-  shareToFacebook(resultKey) {
-    const url = this.baseUrl;
-    const quote = this.shareTemplates[resultKey] || '來測測看你的情緒座標！';
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(quote)}`;
-    window.open(fbUrl, '_blank', 'width=600,height=400');
-  }
+    if (isMobile) {
+      // 行動裝置：嘗試使用 Web Share API 分享文字
+      if (navigator.share) {
+        try {
+          const shareText = this.shareTemplates[resultKey] || '來測測看你的情緒座標！';
+          await navigator.share({
+            title: '找到你的情緒座標',
+            text: shareText + '\n\n' + this.baseUrl
+          });
+          return true;
+        } catch (error) {
+          if (error.name !== 'AbortError') {
+            console.error('分享失敗:', error);
+          }
+        }
+      }
 
-  /**
-   * 分享到 Twitter
-   * @param {string} resultKey - 植物類型 key
-   */
-  shareToTwitter(resultKey) {
-    const text = this.shareTemplates[resultKey] || '來測測看你的情緒座標！';
-    const url = this.baseUrl;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-    window.open(twitterUrl, '_blank', 'width=600,height=400');
+      // 備用方案：提示使用者下載圖片
+      alert('請先點擊「📥 下載結果圖」，\n然後到 Instagram App 中上傳圖片分享！');
+      return false;
+    } else {
+      // 桌面裝置：提示使用者下載圖片並手動上傳
+      alert('請先點擊「📥 下載結果圖」，\n然後到 Instagram 網頁版上傳圖片分享！');
+      return false;
+    }
   }
 
   /**

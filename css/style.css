@@ -31,6 +31,26 @@ body {
     color: #5c3b2a;
     padding: 28px 24px;
     text-align: center;
+    /* Header 隨森林深度淡出效果 */
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header 淡出狀態（配合森林深度） */
+.header.fading {
+    opacity: 0.6;
+}
+
+.header.faded {
+    opacity: 0.3;
+}
+
+.header.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
 }
 
 .header h1 {
@@ -243,7 +263,11 @@ body {
 }
 
 .coord-label.left {
-    display: none;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
 
 .coord-label.right {
@@ -311,12 +335,21 @@ body {
     color: #4a3427;
 }
 
-.relation-img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    margin: 4px auto 6px;
+.relation-emoji {
+    font-size: 48px;
+    margin: 8px auto 10px;
     display: block;
+    text-align: center;
+    line-height: 1;
+}
+
+.relation-img {
+    width: 80px;
+    height: 80px;
+    margin: 8px auto 10px;
+    display: block;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 .relation-text {

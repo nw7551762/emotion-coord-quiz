@@ -68,9 +68,9 @@
                 <div class="coord-map">
                     <div class="coord-axis vertical"></div>
                     <div class="coord-axis horizontal"></div>
-                    <div class="coord-label top">Energy</div>
-                    <div class="coord-label bottom">Temperature</div>
-                    <div class="coord-label left"></div>
+                    <div class="coord-label top">Temperature</div>
+                    <div class="coord-label bottom"></div>
+                    <div class="coord-label left">Energy</div>
                     <div class="coord-label right"></div>
                     <div class="coord-point" id="coordPoint"></div>
                 </div>
@@ -92,8 +92,7 @@
                 <div class="share-buttons">
                     <button class="share-btn download" id="downloadBtn">📥 下載結果圖</button>
                     <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
-                    <button class="share-btn social" id="shareLineBtn">💬 分享到 Line</button>
-                    <button class="share-btn social" id="shareFbBtn">👍 分享到 Facebook</button>
+                    <button class="share-btn social" id="shareIgBtn">📸 分享到 Instagram</button>
                 </div>
                 <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
             </div>
@@ -243,14 +242,9 @@
             }
         });
 
-        // 分享到 Line
-        document.getElementById('shareLineBtn').addEventListener('click', () => {
-            share.shareToLine(currentResultKey);
-        });
-
-        // 分享到 Facebook
-        document.getElementById('shareFbBtn').addEventListener('click', () => {
-            share.shareToFacebook(currentResultKey);
+        // 分享到 Instagram
+        document.getElementById('shareIgBtn').addEventListener('click', async () => {
+            await share.shareToInstagram(ui.resultScreen, currentResultKey);
         });
     }
 

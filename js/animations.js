@@ -12,6 +12,7 @@ export class AnimationManager {
       mid: null,
       near: null
     };
+    this.preloadedImages = {}; // 預載圖片快取
   }
 
   /**
@@ -297,20 +298,61 @@ export class AnimationManager {
   // ========== 森林探索動畫效果 ==========
 
   /**
+   * 預載圖片
+   * @param {string} url - 圖片網址
+   * @returns {Promise} 載入完成的 Promise
+   */
+  preloadImage(url) {
+    return new Promise((resolve, reject) => {
+      // 檢查快取
+      if (this.preloadedImages[url]) {
+        resolve(this.preloadedImages[url]);
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        this.preloadedImages[url] = img;
+        resolve(img);
+      };
+      img.onerror = (err) => {
+        console.error(`Failed to load image: ${url}`, err);
+        reject(err);
+      };
+      img.src = url;
+    });
+  }
+
+  /**
    * 初始化背景層
    */
-  initBackgroundLayers() {
+  async initBackgroundLayers() {
     this.forestBg = document.querySelector('.forest-background');
 
+    // 預載所有背景圖片,避免切換時出現空白
+    const images = [
+      '../images/forest-bg.jpg',
+      '../images/forest-mid.jpg',
+      '../images/forest-fg.jpg'
+    ];
+
+    try {
+      await Promise.all(images.map(url => this.preloadImage(url)));
+      console.log('All background images preloaded successfully');
+    } catch (err) {
+      console.error('Some background images failed to preload', err);
+    }
+
     // 設定初始狀態
-    this.updateForestDepth(0);
+    await this.updateForestDepth(0);
   }
 
   /**
    * 更新森林深度（題號變化時調用）
    * @param {number} questionNumber - 當前題號 (1-10)，0 表示開始畫面
+   * @returns {Promise} 更新完成的 Promise
    */
-  updateForestDepth(questionNumber) {
+  async updateForestDepth(questionNumber) {
     if (!this.forestBg) return;
 
     this.currentDepth = questionNumber;
@@ -330,8 +372,8 @@ export class AnimationManager {
                         this.forestBg.classList.contains('stage-2') ? 2 : 1;
 
     if (newStage !== currentStage) {
-      // 使用交叉淡化切換圖片
-      this.crossfadeBackground(currentStage, newStage);
+      // 使用交叉淡化切換圖片(等待圖片載入完成)
+      await this.crossfadeBackground(currentStage, newStage);
     }
 
     // 移除舊的 zoom 類別
@@ -346,11 +388,24 @@ export class AnimationManager {
   }
 
   /**
+   * 更新 header 顯示狀態（已停用淡出效果）
+   * @param {number} questionNumber - 當前題號 (0-10)
+   */
+  updateHeaderVisibility(questionNumber) {
+    const header = document.querySelector('.header');
+    if (!header) return;
+
+    // 確保 header 始終完全顯示，移除所有淡出類別
+    header.classList.remove('fading', 'faded', 'hidden');
+  }
+
+  /**
    * 交叉淡化切換背景圖片
    * @param {number} fromStage - 原本的階段
    * @param {number} toStage - 新的階段
+   * @returns {Promise} 切換完成的 Promise
    */
-  crossfadeBackground(fromStage, toStage) {
+  async crossfadeBackground(fromStage, toStage) {
     if (!this.forestBg) return;
 
     // 設定 ::before 的背景圖（新圖片）
@@ -360,29 +415,45 @@ export class AnimationManager {
       3: '../images/forest-fg.jpg'
     };
 
-    this.forestBg.style.setProperty('--next-bg', `url('${images[toStage]}')`);
+    const nextImageUrl = images[toStage];
 
-    // 更新 ::before 的背景圖
-    const style = document.createElement('style');
-    style.id = 'bg-transition-style';
-    const existingStyle = document.getElementById('bg-transition-style');
-    if (existingStyle) existingStyle.remove();
+    try {
+      // 預載圖片,確保載入完成再切換
+      await this.preloadImage(nextImageUrl);
 
-    style.textContent = `.forest-background::before { background-image: url('${images[toStage]}'); }`;
-    document.head.appendChild(style);
+      // 圖片已載入,安全地開始切換
+      this.forestBg.style.setProperty('--next-bg', `url('${nextImageUrl}')`);
 
-    // 觸發淡入
-    this.forestBg.classList.add('transitioning');
+      // 更新 ::before 的背景圖
+      const style = document.createElement('style');
+      style.id = 'bg-transition-style';
+      const existingStyle = document.getElementById('bg-transition-style');
+      if (existingStyle) existingStyle.remove();
 
-    // 2秒後完成過渡
-    setTimeout(() => {
-      // 更新主背景圖
+      style.textContent = `.forest-background::before { background-image: url('${nextImageUrl}'); }`;
+      document.head.appendChild(style);
+
+      // 觸發淡入
+      this.forestBg.classList.add('transitioning');
+
+      // 2秒後完成過渡
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          // 更新主背景圖
+          this.forestBg.classList.remove('stage-1', 'stage-2', 'stage-3');
+          this.forestBg.classList.add(`stage-${toStage}`);
+
+          // 重置過渡狀態
+          this.forestBg.classList.remove('transitioning');
+          resolve();
+        }, 2000);
+      });
+    } catch (err) {
+      // 載入失敗時的處理 - 直接切換不做動畫
+      console.error('Background image preload failed, switching without animation', err);
       this.forestBg.classList.remove('stage-1', 'stage-2', 'stage-3');
       this.forestBg.classList.add(`stage-${toStage}`);
-
-      // 重置過渡狀態
-      this.forestBg.classList.remove('transitioning');
-    }, 2000);
+    }
   }
 
   /**
