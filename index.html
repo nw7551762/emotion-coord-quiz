@@ -5,8 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>找到你的情緒座標 | 你是哪種植物？</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- html2canvas for share image generation -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
+<!-- 森林背景層 -->
+<div class="forest-background">
+    <div class="bg-layer bg-layer-far"></div>
+    <div class="bg-layer bg-layer-mid"></div>
+    <div class="bg-layer bg-layer-near"></div>
+</div>
+
+<!-- 載入動畫畫面 -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-icon">🌿</div>
+    <div class="loading-text" id="loadingText">正在分析你的情緒座標...</div>
+    <div class="loading-spinner"></div>
+</div>
+
 <div class="container">
     <div class="header">
         <h1>🌿 找到你的情緒座標</h1>
@@ -29,12 +45,14 @@
 
         <!-- 測驗畫面 -->
         <div class="question-screen" id="questionScreen">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-insight" id="progressInsight"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-            <div class="question-number" id="questionNumber">問題 1 / 10</div>
+            <div class="question-number" id="questionNumber">第 1 步 / 共 10 步</div>
             <div class="question-text" id="questionText"></div>
             <div class="options" id="optionsContainer"></div>
+            <div class="feedback-message" id="feedbackMessage"></div>
         </div>
 
         <!-- 結果畫面 -->
@@ -68,6 +86,18 @@
                 <div class="scent-grid" id="scentGrid"></div>
             </div>
 
+            <!-- 分享區塊 -->
+            <div class="share-section" id="shareSection">
+                <div class="share-title">📤 分享你的植物人格</div>
+                <div class="share-buttons">
+                    <button class="share-btn download" id="downloadBtn">📥 下載結果圖</button>
+                    <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
+                    <button class="share-btn social" id="shareLineBtn">💬 分享到 Line</button>
+                    <button class="share-btn social" id="shareFbBtn">👍 分享到 Facebook</button>
+                </div>
+                <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
+            </div>
+
             <button class="btn restart-btn" id="restartBtn">重新測驗</button>
         </div>
     </div>
@@ -76,15 +106,32 @@
 <script type="module">
     import { QuizManager } from './js/quiz.js';
     import { UIManager } from './js/ui.js';
+    import { AnimationManager } from './js/animations.js';
+    import { FeedbackManager } from './js/feedback.js';
+    import { ShareManager } from './js/share.js';
 
     // 初始化應用
     const quiz = new QuizManager();
     const ui = new UIManager();
+    const anim = new AnimationManager();
+    const feedback = new FeedbackManager();
+    const share = new ShareManager();
+
+    let currentResultKey = null;
+
+    // 初始化森林背景層
+    anim.initBackgroundLayers();
 
     // 開始測驗
     function startQuiz() {
-        ui.showQuestionScreen();
-        showQuestion();
+        ui.clearFeedback();
+        anim.fadeOut(ui.startScreen, 300).then(() => {
+            ui.showQuestionScreen();
+            anim.fadeIn(ui.questionScreen, 300);
+            // 更新到第一題的森林深度
+            anim.updateForestDepth(1);
+            showQuestion();
+        });
     }
 
     // 顯示題目
@@ -97,30 +144,129 @@
             quiz.getProgress()
         );
         ui.renderOptions(question.options, selectAnswer);
+
+        // 檢查是否需要顯示階段性提示
+        const insight = feedback.getProgressInsight(quiz.getCurrentQuestionNumber());
+        if (insight) {
+            ui.showProgressInsight(insight);
+        }
     }
 
     // 選擇答案
     function selectAnswer(type) {
+        // 顯示即時反饋
+        const feedbackText = feedback.getAnswerFeedback(type);
+        ui.showFeedback(feedbackText);
+
+        // 記錄答案
         quiz.recordAnswer(type);
 
         if (quiz.hasNextQuestion()) {
-            setTimeout(showQuestion, 200);
+            // 等待反饋顯示後使用森林探索動畫切換到下一題
+            setTimeout(() => {
+                const nextQuestionNumber = quiz.getCurrentQuestionNumber();
+
+                // 更新森林深度
+                anim.updateForestDepth(nextQuestionNumber);
+
+                // 更新進度腳印
+                anim.updateProgressTrail(nextQuestionNumber, quiz.getTotalQuestions());
+
+                // 使用森林切換動畫
+                anim.transitionToNextQuestion(
+                    ui.questionScreen,
+                    ui.questionScreen,
+                    () => {
+                        showQuestion();
+                    }
+                );
+            }, 1200);
         } else {
-            setTimeout(showResult, 200);
+            // 完成所有題目，顯示結果
+            setTimeout(showResult, 1200);
         }
     }
 
     // 顯示結果
-    function showResult() {
-        const resultKey = quiz.calculateResult();
-        ui.showResultScreen();
-        ui.renderResult(resultKey);
+    async function showResult() {
+        // 第一階段：題目畫面淡出
+        await anim.fadeOut(ui.questionScreen, 500);
+
+        // 第二階段：計算結果
+        currentResultKey = quiz.calculateResult();
+
+        // 取得植物資料
+        const { plantData } = await import('./js/data/plants.js');
+        const plantColor = plantData[currentResultKey].color;
+
+        // 第三階段：森林核心揭曉動畫
+        await anim.revealResultWithForest(plantColor, ui.resultScreen);
+
+        // 第四階段：顯示結果內容
+        ui.renderResult(currentResultKey);
+
+        // 第五階段：打字機效果顯示描述
+        setTimeout(() => {
+            const descElement = document.getElementById('plantDescription');
+            const descText = descElement.innerHTML;
+            descElement.innerHTML = '';
+            anim.typewriterEffect(descElement, descText, 30);
+        }, 500);
+
+        // 初始化分享功能
+        initShareButtons(currentResultKey);
+    }
+
+    // 初始化分享按鈕事件
+    let shareButtonsInitialized = false;
+    function initShareButtons(resultKey) {
+        if (shareButtonsInitialized) {
+            // 已經初始化過，只需更新 resultKey
+            return;
+        }
+        shareButtonsInitialized = true;
+
+        // 下載結果圖
+        document.getElementById('downloadBtn').addEventListener('click', async () => {
+            await share.generateShareImage(ui.resultScreen, currentResultKey);
+        });
+
+        // 複製連結
+        document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+            const success = await share.copyLink();
+            const copySuccess = document.getElementById('copySuccess');
+            if (success && copySuccess) {
+                copySuccess.classList.add('show');
+                setTimeout(() => {
+                    copySuccess.classList.remove('show');
+                }, 2000);
+            }
+        });
+
+        // 分享到 Line
+        document.getElementById('shareLineBtn').addEventListener('click', () => {
+            share.shareToLine(currentResultKey);
+        });
+
+        // 分享到 Facebook
+        document.getElementById('shareFbBtn').addEventListener('click', () => {
+            share.shareToFacebook(currentResultKey);
+        });
     }
 
     // 重新測驗
     function restartQuiz() {
         quiz.reset();
-        ui.showStartScreen();
+        feedback.reset();
+        ui.clearFeedback();
+
+        // 重置森林動畫狀態
+        anim.resetForest();
+
+        anim.fadeOut(ui.resultScreen, 300).then(() => {
+            ui.showStartScreen();
+            anim.fadeIn(ui.startScreen, 300);
+        });
     }
 
     // 事件監聽

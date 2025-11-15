@@ -12,6 +12,10 @@ export class UIManager {
         this.questionNumber = document.getElementById('questionNumber');
         this.questionText = document.getElementById('questionText');
         this.optionsContainer = document.getElementById('optionsContainer');
+
+        // 新增元素
+        this.feedbackMessage = document.getElementById('feedbackMessage');
+        this.progressInsight = document.getElementById('progressInsight');
     }
 
     // 顯示開始畫面
@@ -37,9 +41,14 @@ export class UIManager {
 
     // 更新題目顯示
     updateQuestion(question, questionNumber, totalQuestions, progress) {
-        this.questionNumber.textContent = `問題 ${questionNumber} / ${totalQuestions}`;
+        this.questionNumber.textContent = `第 ${questionNumber} 步 / 共 ${totalQuestions} 步`;
         this.questionText.textContent = question.question;
-        this.progressFill.style.width = `${progress}%`;
+
+        // 更新進度條（使用新的 progress-bar ID）
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+        }
     }
 
     // 渲染選項
@@ -134,5 +143,55 @@ export class UIManager {
 
         scentGrid.appendChild(similarCard);
         scentGrid.appendChild(balanceCard);
+    }
+
+    // 顯示即時反饋文字
+    showFeedback(text) {
+        if (!this.feedbackMessage) return;
+
+        this.feedbackMessage.textContent = text;
+        this.feedbackMessage.classList.remove('show');
+
+        // 強制重繪
+        void this.feedbackMessage.offsetHeight;
+
+        this.feedbackMessage.classList.add('show');
+
+        // 2 秒後自動移除
+        setTimeout(() => {
+            this.feedbackMessage.classList.remove('show');
+        }, 2000);
+    }
+
+    // 顯示階段性提示
+    showProgressInsight(text) {
+        if (!this.progressInsight) return;
+
+        this.progressInsight.textContent = text;
+        this.progressInsight.classList.remove('show');
+
+        void this.progressInsight.offsetHeight;
+
+        this.progressInsight.classList.add('show');
+
+        // 3 秒後自動隱藏
+        setTimeout(() => {
+            this.progressInsight.classList.remove('show');
+            setTimeout(() => {
+                this.progressInsight.textContent = '';
+            }, 300);
+        }, 3000);
+    }
+
+    // 清除即時反饋
+    clearFeedback() {
+        if (this.feedbackMessage) {
+            this.feedbackMessage.textContent = '';
+            this.feedbackMessage.classList.remove('show');
+        }
+        if (this.progressInsight) {
+            this.progressInsight.textContent = '';
+            this.progressInsight.classList.remove('show');
+        }
     }
 }

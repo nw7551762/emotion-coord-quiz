@@ -6,12 +6,13 @@
 
 body {
     font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    background: #d0e8d5;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    position: relative;
 }
 
 .container {
@@ -19,8 +20,10 @@ body {
     border-radius: 24px;
     max-width: 720px;
     width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .header {
@@ -136,6 +139,8 @@ body {
 
 .result-screen {
     display: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .plant-icon {
@@ -225,10 +230,25 @@ body {
     line-height: 1.3;
 }
 
-.coord-label.top { top: 6px; left: 50%; transform: translateX(-50%); }
-.coord-label.bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
-.coord-label.left { display:none; }
-.coord-label.right { display:none; }
+.coord-label.top {
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.coord-label.bottom {
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.coord-label.left {
+    display: none;
+}
+
+.coord-label.right {
+    display: none;
+}
 
 .coord-point {
     position: absolute;
@@ -240,8 +260,15 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.12); }
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.12);
+    }
 }
 
 .relation-section {
@@ -353,17 +380,710 @@ body {
     background: #eed4b2;
 }
 
+/* ========== 載入畫面 ========== */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.loading-screen.show {
+    opacity: 1;
+}
+
+.loading-icon {
+    font-size: 80px;
+    animation: grow 1.5s ease-in-out infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes grow {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.loading-text {
+    font-size: 18px;
+    color: #4a3427;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(74, 52, 39, 0.2);
+    border-top-color: #4a3427;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== 頁面過場動畫 ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ========== 結果揭曉動畫 ========== */
+.result-reveal {
+    animation: revealScale 0.8s ease-out;
+}
+
+@keyframes revealScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ========== 即時反饋區域 ========== */
+.feedback-message {
+    text-align: center;
+    color: #7b5d49;
+    font-size: 14px;
+    margin-top: 12px;
+    min-height: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feedback-message.show {
+    animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* ========== 階段性提示 ========== */
+.progress-insight {
+    text-align: center;
+    font-size: 14px;
+    color: #f6a86b;
+    font-weight: 500;
+    margin-bottom: 12px;
+    min-height: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-insight.show {
+    opacity: 1;
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== 分享區塊 ========== */
+.share-section {
+    margin-top: 24px;
+    padding: 20px;
+    background: #fff3e4;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.share-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a3427;
+    margin-bottom: 14px;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.share-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.share-btn.download {
+    background: #f6a86b;
+    color: white;
+}
+
+.share-btn.download:hover {
+    background: #f59653;
+}
+
+.share-btn.copy {
+    background: #b08968;
+    color: white;
+}
+
+.share-btn.copy:hover {
+    background: #9e7a5d;
+}
+
+.share-btn.social {
+    background: white;
+    color: #4a3427;
+    border: 1px solid #f0e0d2;
+}
+
+.share-btn.social:hover {
+    background: #fffdf8;
+    border-color: #d8c1ae;
+}
+
+.copy-success {
+    font-size: 13px;
+    color: #5a9b6d;
+    font-weight: 500;
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.copy-success.show {
+    opacity: 1;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+/* ========== 背景粒子效果 ========== */
+.particle {
+    position: absolute;
+    opacity: 0.3;
+    animation: float 10s infinite;
+    pointer-events: none;
+    font-size: 20px;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-100px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+/* ========== 脈動動畫 ========== */
+.pulse-animation {
+    animation: pulseEffect 0.6s ease-out;
+}
+
+@keyframes pulseEffect {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========== 震動動畫 ========== */
+.shake-animation {
+    animation: shakeEffect 0.6s ease-out;
+}
+
+@keyframes shakeEffect {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+/* ========== 森林探索動畫效果 ========== */
+
+/* CSS 變數 - 由 JavaScript 動態更新 */
+:root {
+    --forest-depth: 0;
+    --fog-opacity: 0;
+    --forest-hue: 140;
+    --forest-lightness: 75%;
+    --result-color: #8cb369;
+}
+
+/* 森林背景層（單層背景，每3題切換）*/
+.forest-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    /* 預設使用第一張圖 */
+    background-image: url('../images/forest-bg.jpg');
+    transform: scale(1);
+}
+
+/* 背景圖片切換時的淡入淡出效果 */
+.forest-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    pointer-events: none;
+}
+
+/* 當切換到新圖片時，使用 ::before 做交叉淡化 */
+.forest-background.transitioning::before {
+    opacity: 1;
+}
+
+/* 背景圖片階段（透過 JavaScript 動態添加類別）*/
+.forest-background.stage-1 {
+    background-image: url('../images/forest-bg.jpg');
+}
+
+.forest-background.stage-2 {
+    background-image: url('../images/forest-mid.jpg');
+}
+
+.forest-background.stage-3 {
+    background-image: url('../images/forest-fg.jpg');
+}
+
+/* 放大 + 移動效果（往下深入，左右蜿蜒）*/
+.forest-background.zoom-1 {
+    transform: scale(1.0) translate(0, 0);
+}
+
+.forest-background.zoom-2 {
+    transform: scale(1.08) translate(-2%, 3%);
+    /* 左下 */
+}
+
+.forest-background.zoom-3 {
+    transform: scale(1.16) translate(3%, 6%);
+    /* 右下 */
+}
+
+.forest-background.zoom-4 {
+    transform: scale(1.24) translate(-4%, 9%);
+    /* 左下 */
+}
+
+.forest-background.zoom-5 {
+    transform: scale(1.32) translate(4%, 12%);
+    /* 右下 */
+}
+
+.forest-background.zoom-6 {
+    transform: scale(1.4) translate(-15%, 5%);
+    /* 左下 */
+}
+
+.forest-background.zoom-7 {
+    transform: scale(1.48) translate(3%, 8%);
+    /* 右下 /
+}
+
+.forest-background.zoom-8 {
+    transform: scale(1.56) translate(-6%, 11%);
+    /* 左下 */
+}
+
+.forest-background.zoom-9 {
+    transform: scale(1.64) translate(5%, 14%);
+    /* 右下 */
+}
+
+.forest-background.zoom-10 {
+    transform: scale(1.72) translate(-3%, 15%);
+    /* 左下深處 */
+}
+
+/* 舊的多層背景（不再使用，可移除）*/
+.bg-layer {
+    display: none;
+}
+
+.bg-layer-far,
+.bg-layer-mid,
+.bg-layer-near {
+    display: none;
+}
+
+/* 題目切換動畫 - 向左淡出 */
+.fade-out-left {
+    animation: fadeOutLeft 0.5s ease-out forwards;
+}
+
+@keyframes fadeOutLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50px) scale(0.95);
+    }
+}
+
+/* 題目切換動畫 - 從右淡入 */
+.fade-in-right {
+    animation: fadeInRight 0.5s ease-out forwards;
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px) scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* 進度條容器（森林小徑） */
+.progress-container {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: linear-gradient(to right, #e8d5c0, #d4c4b0);
+    border-radius: 20px;
+    margin-bottom: 18px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #8cb369 0%, #5a8f4f 100%);
+    border-radius: 20px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(92, 143, 79, 0.4);
+    position: relative;
+    width: 0%;
+}
+
+/* 腳印標記 */
+.footprint {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: #5a8f4f;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(92, 143, 79, 0.6);
+    animation: footprintAppear 0.4s ease-out;
+}
+
+@keyframes footprintAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* 結果過場遮罩 */
+.result-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(var(--forest-hue), 80%, 30%, 0.95), rgba(var(--forest-hue), 60%, 20%, 0.98));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: expandLight 2s ease-out;
+}
+
+@keyframes expandLight {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.result-transition-overlay.fade-out {
+    animation: fadeOutOverlay 0.5s ease-out forwards;
+}
+
+@keyframes fadeOutOverlay {
+    to {
+        opacity: 0;
+    }
+}
+
+.transition-text {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: textPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* 結果元素彈出動畫 */
+.pop-in {
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 結果背景光暈 */
+.result-screen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--result-color), transparent 50%);
+    opacity: 0.15;
+    animation: rotateGlow 10s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes rotateGlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== 響應式調整 ========== */
 @media (max-width: 520px) {
     .header {
         padding: 22px 16px;
     }
+
     .content {
         padding: 20px 16px 24px;
     }
+
     .relation-card {
         flex: 1 1 100%;
     }
+
     .scent-card {
         flex: 1 1 100%;
+    }
+
+    .share-buttons {
+        flex-direction: column;
+    }
+
+    .share-btn {
+        width: 100%;
+    }
+
+    .loading-icon {
+        font-size: 60px;
+    }
+
+    .loading-text {
+        font-size: 16px;
+    }
+
+    /* 森林動畫行動版優化 */
+    .bg-layer-far {
+        filter: blur(15px);
+    }
+
+    .bg-layer-mid {
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+    .bg-layer-near {
+        filter: blur(5px);
+    }
+
+    .transition-text {
+        font-size: 18px;
+    }
+}
+
+/* 動畫降級 - 偏好減少動畫的使用者 */
+@media (prefers-reduced-motion: reduce) {
+
+    .fade-out-left,
+    .fade-in-right,
+    .pop-in,
+    .footprint {
+        animation: none !important;
+        transition: opacity 0.3s ease !important;
+    }
+
+    .bg-layer {
+        transition: none !important;
+    }
+
+    .result-transition-overlay {
+        animation: none !important;
+        transition: opacity 0.5s ease !important;
+    }
+
+    .result-screen::before {
+        animation: none !important;
     }
 }
