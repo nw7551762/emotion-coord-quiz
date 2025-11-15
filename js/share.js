@@ -51,6 +51,10 @@ export class ShareManager {
     `;
     body.appendChild(plantSection);
 
+    // 並排區域：座標 + 香氣
+    const parallelSection = document.createElement('div');
+    parallelSection.className = 'ig-share-card__parallel-section';
+
     // 座標圖區域
     const coordSection = document.createElement('div');
     coordSection.className = 'ig-share-card__coord';
@@ -64,30 +68,7 @@ export class ShareManager {
         <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${100 - plant.coord.y}%; background-color: ${plant.color};"></div>
       </div>
     `;
-    body.appendChild(coordSection);
-
-    // 關係區域（精選另一半和朋友）
-    const relationsSection = document.createElement('div');
-    relationsSection.className = 'ig-share-card__relations';
-
-    // 找出另一半和朋友的植物名稱
-    const partnerPlant = plant.relationships.partner.plants[0];
-    const friendPlant = plant.relationships.friend.plants[0];
-    const partnerName = plantData[partnerPlant]?.name || partnerPlant;
-    const friendName = plantData[friendPlant]?.name || friendPlant;
-
-    relationsSection.innerHTML = `
-      <h3 class="ig-share-card__relations-title">🌱 與你相處的植物們</h3>
-      <div class="ig-share-card__relation-item">
-        <span class="ig-share-card__relation-emoji">💝</span>
-        <span>最適合的另一半：<span class="ig-share-card__relation-name">${partnerName}</span></span>
-      </div>
-      <div class="ig-share-card__relation-item">
-        <span class="ig-share-card__relation-emoji">👫</span>
-        <span>最適合的朋友：<span class="ig-share-card__relation-name">${friendName}</span></span>
-      </div>
-    `;
-    body.appendChild(relationsSection);
+    parallelSection.appendChild(coordSection);
 
     // 香氣區域
     const scentsSection = document.createElement('div');
@@ -95,15 +76,53 @@ export class ShareManager {
     scentsSection.innerHTML = `
       <h3 class="ig-share-card__scents-title">🔮 適合你的香氣能量</h3>
       <div class="ig-share-card__scent-item">
-        <span class="ig-share-card__scent-type">相似香氣：</span>
+        <span class="ig-share-card__scent-type">相似香氣</span>
         <span class="ig-share-card__scent-name">${plant.scent.similar.name}</span>
+        <span class="ig-share-card__scent-text">${plant.scent.similar.text}</span>
       </div>
       <div class="ig-share-card__scent-item">
-        <span class="ig-share-card__scent-type">平衡香氣：</span>
+        <span class="ig-share-card__scent-type">平衡香氣</span>
         <span class="ig-share-card__scent-name">${plant.scent.balance.name}</span>
+        <span class="ig-share-card__scent-text">${plant.scent.balance.text}</span>
       </div>
     `;
-    body.appendChild(scentsSection);
+    parallelSection.appendChild(scentsSection);
+
+    body.appendChild(parallelSection);
+
+    // 關係區域（橫排三欄：另一半/朋友/仇人）
+    const relationsSection = document.createElement('div');
+    relationsSection.className = 'ig-share-card__relations';
+
+    // 找出另一半、朋友、仇人的植物名稱
+    const partnerPlant = plant.relationships.partner.plants[0];
+    const friendPlant = plant.relationships.friend.plants[0];
+    const enemyPlant = plant.relationships.enemy.plants[0];
+    const partnerName = plantData[partnerPlant]?.name || partnerPlant;
+    const friendName = plantData[friendPlant]?.name || friendPlant;
+    const enemyName = plantData[enemyPlant]?.name || enemyPlant;
+
+    relationsSection.innerHTML = `
+      <h3 class="ig-share-card__relations-title">🌱 與你相處的植物們</h3>
+      <div class="ig-share-card__relations-grid">
+        <div class="ig-share-card__relation-item">
+          <span class="ig-share-card__relation-emoji">💝</span>
+          <span class="ig-share-card__relation-label">另一半</span>
+          <span class="ig-share-card__relation-name">${partnerName}</span>
+        </div>
+        <div class="ig-share-card__relation-item">
+          <span class="ig-share-card__relation-emoji">👫</span>
+          <span class="ig-share-card__relation-label">朋友</span>
+          <span class="ig-share-card__relation-name">${friendName}</span>
+        </div>
+        <div class="ig-share-card__relation-item">
+          <span class="ig-share-card__relation-emoji">⚡</span>
+          <span class="ig-share-card__relation-label">仇人</span>
+          <span class="ig-share-card__relation-name">${enemyName}</span>
+        </div>
+      </div>
+    `;
+    body.appendChild(relationsSection);
 
     card.appendChild(body);
 

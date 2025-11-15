@@ -45,11 +45,11 @@
 /* 主要內容區域 */
 .ig-share-card__body {
   flex: 1;
-  padding: 50px 60px;
+  padding: 40px 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
 }
 
 /* 植物圖示與名稱區域 */
@@ -58,9 +58,9 @@
 }
 
 .ig-share-card__icon {
-  font-size: 160px;
+  font-size: 140px;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: block;
 }
 
@@ -68,35 +68,45 @@
   font-size: 56px;
   color: #4a3427;
   font-weight: 700;
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
 }
 
 .ig-share-card__plant-tagline {
-  font-size: 32px;
+  font-size: 28px;
   color: #a17453;
   margin: 0;
   font-weight: 500;
 }
 
+/* 並排區域容器（座標 + 香氣） */
+.ig-share-card__parallel-section {
+  width: 100%;
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+}
+
 /* 座標圖區域 */
 .ig-share-card__coord {
-  width: 100%;
-  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .ig-share-card__coord-title {
-  font-size: 36px;
+  font-size: 28px;
   color: #4a3427;
   font-weight: 600;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
+  text-align: center;
 }
 
 .ig-share-card__coord-map {
   position: relative;
-  width: 100%;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   background: #fffdf8;
-  border-radius: 20px;
+  border-radius: 16px;
   border: 3px solid #f0e0d2;
   margin: 0 auto;
 }
@@ -158,47 +168,67 @@
 .ig-share-card__relations {
   width: 100%;
   background: #fff3e4;
-  padding: 30px 40px;
+  padding: 24px 32px 28px;
   border-radius: 16px;
 }
 
 .ig-share-card__relations-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   color: #4a3427;
   margin: 0 0 20px 0;
   text-align: center;
 }
 
-.ig-share-card__relation-item {
-  font-size: 28px;
-  color: #6a4d38;
-  margin: 12px 0;
+.ig-share-card__relations-grid {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.ig-share-card__relation-item {
+  flex: 1;
+  text-align: center;
+  background: #fffdf8;
+  padding: 20px 12px;
+  border-radius: 12px;
+  border: 2px solid #f0e0d2;
 }
 
 .ig-share-card__relation-emoji {
-  font-size: 32px;
+  font-size: 48px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.ig-share-card__relation-label {
+  font-size: 20px;
+  color: #a17453;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .ig-share-card__relation-name {
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   color: #4a3427;
+  display: block;
 }
 
 /* 香氣區域 */
 .ig-share-card__scents {
-  width: 100%;
+  flex: 1;
   background: #fffdf8;
-  padding: 30px 40px;
+  padding: 24px 32px;
   border-radius: 16px;
   border: 2px solid #f0e0d2;
+  display: flex;
+  flex-direction: column;
 }
 
 .ig-share-card__scents-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   color: #4a3427;
   margin: 0 0 20px 0;
@@ -206,20 +236,35 @@
 }
 
 .ig-share-card__scent-item {
-  font-size: 26px;
+  font-size: 22px;
   color: #6a4d38;
   margin: 16px 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  padding: 16px 0;
+}
+
+.ig-share-card__scent-item:first-of-type {
+  border-bottom: 2px solid #f0e0d2;
 }
 
 .ig-share-card__scent-type {
   font-weight: 600;
   color: #a17453;
+  display: block;
+  margin-bottom: 6px;
 }
 
 .ig-share-card__scent-name {
   font-weight: 600;
   color: #4a3427;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ig-share-card__scent-text {
+  font-size: 18px;
+  color: #7b5d49;
+  line-height: 1.5;
 }
 
 /* 頁尾 CTA 區域 */
