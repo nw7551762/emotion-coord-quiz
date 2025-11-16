@@ -21,16 +21,16 @@ export const plantData = {
         `,
         relationships: {
             partner: {
-                plants: ["hinoki"],
-                text: "穩重又不逼迫你表現的人，可以讓你卸下緊繃。"
+                plants: ["peony"],
+                text: "對方的熱情能讓你的世界亮起來，但不會強迫你張開；你靜，他剛好暖。"
             },
             friend: {
-                plants: ["chamomile"],
-                text: "懂得你的敏感，也願意在你身邊靜靜陪伴的人。"
+                plants: ["chamomile", "cypress"],
+                text: "和他們在一起，你能自在做自己：一個溫柔、一個穩定，都理解你的步調。"
             },
             enemy: {
-                plants: ["peony"],
-                text: "太外放、太熱烈的能量，容易讓你覺得被淹沒。"
+                plants: ["mint"],
+                text: "他衝得太快，你靜得太深；節奏差太多時，你容易覺得被催促、沒空呼吸。"
             }
         },
         scent: {
@@ -62,16 +62,16 @@ export const plantData = {
         `,
         relationships: {
             partner: {
-                plants: ["chamomile"],
-                text: "讓你的世界不那麼冷，也多一點情緒和溫度。"
+                plants: ["hinoki"],
+                text: "你們都穩、都不急，默默一起把生活過好，是很長久的相處方式。"
             },
             friend: {
-                plants: ["lavender"],
-                text: "你們都懂「一起安靜」的珍貴。"
+                plants: ["lavender", "peony"],
+                text: "薰衣草讓你放鬆、牡丹讓你活起來；兩個方向你都能自在。"
             },
             enemy: {
-                plants: ["peony"],
-                text: "你覺得對方太戲劇化，對方覺得你太冷淡。"
+                plants: ["mint"],
+                text: "你要慢，他要快；步調完全對不上，很容易話還沒說完人就不見了。"
             }
         },
         scent: {
@@ -103,16 +103,16 @@ export const plantData = {
         `,
         relationships: {
             partner: {
-                plants: ["lavender"],
-                text: "敏感又需要安全感的人，會在你身邊慢慢放鬆下來。"
+                plants: ["cypress"],
+                text: "有默契、不需要多話的安定組合；你們都相信“慢，就是快”。"
             },
             friend: {
-                plants: ["chamomile"],
-                text: "你們都習慣照顧他人，也會默默照顧彼此。"
+                plants: ["chamomile", "mint"],
+                text: "一個溫暖你，一個推動你；和他們一起時，你的世界剛好有了平衡。"
             },
             enemy: {
-                plants: ["mint"],
-                text: "對方總是想加速，而你只想穩穩地走，很容易節奏不合。"
+                plants: ["lavender"],
+                text: "你穩，他敏感；你沉住氣，他想躲起來——很容易誤解彼此的沉默。"
             }
         },
         scent: {
@@ -144,16 +144,16 @@ export const plantData = {
         `,
         relationships: {
             partner: {
-                plants: ["cypress"],
-                text: "不黏人、卻很穩的人，可以讓你在溫柔中也有底氣。"
+                plants: ["mint"],
+                text: "他帶你往前，你提醒他停一下；你們的節奏剛好構成一種柔軟的互補。"
             },
             friend: {
-                plants: ["lavender"],
-                text: "懂你敏感、也願意一起待在低噪音世界的人。"
+                plants: ["lavender", "hinoki"],
+                text: "一個懂你的敏感，一個給你安穩的依靠；和他們在一起，你不用偽裝堅強。"
             },
             enemy: {
-                plants: ["mint"],
-                text: "對方總說「別想太多」，但你就是會想很多。"
+                plants: ["peony"],
+                text: "他太亮、太快、太強；而你太容易吸收情緒，久了只會覺得被拉扯。"
             }
         },
         scent: {
@@ -185,16 +185,16 @@ export const plantData = {
         `,
         relationships: {
             partner: {
-                plants: ["hinoki"],
-                text: "可以穩住你節奏的人，不會澆熄你的火，卻會拉住你一下。"
+                plants: ["chamomile"],
+                text: "你推，他柔；你衝，他接住你。兩人的能量剛剛好。"
             },
             friend: {
-                plants: ["peony"],
-                text: "一起衝、一起玩的人，計畫一出來就馬上開搞。"
+                plants: ["hinoki", "peony"],
+                text: "檜木讓你不會過衝，牡丹讓你敢更衝；兩個方向你都玩得很開心。"
             },
             enemy: {
                 plants: ["lavender"],
-                text: "對方想關機，你想開機，頻率一但錯位就很難對話。"
+                text: "他想關機、你想開機——再怎麼努力，開關都對不到同一個頻率。"
             }
         },
         scent: {
@@ -227,15 +227,15 @@ export const plantData = {
         relationships: {
             partner: {
                 plants: ["lavender"],
-                text: "在你很吵的時候也不嫌吵，在你崩潰時會幫你把世界靜音的人。"
+                text: "你燦爛，他安靜；你外放，他內斂。偏偏就在這個反差裡，你們都覺得舒服。"
             },
             friend: {
-                plants: ["mint"],
-                text: "一起興奮、一起大笑、一起把企劃做到很瘋的人。"
+                plants: ["cypress", "mint"],
+                text: "扁柏穩住你、薄荷伴你一起衝；你在他們身邊永遠能做最真實的自己。"
             },
             enemy: {
-                plants: ["cypress"],
-                text: "你覺得對方太無感，對方覺得你太戲劇，很容易互看不順眼。"
+                plants: ["chamomile"],
+                text: "他太能感受，你太能表現；久了彼此都會覺得累，像兩條不同節奏的旋律。"
             }
         },
         scent: {
