@@ -36,7 +36,10 @@ export class ShareManager {
     // 頭部區域
     const header = document.createElement('div');
     header.className = 'ig-share-card__header';
-    header.innerHTML = `<h1 class="ig-share-card__title">🌿 找到你的情緒座標</h1>`;
+    header.innerHTML = `
+      <h1 class="ig-share-card__title">🌿 找到你的情緒座標</h1>
+      <p class="ig-share-card__subtitle">來自台灣的香氣研製所</p>
+    `;
     card.appendChild(header);
 
     // 主要內容區域

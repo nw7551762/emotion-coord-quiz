@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,1344 +8,270 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Serif TC', 'Cormorant Garamond', serif;
-            background: linear-gradient(135deg, rgba(45,62,45,0.85) 0%, rgba(74,95,74,0.88) 50%, rgba(61,79,61,0.85) 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255,248,240,0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139,115,85,0.06) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .container {
-            background: linear-gradient(135deg, rgba(255,250,245,0.98) 0%, rgba(254,248,240,0.98) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            max-width: 680px;
-            width: 100%;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.6);
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(139,115,85,0.2);
-        }
-
-        .brand-header {
-            background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
-            backdrop-filter: blur(5px);
-            color: #f5ebe0;
-            padding: 32px 24px 28px;
-            text-align: center;
-            position: relative;
-            border-bottom: 2px solid #8b7355;
-        }
-
-        .brand-logo {
-            font-size: 13px;
-            letter-spacing: 3px;
-            font-weight: 400;
-            margin-bottom: 8px;
-            color: #d4c5b0;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .brand-header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #f5ebe0;
-        }
-
-        .brand-header p {
-            font-size: 14px;
-            opacity: 0.9;
-            letter-spacing: 0.5px;
-            color: #d4c5b0;
-        }
-
-        .content {
-            padding: 32px 28px 36px;
-            background: rgba(255,250,245,0.95);
-        }
-
-        .start-screen {
-            text-align: center;
-        }
-
-        .start-screen h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #2d3e2d;
-            font-weight: 600;
-        }
-
-        .start-screen p {
-            font-size: 15px;
-            color: #5a4a3a;
-            line-height: 1.9;
-            margin-bottom: 28px;
-            letter-spacing: 0.3px;
-        }
-
-        .question-screen {
-            display: none;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #e8dcc8;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3d4f3d 0%, #2d3e2d 100%);
-            transition: width 0.4s ease;
-        }
-
-        .question-number {
-            font-size: 13px;
-            color: #8b7355;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        .question-text {
-            font-size: 18px;
-            color: #2d3e2d;
-            margin-bottom: 24px;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option {
-            padding: 16px 18px;
-            border: 2px solid #d4c5b0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            color: #2d3e2d;
-            background: rgba(255,253,248,0.9);
-            letter-spacing: 0.3px;
-        }
-
-        .option:hover {
-            border-color: #8b7355;
-            background: rgba(255,248,235,0.95);
-            transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(139,115,85,0.15);
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #3d4f3d 0%, #2d3e2d 100%);
-            color: #f5ebe0;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 1px;
-            font-family: 'Noto Serif TC', serif;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(45,62,45,0.4);
-            background: linear-gradient(135deg, #4a5f4a 0%, #3d4f3d 100%);
-        }
-
-        .result-screen {
-            display: none;
-        }
-
-        .plant-icon {
-            font-size: 64px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .plant-name {
-            text-align: center;
-            font-size: 26px;
-            color: #2d3e2d;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .plant-tagline {
-            text-align: center;
-            font-size: 14px;
-            color: #8b7355;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        .description {
-            font-size: 15px;
-            color: #5a4a3a;
-            line-height: 1.9;
-            margin-bottom: 24px;
-            letter-spacing: 0.2px;
-        }
-
-        .coord-container {
-            background: linear-gradient(135deg, rgba(255,248,235,0.9) 0%, rgba(248,240,225,0.9) 100%);
-            padding: 22px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(139,115,85,0.2);
-        }
-
-        .coord-title {
-            text-align: center;
-            font-size: 16px;
-            color: #2d3e2d;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .coord-subtitle {
-            text-align: center;
-            font-size: 13px;
-            color: #8b7355;
-            margin-bottom: 16px;
-            letter-spacing: 0.3px;
-        }
-
-        .coord-map {
-            position: relative;
-            width: 100%;
-            height: 260px;
-            background: rgba(255,253,248,0.95);
-            border-radius: 12px;
-            border: 2px solid #d4c5b0;
-        }
-
-        .coord-axis {
-            position: absolute;
-        }
-
-        .coord-axis.vertical {
-            width: 2px;
-            height: 100%;
-            background: #c4b5a0;
-            left: 50%;
-            transform: translateX(-1px);
-        }
-
-        .coord-axis.horizontal {
-            height: 2px;
-            width: 100%;
-            background: #c4b5a0;
-            top: 50%;
-            transform: translateY(-1px);
-        }
-
-        .coord-label {
-            position: absolute;
-            font-size: 12px;
-            color: #8b7355;
-            text-align: center;
-            line-height: 1.3;
-            font-weight: 500;
-        }
-
-        .coord-label.top { top: 8px; left: 50%; transform: translateX(-50%); }
-        .coord-label.bottom { bottom: 8px; left: 50%; transform: translateX(-50%); }
-
-        .coord-point {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 2s infinite;
-            border: 3px solid rgba(255,255,255,0.8);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.15); }
-        }
-
-        .relation-section {
-            margin-top: 10px;
-            margin-bottom: 8px;
-        }
-
-        .relation-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #2d3e2d;
-            margin-bottom: 12px;
-        }
-
-        .relation-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .relation-card {
-            flex: 1 1 calc(33.333% - 10px);
-            background: rgba(255,253,248,0.9);
-            border-radius: 12px;
-            border: 1px solid #d4c5b0;
-            padding: 12px 8px 14px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .relation-role {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #8b7355;
-            font-size: 12px;
-        }
-
-        .relation-plant-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #2d3e2d;
-            font-size: 14px;
-        }
-
-        .relation-img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            margin: 6px auto 8px;
-            display: block;
-        }
-
-        .relation-text {
-            font-size: 11px;
-            color: #5a4a3a;
-            line-height: 1.6;
-            letter-spacing: 0.2px;
-        }
-
-        .scent-section {
-            margin-top: 20px;
-        }
-
-        .scent-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #2d3e2d;
-            margin-bottom: 12px;
-        }
-
-        .scent-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .scent-card {
-            flex: 1 1 calc(50% - 8px);
-            background: rgba(255,253,248,0.9);
-            border-radius: 12px;
-            border: 1px solid #d4c5b0;
-            padding: 14px 12px 16px;
-            font-size: 13px;
-        }
-
-        .scent-type {
-            font-weight: 600;
-            color: #8b7355;
-            margin-bottom: 6px;
-            font-size: 12px;
-        }
-
-        .scent-name {
-            font-weight: 600;
-            color: #2d3e2d;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-
-        .scent-text {
-            font-size: 12px;
-            color: #5a4a3a;
-            line-height: 1.7;
-            letter-spacing: 0.2px;
-        }
-
-        .share-section {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #e8dcc8;
-        }
-
-        .share-title {
-            text-align: center;
-            font-size: 14px;
-            color: #8b7355;
-            margin-bottom: 12px;
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .share-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 1px solid #d4c5b0;
-            background: rgba(255,253,248,0.9);
-            color: #2d3e2d;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s ease;
-            font-family: 'Noto Serif TC', serif;
-        }
-
-        .share-btn:hover {
-            background: rgba(255,248,235,0.95);
-            border-color: #8b7355;
-            transform: translateY(-2px);
-        }
-
-        .restart-btn {
-            width: 100%;
-            margin-top: 20px;
-            background: linear-gradient(135deg, rgba(212,197,176,0.9) 0%, rgba(200,181,160,0.9) 100%);
-            color: #2d3e2d;
-        }
-
-        .restart-btn:hover {
-            background: linear-gradient(135deg, rgba(200,181,160,0.95) 0%, rgba(185,166,145,0.95) 100%);
-        }
-
-        .brand-footer {
-            text-align: center;
-            padding: 16px;
-            background: rgba(255,248,240,0.5);
-            border-top: 1px solid #e8dcc8;
-            font-size: 12px;
-            color: #8b7355;
-            letter-spacing: 0.5px;
-        }
-
-        /* IG 分享卡片樣式 */
-        .ig-share-card {
-            width: 1080px;
-            height: 1600px;
-            background: #fffaf5;
-            position: fixed;
-            top: -10000px;
-            left: -10000px;
-            font-family: 'Noto Serif TC', sans-serif;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: none !important;
-            transition: none !important;
-        }
-
-        .ig-share-card * {
-            animation: none !important;
-            transition: none !important;
-        }
-
-        .ig-share-card__header {
-            background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
-            padding: 40px 60px;
-            text-align: center;
-        }
-
-        .ig-share-card__title {
-            font-size: 48px;
-            color: #f5ebe0;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .ig-share-card__subtitle {
-            font-size: 28px;
-            color: #d4c5b0;
-            margin: 8px 0 0 0;
-        }
-
-        .ig-share-card__body {
-            flex: 1;
-            padding: 40px 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .ig-share-card__plant {
-            text-align: center;
-        }
-
-        .ig-share-card__icon {
-            font-size: 140px;
-            line-height: 1;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .ig-share-card__plant-name {
-            font-size: 56px;
-            color: #2d3e2d;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-        }
-
-        .ig-share-card__plant-tagline {
-            font-size: 28px;
-            color: #8b7355;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .ig-share-card__parallel-section {
-            width: 100%;
-            display: flex;
-            gap: 30px;
-            justify-content: space-between;
-        }
-
-        .ig-share-card__coord {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .ig-share-card__coord-title {
-            font-size: 28px;
-            color: #2d3e2d;
-            font-weight: 600;
-            margin: 0 0 16px 0;
-            text-align: center;
-        }
-
-        .ig-share-card__coord-map {
-            position: relative;
-            width: 450px;
-            height: 450px;
-            background: #fffdf8;
-            border-radius: 16px;
-            border: 3px solid #d4c5b0;
-            margin: 0 auto;
-        }
-
-        .ig-share-card__axis {
-            position: absolute;
-        }
-
-        .ig-share-card__axis--vertical {
-            width: 3px;
-            height: 100%;
-            background: #c4b5a0;
-            left: 50%;
-            transform: translateX(-1.5px);
-        }
-
-        .ig-share-card__axis--horizontal {
-            height: 3px;
-            width: 100%;
-            background: #c4b5a0;
-            top: 50%;
-            transform: translateY(-1.5px);
-        }
-
-        .ig-share-card__coord-label {
-            position: absolute;
-            font-size: 24px;
-            color: #8b7355;
-            font-weight: 600;
-        }
-
-        .ig-share-card__coord-label--top {
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .ig-share-card__coord-label--bottom {
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .ig-share-card__coord-point {
-            position: absolute;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-            border: 4px solid white;
-        }
-
-        .ig-share-card__scents {
-            flex: 1;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .ig-share-card__scents-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2d3e2d;
-            margin: 0 0 20px 0;
-            text-align: center;
-        }
-
-        .ig-share-card__scent-item {
-            font-size: 22px;
-            color: #5a4a3a;
-            margin: 16px 0;
-            line-height: 1.6;
-            padding: 16px 0;
-        }
-
-        .ig-share-card__scent-item:first-of-type {
-            border-bottom: 2px solid #e8dcc8;
-        }
-
-        .ig-share-card__scent-type {
-            font-weight: 600;
-            color: #8b7355;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .ig-share-card__scent-name {
-            font-weight: 600;
-            color: #2d3e2d;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .ig-share-card__scent-text {
-            font-size: 18px;
-            color: #5a4a3a;
-            line-height: 1.5;
-        }
-
-        .ig-share-card__relations {
-            width: 100%;
-            background: rgba(255,248,235,0.9);
-            padding: 28px 32px 32px;
-            border-radius: 16px;
-        }
-
-        .ig-share-card__relations-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2d3e2d;
-            margin: 0 0 24px 0;
-            text-align: center;
-        }
-
-        .ig-share-card__relations-grid {
-            display: flex;
-            gap: 24px;
-            justify-content: space-between;
-        }
-
-        .ig-share-card__relation-item {
-            flex: 1;
-            text-align: center;
-            background: rgba(255,253,248,0.9);
-            padding: 24px 12px;
-            border-radius: 12px;
-            border: 2px solid #d4c5b0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ig-share-card__relation-image {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #d4c5b0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .ig-share-card__relation-emoji {
-            font-size: 40px;
-            display: block;
-            margin: 0;
-        }
-
-        .ig-share-card__relation-label {
-            font-size: 20px;
-            color: #8b7355;
-            font-weight: 600;
-            display: block;
-            margin: 0;
-        }
-
-        .ig-share-card__relation-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d3e2d;
-            display: block;
-        }
-
-        .ig-share-card__footer {
-            background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
-            padding: 36px 60px;
-            text-align: center;
-        }
-
-        .ig-share-card__url {
-            font-size: 32px;
-            color: #f5ebe0;
-            font-weight: 600;
-            margin: 0 0 8px 0;
-            line-height: 1.3;
-        }
-
-        .ig-share-card__cta {
-            font-size: 28px;
-            color: #d4c5b0;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 520px) {
-            .brand-header {
-                padding: 24px 16px 20px;
-            }
-            .brand-header h1 {
-                font-size: 24px;
-            }
-            .content {
-                padding: 24px 18px 28px;
-            }
-            .relation-card {
-                flex: 1 1 100%;
-            }
-            .scent-card {
-                flex: 1 1 100%;
-            }
-            .coord-map {
-                height: 220px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/share-card.css">
+    <!-- html2canvas for share image generation -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
+
 <body>
-<div class="container">
-    <div class="brand-header">
-        <div class="brand-logo">NUVAYAE SCENT LAB</div>
-        <h1>🌿 找到你的情緒座標</h1>
-        <p>來自台灣的香氣研製所</p>
+    <!-- 森林背景層 -->
+    <div class="forest-background">
+        <div class="bg-layer bg-layer-far"></div>
+        <div class="bg-layer bg-layer-mid"></div>
+        <div class="bg-layer bg-layer-near"></div>
     </div>
 
-    <div class="content">
-        <!-- 開始畫面 -->
-        <div class="start-screen" id="startScreen">
-            <h2>情緒座標測驗</h2>
-            <p>
-                透過 10 個生活情境問題,<br>
-                找到屬於你的情緒座標與植物人格。<br><br>
-                測驗結束後,你會獲得:<br>
-                ✨ 專屬療癒香氣能量<br>
-                🌱 適合與你一起生活的植物們
-            </p>
-            <button class="btn" onclick="startQuiz()">開始測驗</button>
+    <!-- 載入動畫畫面 -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-icon">🌿</div>
+        <div class="loading-text" id="loadingText">正在分析你的情緒座標...</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container">
+        <div class="brand-header">
+            <div class="brand-logo">NUVAYAE SCENT LAB</div>
+            <h1>🌿 找到你的情緒座標</h1>
+            <p>來自台灣的香氣研製所</p>
         </div>
 
-        <!-- 測驗畫面 -->
-        <div class="question-screen" id="questionScreen">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="question-number" id="questionNumber">問題 1 / 10</div>
-            <div class="question-text" id="questionText"></div>
-            <div class="options" id="optionsContainer"></div>
-        </div>
-
-        <!-- 結果畫面 -->
-        <div class="result-screen" id="resultScreen">
-            <div class="plant-icon" id="plantIcon"></div>
-            <div class="plant-name" id="plantName"></div>
-            <div class="plant-tagline" id="plantTagline"></div>
-            <div class="description" id="plantDescription"></div>
-
-            <div class="coord-container">
-                <div class="coord-title" id="coordTitle"></div>
-                <div class="coord-subtitle" id="coordSubtitle"></div>
-                <div class="coord-map">
-                    <div class="coord-axis vertical"></div>
-                    <div class="coord-axis horizontal"></div>
-                    <div class="coord-label top">Energy</div>
-                    <div class="coord-label bottom">Temperature</div>
-                    <div class="coord-point" id="coordPoint"></div>
-                </div>
-            </div>
-
-            <div class="relation-section">
-                <div class="relation-title">🌱 與你相處的植物們</div>
-                <div class="relation-grid" id="relationGrid"></div>
-            </div>
-
-            <div class="scent-section">
-                <div class="scent-title">🔮 Nuvayae 為你推薦的香氣</div>
-                <div class="scent-grid" id="scentGrid"></div>
-            </div>
-
-            <div class="share-section">
-                <div class="share-title">分享你的測驗結果</div>
-                <div class="share-buttons">
-                    <button class="share-btn" onclick="downloadResultImage()">📷 下載結果圖</button>
-                    <button class="share-btn" onclick="copyLink()">🔗 複製連結</button>
-                </div>
-                <p style="text-align: center; margin-top: 12px; font-size: 13px; color: #8b7355;">
-                    快分享到 IG,看誰適合跟你一起生長!
+        <div class="content">
+            <!-- 開始畫面 -->
+            <div class="start-screen" id="startScreen">
+                <h2>情緒座標測驗</h2>
+                <p>
+                    透過 10 個生活情境問題，<br>
+                    找到屬於你的情緒座標與植物人格。<br><br>
+                    測驗結束後，你會獲得：<br>
+                    ✨ 專屬療癒香氣能量<br>
+                    🌱 適合與你一起生活的植物們
                 </p>
+                <button class="btn" id="startBtn">開始測驗</button>
             </div>
 
-            <button class="btn restart-btn" onclick="restartQuiz()">重新測驗</button>
+            <!-- 測驗畫面 -->
+            <div class="question-screen" id="questionScreen">
+                <div class="progress-insight" id="progressInsight"></div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="question-number" id="questionNumber">第 1 步 / 共 10 步</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="feedback-message" id="feedbackMessage"></div>
+            </div>
+
+            <!-- 結果畫面 -->
+            <div class="result-screen" id="resultScreen">
+                <div class="plant-icon" id="plantIcon"></div>
+                <div class="plant-name" id="plantName"></div>
+                <div class="plant-tagline" id="plantTagline"></div>
+                <div class="description" id="plantDescription"></div>
+
+                <div class="coord-container">
+                    <div class="coord-title" id="coordTitle"></div>
+                    <div class="coord-subtitle" id="coordSubtitle"></div>
+                    <div class="coord-map">
+                        <div class="coord-axis vertical"></div>
+                        <div class="coord-axis horizontal"></div>
+                        <div class="coord-label top">Temperature</div>
+                        <div class="coord-label bottom"></div>
+                        <div class="coord-label left">Energy</div>
+                        <div class="coord-label right"></div>
+                        <div class="coord-point" id="coordPoint"></div>
+                    </div>
+                </div>
+
+                <div class="relation-section">
+                    <div class="relation-title">🌱 與你相處的植物們</div>
+                    <div class="relation-grid" id="relationGrid"></div>
+                </div>
+
+                <div class="scent-section">
+                    <div class="scent-title">🔮 適合你的香氣能量</div>
+                    <div class="scent-grid" id="scentGrid"></div>
+                </div>
+
+                <!-- 分享區塊 -->
+                <div class="share-section" id="shareSection">
+                    <div class="share-title">📤 分享你的植物人格</div>
+                    <div class="share-buttons">
+                        <button class="share-btn download" id="downloadBtn">📥 分享結果圖</button>
+                        <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
+                    </div>
+                    <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
+                </div>
+
+                <button class="btn restart-btn" id="restartBtn">重新測驗</button>
+            </div>
+        </div>
+
+        <div class="brand-footer">
+            Nuvayae Scent Lab © 2025 | 來自台灣的香氣研製所
         </div>
     </div>
 
-    <div class="brand-footer">
-        Nuvayae Scent Lab © 2025 | 來自台灣的香氣研製所
-    </div>
-</div>
+    <script type="module">
+        import { QuizManager } from './js/quiz.js?v=3';
+        import { UIManager } from './js/ui.js?v=3';
+        import { AnimationManager } from './js/animations.js?v=3';
+        import { FeedbackManager } from './js/feedback.js?v=3';
+        import { ShareManager } from './js/share.js?v=3';
 
-<script>
-    const questions = [
-        {
-            question: "結束忙碌的一天,最想怎麼度過今晚?",
-            options: [
-                { text: "把手機丟一邊,一個人靜靜待著。", type: "lavender" },
-                { text: "把家裡整理乾淨,躺床,休息", type: "hinoki" },
-                { text: "泡杯熱飲,滑滑劇、聊聊天,慢慢放鬆。", type: "chamomile" },
-                { text: "列出明天的待辦,順便把今天沒做完的補起來。", type: "mint" }
-            ]
-        },
-        {
-            question: "一個週末臨時被清空,你會怎麼用?",
-            options: [
-                { text: "關機消失,補上所有睡眠和安靜。", type: "lavender" },
-                { text: "安排小小的生活儀式:咖啡、花、陽光。", type: "chamomile" },
-                { text: "把房間大掃除,重新整理生活動線。", type: "cypress" },
-                { text: "馬上約人出門或排新計畫,讓週末不留空白。", type: "peony" }
-            ]
-        },
-        {
-            question: "最近壓力大的時候,你最需要的是?",
-            options: [
-                { text: "誰都不要找我,我只想暫時消失。", type: "cypress" },
-                { text: "有人抱抱我、陪我講廢話,什麼都不用解決。", type: "chamomile" },
-                { text: "有人幫我一起拆解問題,告訴我下一步就好。", type: "mint" },
-                { text: "在舞台上或工作中表現好一點,證明自己還可以。", type: "peony" }
-            ]
-        },
-        {
-            question: "遇到重大決定,你通常怎麼做選擇?",
-            options: [
-                { text: "先冷靜收集資訊,想清楚再動。", type: "cypress" },
-                { text: "感覺對、心裡有火花,就會跟著走。", type: "peony" },
-                { text: "問一兩個信任的朋友,一起討論。", type: "chamomile" },
-                { text: "列優缺點、算風險,把自己說服後就快速決定。", type: "mint" }
-            ]
-        },
-        {
-            question: "在一段關係裡,你最怕的是哪一種狀態?",
-            options: [
-                { text: "一直被吵、被黏,沒有自己的空間。", type: "lavender" },
-                { text: "對方忽冷忽熱,情緒忽高忽低。", type: "hinoki" },
-                { text: "什麼都很穩,但好像少了真心和熱度。", type: "peony" },
-                { text: "總是在安撫對方,自己卻沒被好好看見。", type: "chamomile" }
-            ]
-        },
-        {
-            question: "如果把你的人生節奏比喻成一種畫面,你比較像:",
-            options: [
-                { text: "夜裡的小書房,安靜、有自己固定的節奏。", type: "lavender" },
-                { text: "森林裡的木屋,慢慢建、一步一步很踏實。", type: "cypress" },
-                { text: "陽光灑進來的客廳,總有人進進出出。", type: "chamomile" },
-                { text: "燈光亮著的舞台,時不時就想再挑戰一場。", type: "peony" }
-            ]
-        },
-        {
-            question: "別人對你的第一印象,哪一句最像你?",
-            options: [
-                { text: "看起來安靜,其實想很多。", type: "lavender" },
-                { text: "很穩、很可靠,感覺可以托付事情。", type: "hinoki" },
-                { text: "很好聊、很好靠近,氣氛會變得柔軟。", type: "chamomile" },
-                { text: "很有存在感,很自然就成為大家注意的焦點。", type: "peony" }
-            ]
-        },
-        {
-            question: "當你累到臨界點時,你最有可能怎麼做?",
-            options: [
-                { text: "直接消失一陣子,把所有通知關掉。", type: "lavender" },
-                { text: "維持日常運轉,但把生活縮到最基本。", type: "cypress" },
-                { text: "還是會照顧別人,只是對自己越來越沒有耐心。", type: "chamomile" },
-                { text: "照樣把事情做完,但私下會突然大哭一場。", type: "peony" }
-            ]
-        },
-        {
-            question: "在工作或學習上,你理想中的自己是:",
-            options: [
-                { text: "專心做好少數重要的事,不想被打擾。", type: "cypress" },
-                { text: "穩穩往前走,每一步都踏實落地。", type: "hinoki" },
-                { text: "可以影響他人、帶動氣氛,做有舞台感的事。", type: "peony" },
-                { text: "在忙碌中仍保有餘裕,還照顧得到身邊的人。", type: "chamomile" }
-            ]
-        },
-        {
-            question: "如果現在要對自己說一句話,你會選哪一句?",
-            options: [
-                { text: "「你可以關掉世界一陣子,沒關係。」", type: "lavender" },
-                { text: "「你已經很努力了,可以把重心放回自己。」", type: "chamomile" },
-                { text: "「不用急著證明什麼,穩穩來也很好。」", type: "hinoki" },
-                { text: "「你可以更勇敢一點,你的光很值得被看見。」", type: "peony" }
-            ]
+        // 初始化應用
+        const quiz = new QuizManager();
+        const ui = new UIManager();
+        const anim = new AnimationManager();
+        const feedback = new FeedbackManager();
+        const share = new ShareManager();
+
+        let currentResultKey = null;
+
+        // 初始化森林背景層
+        anim.initBackgroundLayers();
+
+        // 開始測驗
+        function startQuiz() {
+            ui.clearFeedback();
+            anim.fadeOut(ui.startScreen, 300).then(() => {
+                ui.showQuestionScreen();
+                anim.fadeIn(ui.questionScreen, 300);
+                // 更新到第一題的森林深度
+                anim.updateForestDepth(1);
+                showQuestion();
+            });
         }
-    ];
 
-    function getPlantImage(key) {
-        return "images/" + key + ".png";
-    }
+        // 顯示題目
+        function showQuestion() {
+            const question = quiz.getCurrentQuestion();
+            ui.updateQuestion(
+                question,
+                quiz.getCurrentQuestionNumber(),
+                quiz.getTotalQuestions(),
+                quiz.getProgress()
+            );
+            ui.renderOptions(question.options, selectAnswer);
 
-    const plantData = {
-        lavender: {
-            icon: "🌾",
-            name: "薰衣草型",
-            tagline: "Calm × Cool｜敏感而需要安定的靈魂",
-            coord: { x: 30, y: 70 },
-            color: "#c39ad9",
-            field: "安定靜心區 Calm Field",
-            fieldDesc: "你現在比較像是把自己放在一個安靜、安全的角落,慢慢恢復能量。",
-            description: `
-                你感受力很強,世界的噪音對你來說都偏大聲。<br><br>
-                你喜歡有人懂你,但不喜歡被黏著;<br>
-                你需要的是「可以關掉世界」的片刻,而不是永遠熱鬧的生活。<br><br>
-                當環境安穩下來,你的直覺和觀察力,會變成很珍貴的力量。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["hinoki"],
-                    text: "穩重又不逼迫你表現的人,可以讓你卸下緊繃。"
-                },
-                friend: {
-                    plants: ["chamomile"],
-                    text: "懂得你的敏感,也願意在你身邊靜靜陪伴的人。"
-                },
-                enemy: {
-                    plants: ["peony"],
-                    text: "太外放、太熱烈的能量,容易讓你覺得被淹沒。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "夜和 Peaceful Night",
-                    text: "偏涼、偏安定的香氣座標,像夜裡那口真正吐出的長長嘆息。"
-                },
-                balance: {
-                    name: "朝光 Light of Dawn",
-                    text: "當你想讓自己從過度安靜中稍微打開一點,朝光就像清晨的窗縫。"
-                }
-            }
-        },
-        cypress: {
-            icon: "🌲",
-            name: "扁柏型",
-            tagline: "Calm × Cool｜獨立、清晰、有自己步調的人",
-            coord: { x: 40, y: 65 },
-            color: "#7fa48e",
-            field: "安定靜心區 Calm Field",
-            fieldDesc: "你現在站在一個清冷卻穩固的位置,習慣用自己的節奏消化世界。",
-            description: `
-                你不急著融入任何人群,也不喜歡被情緒牽著跑。<br><br>
-                你在乎的是能否「好好把日子過好」,而不是外表看起來多精彩。<br>
-                你願意給時間慢慢發酵,相信真正重要的東西經得起等待。<br><br>
-                你的理性和穩定,是很多人想靠近、卻又不太好意思打擾的安心存在。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["chamomile"],
-                    text: "讓你的世界不那麼冷,也多一點情緒和溫度。"
-                },
-                friend: {
-                    plants: ["lavender"],
-                    text: "你們都懂「一起安靜」的珍貴。"
-                },
-                enemy: {
-                    plants: ["peony"],
-                    text: "你覺得對方太戲劇化,對方覺得你太冷淡。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "夜和 Peaceful Night",
-                    text: "木質與草本的清冷軸線,和你對安穩的追求很像。"
-                },
-                balance: {
-                    name: "暖居 Warm Place",
-                    text: "當世界顯得過於理性,暖居會幫你的生活加一盞小小黃光。"
-                }
-            }
-        },
-        hinoki: {
-            icon: "🪵",
-            name: "檜木型",
-            tagline: "Calm × Warm｜沉穩的守護者",
-            coord: { x: 58, y: 65 },
-            color: "#c49a6c",
-            field: "溫潤和諧區 Harmony Field",
-            fieldDesc: "你像是情緒地圖上那個穩穩站著的點,給人一種「有你在就好了」的感覺。",
-            description: `
-                你不一定愛說話,但會把該做的事情做完。<br><br>
-                你在乎承諾、重視穩定,也願意為了重要的人多撐一點。<br>
-                有時候你會忘記自己也會累,還是習慣先照顧好大家。<br><br>
-                你的存在像一棵大樹,別人靠過來時會先鬆一口氣。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["lavender"],
-                    text: "敏感又需要安全感的人,會在你身邊慢慢放鬆下來。"
-                },
-                friend: {
-                    plants: ["chamomile"],
-                    text: "你們都習慣照顧他人,也會默默照顧彼此。"
-                },
-                enemy: {
-                    plants: ["mint"],
-                    text: "對方總是想加速,而你只想穩穩地走,很容易節奏不合。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "暖居 Warm Place",
-                    text: "木質與柑橘的柔軟溫度,很像你心裡那種「慢慢也沒關係」的步調。"
-                },
-                balance: {
-                    name: "朝光 Light of Dawn",
-                    text: "當你需要一點推力和新的方向感,朝光像清晨的第一束光。"
-                }
-            }
-        },
-        chamomile: {
-            icon: "🌼",
-            name: "洋甘菊型",
-            tagline: "Calm × Warm｜柔軟卻有韌性的療癒系",
-            coord: { x: 68, y: 60 },
-            color: "#f4c37b",
-            field: "溫潤和諧區 Harmony Field",
-            fieldDesc: "你待在一個溫暖、柔軟的象限裡,卻也常常因此太替別人著想。",
-            description: `
-                你很會照顧人,也很懂得感受細微的情緒變化。<br><br>
-                你喜歡讓身邊的人感到被理解、被接住,<br>
-                但久了會發現:自己好像很少被好好照顧。<br><br>
-                你值得的是「雙向的溫柔」,而不是只有單向付出。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["cypress"],
-                    text: "不黏人、卻很穩的人,可以讓你在溫柔中也有底氣。"
-                },
-                friend: {
-                    plants: ["lavender"],
-                    text: "懂你敏感、也願意一起待在低噪音世界的人。"
-                },
-                enemy: {
-                    plants: ["mint"],
-                    text: "對方總說「別想太多」,但你就是會想很多。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "暖居 Warm Place",
-                    text: "像家一樣的溫度,會讓你覺得「我也可以被照顧」。"
-                },
-                balance: {
-                    name: "夜和 Peaceful Night",
-                    text: "當你吸收了太多情緒,夜和會幫你慢慢把那些重量放下來。"
-                }
-            }
-        },
-        mint: {
-            icon: "🍃",
-            name: "薄荷葉型",
-            tagline: "Active × Cool｜行動派的清醒製造機",
-            coord: { x: 40, y: 30 },
-            color: "#52c1a8",
-            field: "光合啟動區 Vital Field",
-            fieldDesc: "你現在站在偏高能量的位置,習慣用行動把生活推往前。",
-            description: `
-                你不喜歡停滯,也不太能忍受原地踏步。<br><br>
-                一旦有方向,你就會很快行動、很快調整。<br>
-                只是有時候,往前衝也會讓你忘記「自己其實已經累了」。<br><br>
-                當你稍微慢下來,你會發現自己其實比想像中更敏感、更需要被理解。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["hinoki"],
-                    text: "可以穩住你節奏的人,不會澆熄你的火,卻會拉住你一下。"
-                },
-                friend: {
-                    plants: ["peony"],
-                    text: "一起衝、一起玩的人,計畫一出來就馬上開搞。"
-                },
-                enemy: {
-                    plants: ["lavender"],
-                    text: "對方想關機,你想開機,頻率一但錯位就很難對話。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "朝光 Light of Dawn",
-                    text: "清爽明亮的氣味輪廓,很像你「說走就走」的動能。"
-                },
-                balance: {
-                    name: "暖居 Warm Place",
-                    text: "當你一直踩油門時,暖居會提醒你:有些路可以慢慢走。"
-                }
-            }
-        },
-        peony: {
-            icon: "🌸",
-            name: "牡丹型",
-            tagline: "Active × Warm｜自帶舞台感的光芒型人格",
-            coord: { x: 76, y: 28 },
-            color: "#f29bb5",
-            field: "Radiance Field（高能量 × 溫潤）",
-            fieldDesc: "你在情緒地圖上偏向高能量、偏溫暖的位置,自然就會成為大家注意的焦點。",
-            description: `
-                你對人生有畫面,也在意生活要有一點漂亮和氣勢。<br><br>
-                你喜歡被看見、被肯定,卻也會在沒人懂你的時候突然跌到谷底。<br>
-                情緒對你來說很真實,你愛、你喜歡、你失望,都非常明顯。<br><br>
-                當你學會在發光的同時照顧自己,你會成為別人心中那個又耀眼又踏實的大人。
-            `,
-            relationships: {
-                partner: {
-                    plants: ["lavender"],
-                    text: "在你很吵的時候也不嫌吵,在你崩潰時會幫你把世界靜音的人。"
-                },
-                friend: {
-                    plants: ["mint"],
-                    text: "一起興奮、一起大笑、一起把企劃做到很瘋的人。"
-                },
-                enemy: {
-                    plants: ["cypress"],
-                    text: "你覺得對方太無感,對方覺得你太戲劇,很容易互看不順眼。"
-                }
-            },
-            scent: {
-                similar: {
-                    name: "朝光 Light of Dawn",
-                    text: "陽光感、存在感都很高,很像你想往外開展的那種狀態。"
-                },
-                balance: {
-                    name: "夜和 Peaceful Night",
-                    text: "當你光開太強、心太累時,夜和會把你安全送回夜裡的被窩。"
-                }
+            // 檢查是否需要顯示階段性提示
+            const insight = feedback.getProgressInsight(quiz.getCurrentQuestionNumber());
+            if (insight) {
+                ui.showProgressInsight(insight);
             }
         }
-    };
 
-    let currentQuestion = 0;
-    let answers = {
-        lavender: 0,
-        cypress: 0,
-        hinoki: 0,
-        chamomile: 0,
-        mint: 0,
-        peony: 0
-    };
+        // 選擇答案
+        function selectAnswer(type) {
+            // 顯示即時反饋
+            const feedbackText = feedback.getAnswerFeedback(type);
+            ui.showFeedback(feedbackText);
 
-    function startQuiz() {
-        document.getElementById('startScreen').style.display = 'none';
-        document.getElementById('questionScreen').style.display = 'block';
-        showQuestion();
-    }
+            // 記錄答案
+            quiz.recordAnswer(type);
 
-    function showQuestion() {
-        const q = questions[currentQuestion];
-        document.getElementById('questionNumber').textContent =
-            `問題 ${currentQuestion + 1} / ${questions.length}`;
-        document.getElementById('questionText').textContent = q.question;
-        document.getElementById('progressFill').style.width =
-            `${((currentQuestion + 1) / questions.length) * 100}%`;
+            if (quiz.hasNextQuestion()) {
+                // 等待反饋顯示後使用森林探索動畫切換到下一題
+                setTimeout(() => {
+                    const nextQuestionNumber = quiz.getCurrentQuestionNumber();
 
-        const container = document.getElementById('optionsContainer');
-        container.innerHTML = '';
+                    // 更新森林深度
+                    anim.updateForestDepth(nextQuestionNumber);
 
-        q.options.forEach(opt => {
-            const div = document.createElement('div');
-            div.className = 'option';
-            div.textContent = opt.text;
-            div.onclick = () => selectAnswer(opt.type);
-            container.appendChild(div);
-        });
-    }
+                    // 更新進度腳印
+                    anim.updateProgressTrail(nextQuestionNumber, quiz.getTotalQuestions());
 
-    function selectAnswer(type) {
-        answers[type]++;
-        currentQuestion++;
-
-        if (currentQuestion < questions.length) {
-            setTimeout(showQuestion, 200);
-        } else {
-            setTimeout(showResult, 200);
+                    // 使用森林切換動畫
+                    anim.transitionToNextQuestion(
+                        ui.questionScreen,
+                        ui.questionScreen,
+                        () => {
+                            showQuestion();
+                        }
+                    );
+                }, 1200);
+            } else {
+                // 完成所有題目，顯示結果
+                setTimeout(showResult, 1200);
+            }
         }
-    }
 
-    function showResult() {
-        const resultKey = Object.keys(answers).reduce((a, b) =>
-            answers[a] > answers[b] ? a : b
-        );
-        const data = plantData[resultKey];
+        // 顯示結果
+        async function showResult() {
+            // 第一階段：題目畫面淡出
+            await anim.fadeOut(ui.questionScreen, 500);
 
-        document.getElementById('questionScreen').style.display = 'none';
-        document.getElementById('resultScreen').style.display = 'block';
+            // 第二階段：計算結果
+            currentResultKey = quiz.calculateResult();
 
-        document.getElementById('plantIcon').textContent = data.icon;
-        document.getElementById('plantName').textContent = data.name;
-        document.getElementById('plantTagline').textContent = data.tagline;
-        document.getElementById('plantDescription').innerHTML = data.description;
+            // 取得植物資料
+            const { plantData } = await import('./js/data/plants.js');
+            const plantColor = plantData[currentResultKey].color;
 
-        const point = document.getElementById('coordPoint');
-        point.style.left = `${data.coord.x}%`;
-        point.style.top = `${data.coord.y}%`;
-        point.style.background = data.color;
-        point.style.boxShadow = `0 0 16px ${data.color}`;
+            // 第三階段：森林核心揭曉動畫
+            await anim.revealResultWithForest(plantColor, ui.resultScreen);
 
-        document.getElementById('coordTitle').textContent =
-            `你的情緒座標:${data.field}`;
-        document.getElementById('coordSubtitle').textContent = data.fieldDesc;
+            // 第四階段：顯示結果內容
+            ui.renderResult(currentResultKey);
 
-        // 與你相處的植物們
-        const relationGrid = document.getElementById('relationGrid');
-        relationGrid.innerHTML = '';
+            // 第五階段：打字機效果顯示描述
+            setTimeout(() => {
+                const descElement = document.getElementById('plantDescription');
+                const descText = descElement.innerHTML;
+                descElement.innerHTML = '';
+                anim.typewriterEffect(descElement, descText, 30);
+            }, 500);
 
-        const roleMap = {
-            partner: "❤️ 另一半 / 曖昧對象",
-            friend: "🤝 朋友",
-            enemy: "🔥 仇人"
-        };
+            // 初始化分享功能
+            initShareButtons(currentResultKey);
+        }
 
-        ["partner","friend","enemy"].forEach(role => {
-            const rel = data.relationships[role];
-            const mainPlantKey = rel.plants[0];
-            const plantName = plantData[mainPlantKey].name;
+        // 初始化分享按鈕事件
+        let shareButtonsInitialized = false;
+        function initShareButtons(resultKey) {
+            if (shareButtonsInitialized) {
+                // 已經初始化過，只需更新 resultKey
+                return;
+            }
+            shareButtonsInitialized = true;
 
-            const card = document.createElement('div');
-            card.className = 'relation-card';
+            // 下載結果圖
+            document.getElementById('downloadBtn').addEventListener('click', async () => {
+                await share.generateShareImage(ui.resultScreen, currentResultKey);
+            });
 
-            card.innerHTML = `
-                <div class="relation-role">${roleMap[role]}</div>
-                <div class="relation-plant-name">${plantName}</div>
-                <img src="${getPlantImage(mainPlantKey)}" alt="${plantName}" class="relation-img">
-                <div class="relation-text">${rel.text}</div>
-            `;
-            relationGrid.appendChild(card);
-        });
+            // 複製連結
+            document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+                const success = await share.copyLink();
+                const copySuccess = document.getElementById('copySuccess');
+                if (success && copySuccess) {
+                    copySuccess.classList.add('show');
+                    setTimeout(() => {
+                        copySuccess.classList.remove('show');
+                    }, 2000);
+                }
+            });
+        }
 
-        // 香氣能量
-        const scentGrid = document.getElementById('scentGrid');
-        scentGrid.innerHTML = '';
+        // 重新測驗
+        function restartQuiz() {
+            quiz.reset();
+            feedback.reset();
+            ui.clearFeedback();
 
-        const similarCard = document.createElement('div');
-        similarCard.className = 'scent-card';
-        similarCard.innerHTML = `
-            <div class="scent-type">相似香氣｜你會自然喜歡的味道</div>
-            <div class="scent-name">${data.scent.similar.name}</div>
-            <div class="scent-text">${data.scent.similar.text}</div>
-        `;
+            // 重置森林動畫狀態
+            anim.resetForest();
 
-        const balanceCard = document.createElement('div');
-        balanceCard.className = 'scent-card';
-        balanceCard.innerHTML = `
-            <div class="scent-type">平衡香氣｜幫你調整能量的味道</div>
-            <div class="scent-name">${data.scent.balance.name}</div>
-            <div class="scent-text">${data.scent.balance.text}</div>
-        `;
+            anim.fadeOut(ui.resultScreen, 300).then(() => {
+                ui.showStartScreen();
+                anim.fadeIn(ui.startScreen, 300);
+            });
+        }
 
-        scentGrid.appendChild(similarCard);
-        scentGrid.appendChild(balanceCard);
-    }
-
-    function restartQuiz() {
-        currentQuestion = 0;
-        answers = {
-            lavender: 0,
-            cypress: 0,
-            hinoki: 0,
-            chamomile: 0,
-            mint: 0,
-            peony: 0
-        };
-        document.getElementById('resultScreen').style.display = 'none';
-        document.getElementById('startScreen').style.display = 'block';
-    }
-
-    function shareToFacebook() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('我剛完成了 Nuvayae 情緒座標測驗!快來找到你的植物人格和專屬香氣!');
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
-    }
-
-    function shareToLine() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent('我剛完成了 Nuvayae 情緒座標測驗!快來找到你的植物人格和專屬香氣!');
-        window.open(`https://line.me/R/msg/text/?${text}%20${url}`, '_blank');
-    }
-
-    function copyLink() {
-        const url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => {
-            alert('✅ 連結已複製到剪貼簿!');
-        }).catch(() => {
-            alert('❌ 複製失敗,請手動複製網址');
-        });
-    }
-</script>
+        // 事件監聽
+        document.getElementById('startBtn').addEventListener('click', startQuiz);
+        document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+    </script>
 </body>
+
 </html>

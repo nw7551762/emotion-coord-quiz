@@ -13,7 +13,7 @@
   top: -10000px;
   left: -10000px;
   /* 隱藏在畫面外，避免干擾使用者 */
-  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Noto Serif TC', 'Cormorant Garamond', serif;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -30,16 +30,22 @@
 
 /* 頭部區域 - 品牌漸層背景 */
 .ig-share-card__header {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
   padding: 40px 60px;
   text-align: center;
 }
 
 .ig-share-card__title {
   font-size: 48px;
-  color: #5c3b2a;
+  color: #f5ebe0;
   font-weight: 600;
   margin: 0;
+}
+
+.ig-share-card__subtitle {
+  font-size: 28px;
+  color: #d4c5b0;
+  margin: 8px 0 0 0;
 }
 
 /* 主要內容區域 */
@@ -66,14 +72,14 @@
 
 .ig-share-card__plant-name {
   font-size: 56px;
-  color: #4a3427;
+  color: #2d3e2d;
   font-weight: 700;
   margin: 0 0 8px 0;
 }
 
 .ig-share-card__plant-tagline {
   font-size: 28px;
-  color: #a17453;
+  color: #8b7355;
   margin: 0;
   font-weight: 500;
 }
@@ -95,7 +101,7 @@
 
 .ig-share-card__coord-title {
   font-size: 28px;
-  color: #4a3427;
+  color: #2d3e2d;
   font-weight: 600;
   margin: 0 0 16px 0;
   text-align: center;
@@ -107,7 +113,7 @@
   height: 450px;
   background: #fffdf8;
   border-radius: 16px;
-  border: 3px solid #f0e0d2;
+  border: 3px solid #d4c5b0;
   margin: 0 auto;
 }
 
@@ -119,7 +125,7 @@
 .ig-share-card__axis--vertical {
   width: 3px;
   height: 100%;
-  background: #d8c1ae;
+  background: #c4b5a0;
   left: 50%;
   transform: translateX(-1.5px);
 }
@@ -135,13 +141,13 @@
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 16px solid #b08968;
+  border-bottom: 16px solid #8b7355;
 }
 
 .ig-share-card__axis--horizontal {
   height: 3px;
   width: 100%;
-  background: #d8c1ae;
+  background: #c4b5a0;
   top: 50%;
   transform: translateY(-1.5px);
 }
@@ -157,14 +163,14 @@
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 16px solid #b08968;
+  border-left: 16px solid #8b7355;
 }
 
 /* 座標標籤 */
 .ig-share-card__coord-label {
   position: absolute;
   font-size: 24px;
-  color: #b08968;
+  color: #8b7355;
   font-weight: 600;
 }
 
@@ -206,7 +212,7 @@
 /* 關係區域 */
 .ig-share-card__relations {
   width: 100%;
-  background: #fff3e4;
+  background: rgba(255,248,235,0.9);
   padding: 28px 32px 32px;
   border-radius: 16px;
 }
@@ -214,7 +220,7 @@
 .ig-share-card__relations-title {
   font-size: 28px;
   font-weight: 600;
-  color: #4a3427;
+  color: #2d3e2d;
   margin: 0 0 24px 0;
   text-align: center;
 }
@@ -228,10 +234,10 @@
 .ig-share-card__relation-item {
   flex: 1;
   text-align: center;
-  background: #fffdf8;
+  background: rgba(255,253,248,0.9);
   padding: 24px 12px;
   border-radius: 12px;
-  border: 2px solid #f0e0d2;
+  border: 2px solid #d4c5b0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -244,7 +250,7 @@
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #f0e0d2;
+  border: 4px solid #d4c5b0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -256,7 +262,7 @@
 
 .ig-share-card__relation-label {
   font-size: 20px;
-  color: #a17453;
+  color: #8b7355;
   font-weight: 600;
   display: block;
   margin: 0;
@@ -265,7 +271,7 @@
 .ig-share-card__relation-name {
   font-size: 24px;
   font-weight: 700;
-  color: #4a3427;
+  color: #2d3e2d;
   display: block;
 }
 
@@ -280,53 +286,53 @@
 .ig-share-card__scents-title {
   font-size: 28px;
   font-weight: 600;
-  color: #4a3427;
+  color: #2d3e2d;
   margin: 0 0 20px 0;
   text-align: center;
 }
 
 .ig-share-card__scent-item {
   font-size: 22px;
-  color: #6a4d38;
+  color: #5a4a3a;
   margin: 16px 0;
   line-height: 1.6;
   padding: 16px 0;
 }
 
 .ig-share-card__scent-item:first-of-type {
-  border-bottom: 2px solid #f0e0d2;
+  border-bottom: 2px solid #e8dcc8;
 }
 
 .ig-share-card__scent-type {
   font-weight: 600;
-  color: #a17453;
+  color: #8b7355;
   display: block;
   margin-bottom: 6px;
 }
 
 .ig-share-card__scent-name {
   font-weight: 600;
-  color: #4a3427;
+  color: #2d3e2d;
   display: block;
   margin-bottom: 4px;
 }
 
 .ig-share-card__scent-text {
   font-size: 18px;
-  color: #7b5d49;
+  color: #5a4a3a;
   line-height: 1.5;
 }
 
 /* 頁尾 CTA 區域 */
 .ig-share-card__footer {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
   padding: 36px 60px;
   text-align: center;
 }
 
 .ig-share-card__url {
   font-size: 32px;
-  color: #5c3b2a;
+  color: #f5ebe0;
   font-weight: 600;
   margin: 0 0 8px 0;
   line-height: 1.3;
@@ -334,7 +340,7 @@
 
 .ig-share-card__cta {
   font-size: 28px;
-  color: #5c3b2a;
+  color: #d4c5b0;
   margin: 0;
   opacity: 0.9;
 }
