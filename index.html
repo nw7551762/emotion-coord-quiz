@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>找到你的情緒座標 | 煖意 Warm Essence</title>
+    <title>找到你的情緒座標 | Nuvayae Scent Lab</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
@@ -500,9 +500,9 @@
         <div class="start-screen" id="startScreen">
             <h2>情緒座標測驗</h2>
             <p>
-                透過 10 個生活情境問題，<br>
+                透過 10 個生活情境問題,<br>
                 找到屬於你的情緒座標與植物人格。<br><br>
-                測驗結束後，你會獲得：<br>
+                測驗結束後,你會獲得:<br>
                 ✨ 專屬療癒香氣能量<br>
                 🌱 適合與你一起生活的植物們
             </p>
@@ -544,7 +544,7 @@
             </div>
 
             <div class="scent-section">
-                <div class="scent-title">🔮 煖意為你推薦的香氣</div>
+                <div class="scent-title">🔮 Nuvayae 為你推薦的香氣</div>
                 <div class="scent-grid" id="scentGrid"></div>
             </div>
 
@@ -738,3 +738,325 @@
                     text: "木質與草本的清冷軸線,和你對安穩的追求很像。"
                 },
                 balance: {
+                    name: "暖居 Warm Place",
+                    text: "當世界顯得過於理性,暖居會幫你的生活加一盞小小黃光。"
+                }
+            }
+        },
+        hinoki: {
+            icon: "🪵",
+            name: "檜木型",
+            tagline: "Calm × Warm｜沉穩的守護者",
+            coord: { x: 58, y: 65 },
+            color: "#c49a6c",
+            field: "溫潤和諧區 Harmony Field",
+            fieldDesc: "你像是情緒地圖上那個穩穩站著的點,給人一種「有你在就好了」的感覺。",
+            description: `
+                你不一定愛說話,但會把該做的事情做完。<br><br>
+                你在乎承諾、重視穩定,也願意為了重要的人多撐一點。<br>
+                有時候你會忘記自己也會累,還是習慣先照顧好大家。<br><br>
+                你的存在像一棵大樹,別人靠過來時會先鬆一口氣。
+            `,
+            relationships: {
+                partner: {
+                    plants: ["lavender"],
+                    text: "敏感又需要安全感的人,會在你身邊慢慢放鬆下來。"
+                },
+                friend: {
+                    plants: ["chamomile"],
+                    text: "你們都習慣照顧他人,也會默默照顧彼此。"
+                },
+                enemy: {
+                    plants: ["mint"],
+                    text: "對方總是想加速,而你只想穩穩地走,很容易節奏不合。"
+                }
+            },
+            scent: {
+                similar: {
+                    name: "暖居 Warm Place",
+                    text: "木質與柑橘的柔軟溫度,很像你心裡那種「慢慢也沒關係」的步調。"
+                },
+                balance: {
+                    name: "朝光 Light of Dawn",
+                    text: "當你需要一點推力和新的方向感,朝光像清晨的第一束光。"
+                }
+            }
+        },
+        chamomile: {
+            icon: "🌼",
+            name: "洋甘菊型",
+            tagline: "Calm × Warm｜柔軟卻有韌性的療癒系",
+            coord: { x: 68, y: 60 },
+            color: "#f4c37b",
+            field: "溫潤和諧區 Harmony Field",
+            fieldDesc: "你待在一個溫暖、柔軟的象限裡,卻也常常因此太替別人著想。",
+            description: `
+                你很會照顧人,也很懂得感受細微的情緒變化。<br><br>
+                你喜歡讓身邊的人感到被理解、被接住,<br>
+                但久了會發現:自己好像很少被好好照顧。<br><br>
+                你值得的是「雙向的溫柔」,而不是只有單向付出。
+            `,
+            relationships: {
+                partner: {
+                    plants: ["cypress"],
+                    text: "不黏人、卻很穩的人,可以讓你在溫柔中也有底氣。"
+                },
+                friend: {
+                    plants: ["lavender"],
+                    text: "懂你敏感、也願意一起待在低噪音世界的人。"
+                },
+                enemy: {
+                    plants: ["mint"],
+                    text: "對方總說「別想太多」,但你就是會想很多。"
+                }
+            },
+            scent: {
+                similar: {
+                    name: "暖居 Warm Place",
+                    text: "像家一樣的溫度,會讓你覺得「我也可以被照顧」。"
+                },
+                balance: {
+                    name: "夜和 Peaceful Night",
+                    text: "當你吸收了太多情緒,夜和會幫你慢慢把那些重量放下來。"
+                }
+            }
+        },
+        mint: {
+            icon: "🍃",
+            name: "薄荷葉型",
+            tagline: "Active × Cool｜行動派的清醒製造機",
+            coord: { x: 40, y: 30 },
+            color: "#52c1a8",
+            field: "光合啟動區 Vital Field",
+            fieldDesc: "你現在站在偏高能量的位置,習慣用行動把生活推往前。",
+            description: `
+                你不喜歡停滯,也不太能忍受原地踏步。<br><br>
+                一旦有方向,你就會很快行動、很快調整。<br>
+                只是有時候,往前衝也會讓你忘記「自己其實已經累了」。<br><br>
+                當你稍微慢下來,你會發現自己其實比想像中更敏感、更需要被理解。
+            `,
+            relationships: {
+                partner: {
+                    plants: ["hinoki"],
+                    text: "可以穩住你節奏的人,不會澆熄你的火,卻會拉住你一下。"
+                },
+                friend: {
+                    plants: ["peony"],
+                    text: "一起衝、一起玩的人,計畫一出來就馬上開搞。"
+                },
+                enemy: {
+                    plants: ["lavender"],
+                    text: "對方想關機,你想開機,頻率一但錯位就很難對話。"
+                }
+            },
+            scent: {
+                similar: {
+                    name: "朝光 Light of Dawn",
+                    text: "清爽明亮的氣味輪廓,很像你「說走就走」的動能。"
+                },
+                balance: {
+                    name: "暖居 Warm Place",
+                    text: "當你一直踩油門時,暖居會提醒你:有些路可以慢慢走。"
+                }
+            }
+        },
+        peony: {
+            icon: "🌸",
+            name: "牡丹型",
+            tagline: "Active × Warm｜自帶舞台感的光芒型人格",
+            coord: { x: 76, y: 28 },
+            color: "#f29bb5",
+            field: "Radiance Field（高能量 × 溫潤）",
+            fieldDesc: "你在情緒地圖上偏向高能量、偏溫暖的位置,自然就會成為大家注意的焦點。",
+            description: `
+                你對人生有畫面,也在意生活要有一點漂亮和氣勢。<br><br>
+                你喜歡被看見、被肯定,卻也會在沒人懂你的時候突然跌到谷底。<br>
+                情緒對你來說很真實,你愛、你喜歡、你失望,都非常明顯。<br><br>
+                當你學會在發光的同時照顧自己,你會成為別人心中那個又耀眼又踏實的大人。
+            `,
+            relationships: {
+                partner: {
+                    plants: ["lavender"],
+                    text: "在你很吵的時候也不嫌吵,在你崩潰時會幫你把世界靜音的人。"
+                },
+                friend: {
+                    plants: ["mint"],
+                    text: "一起興奮、一起大笑、一起把企劃做到很瘋的人。"
+                },
+                enemy: {
+                    plants: ["cypress"],
+                    text: "你覺得對方太無感,對方覺得你太戲劇,很容易互看不順眼。"
+                }
+            },
+            scent: {
+                similar: {
+                    name: "朝光 Light of Dawn",
+                    text: "陽光感、存在感都很高,很像你想往外開展的那種狀態。"
+                },
+                balance: {
+                    name: "夜和 Peaceful Night",
+                    text: "當你光開太強、心太累時,夜和會把你安全送回夜裡的被窩。"
+                }
+            }
+        }
+    };
+
+    let currentQuestion = 0;
+    let answers = {
+        lavender: 0,
+        cypress: 0,
+        hinoki: 0,
+        chamomile: 0,
+        mint: 0,
+        peony: 0
+    };
+
+    function startQuiz() {
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('questionScreen').style.display = 'block';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById('questionNumber').textContent =
+            `問題 ${currentQuestion + 1} / ${questions.length}`;
+        document.getElementById('questionText').textContent = q.question;
+        document.getElementById('progressFill').style.width =
+            `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+
+        q.options.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.textContent = opt.text;
+            div.onclick = () => selectAnswer(opt.type);
+            container.appendChild(div);
+        });
+    }
+
+    function selectAnswer(type) {
+        answers[type]++;
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            setTimeout(showQuestion, 200);
+        } else {
+            setTimeout(showResult, 200);
+        }
+    }
+
+    function showResult() {
+        const resultKey = Object.keys(answers).reduce((a, b) =>
+            answers[a] > answers[b] ? a : b
+        );
+        const data = plantData[resultKey];
+
+        document.getElementById('questionScreen').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
+
+        document.getElementById('plantIcon').textContent = data.icon;
+        document.getElementById('plantName').textContent = data.name;
+        document.getElementById('plantTagline').textContent = data.tagline;
+        document.getElementById('plantDescription').innerHTML = data.description;
+
+        const point = document.getElementById('coordPoint');
+        point.style.left = `${data.coord.x}%`;
+        point.style.top = `${data.coord.y}%`;
+        point.style.background = data.color;
+        point.style.boxShadow = `0 0 16px ${data.color}`;
+
+        document.getElementById('coordTitle').textContent =
+            `你的情緒座標:${data.field}`;
+        document.getElementById('coordSubtitle').textContent = data.fieldDesc;
+
+        // 與你相處的植物們
+        const relationGrid = document.getElementById('relationGrid');
+        relationGrid.innerHTML = '';
+
+        const roleMap = {
+            partner: "❤️ 另一半 / 曖昧對象",
+            friend: "🤝 朋友",
+            enemy: "🔥 仇人"
+        };
+
+        ["partner","friend","enemy"].forEach(role => {
+            const rel = data.relationships[role];
+            const mainPlantKey = rel.plants[0];
+            const plantName = plantData[mainPlantKey].name;
+
+            const card = document.createElement('div');
+            card.className = 'relation-card';
+
+            card.innerHTML = `
+                <div class="relation-role">${roleMap[role]}</div>
+                <div class="relation-plant-name">${plantName}</div>
+                <img src="${getPlantImage(mainPlantKey)}" alt="${plantName}" class="relation-img">
+                <div class="relation-text">${rel.text}</div>
+            `;
+            relationGrid.appendChild(card);
+        });
+
+        // 香氣能量
+        const scentGrid = document.getElementById('scentGrid');
+        scentGrid.innerHTML = '';
+
+        const similarCard = document.createElement('div');
+        similarCard.className = 'scent-card';
+        similarCard.innerHTML = `
+            <div class="scent-type">相似香氣｜你會自然喜歡的味道</div>
+            <div class="scent-name">${data.scent.similar.name}</div>
+            <div class="scent-text">${data.scent.similar.text}</div>
+        `;
+
+        const balanceCard = document.createElement('div');
+        balanceCard.className = 'scent-card';
+        balanceCard.innerHTML = `
+            <div class="scent-type">平衡香氣｜幫你調整能量的味道</div>
+            <div class="scent-name">${data.scent.balance.name}</div>
+            <div class="scent-text">${data.scent.balance.text}</div>
+        `;
+
+        scentGrid.appendChild(similarCard);
+        scentGrid.appendChild(balanceCard);
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        answers = {
+            lavender: 0,
+            cypress: 0,
+            hinoki: 0,
+            chamomile: 0,
+            mint: 0,
+            peony: 0
+        };
+        document.getElementById('resultScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+    }
+
+    function shareToFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('我剛完成了 Nuvayae 情緒座標測驗!快來找到你的植物人格和專屬香氣!');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+    }
+
+    function shareToLine() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('我剛完成了 Nuvayae 情緒座標測驗!快來找到你的植物人格和專屬香氣!');
+        window.open(`https://line.me/R/msg/text/?${text}%20${url}`, '_blank');
+    }
+
+    function copyLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('✅ 連結已複製到剪貼簿!');
+        }).catch(() => {
+            alert('❌ 複製失敗,請手動複製網址');
+        });
+    }
+</script>
+</body>
+</html>
