@@ -104,16 +104,22 @@ export class UIManager {
 
         ["partner", "friend", "enemy"].forEach(role => {
             const rel = relationships[role];
-            const mainPlantKey = rel.plants[0];
-            const plantName = plantData[mainPlantKey].name;
+
+            // 取得所有植物名稱，用頓號分隔
+            const plantNames = rel.plants.map(key => plantData[key].name).join('、');
+
+            // 建立圖片 HTML（如果有多個植物，加上 multi-plant 類別）
+            const imagesHtml = rel.plants.map(key =>
+                `<img src="${getPlantImage(key)}" alt="${plantData[key].name}" class="relation-img ${rel.plants.length > 1 ? 'multi-plant' : ''}">`
+            ).join('');
 
             const card = document.createElement('div');
             card.className = 'relation-card';
 
             card.innerHTML = `
                 <div class="relation-role">${roleMap[role]}</div>
-                <div class="relation-plant-name">${plantName}</div>
-                <img src="${getPlantImage(mainPlantKey)}" alt="${plantName}" class="relation-img">
+                <div class="relation-plant-name">${plantNames}</div>
+                <div class="relation-images">${imagesHtml}</div>
                 <div class="relation-text">${rel.text}</div>
             `;
             relationGrid.appendChild(card);

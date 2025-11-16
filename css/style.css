@@ -427,12 +427,24 @@ body::before {
     line-height: 1;
 }
 
+.relation-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 6px auto 8px;
+}
+
 .relation-img {
     width: 70px;
     height: 70px;
     object-fit: contain;
-    margin: 6px auto 8px;
     display: block;
+}
+
+.relation-img.multi-plant {
+    width: 55px;
+    height: 55px;
 }
 
 .relation-text {
