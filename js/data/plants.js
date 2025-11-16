@@ -216,7 +216,7 @@ export const plantData = {
         tagline: "Active × Warm｜自帶舞台感的光芒型人格",
         coord: { x: 76, y: 28 },
         color: "#f29bb5",
-        field: "Radiance Field（高能量 × 溫潤）",
+        field: "熱烈綻放區 Radiance Field",
         fieldDesc: "你在情緒地圖上偏向高能量、偏溫暖的位置，自然就會成為大家注意的焦點。",
         description: `
             你對人生有畫面，也在意生活要有一點漂亮和氣勢。<br>
