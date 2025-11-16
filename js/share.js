@@ -29,6 +29,9 @@ export class ShareManager {
     const { plantData } = await import('./data/plants.js');
     const plant = plantData[resultKey];
 
+    // 取得當前植物的圖片路徑
+    const plantImage = getPlantImage(resultKey);
+
     // 建立卡片容器
     const card = document.createElement('div');
     card.className = 'ig-share-card';
@@ -50,7 +53,7 @@ export class ShareManager {
     const plantSection = document.createElement('div');
     plantSection.className = 'ig-share-card__plant';
     plantSection.innerHTML = `
-      <span class="ig-share-card__icon">${plant.icon}</span>
+      <img src="${plantImage}" class="ig-share-card__icon" alt="${plant.name}">
       <h2 class="ig-share-card__plant-name">${plant.name}</h2>
       <p class="ig-share-card__plant-tagline">${plant.tagline}</p>
     `;
@@ -72,7 +75,7 @@ export class ShareManager {
         <div class="ig-share-card__coord-label ig-share-card__coord-label--left">Cool</div>
         <div class="ig-share-card__coord-label ig-share-card__coord-label--top">Active</div>
         <div class="ig-share-card__coord-label ig-share-card__coord-label--bottom">Calm</div>
-        <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${100 - plant.coord.y}%; background-color: ${plant.color};"></div>
+        <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${plant.coord.y}%; background-color: ${plant.color};"></div>
       </div>
     `;
     parallelSection.appendChild(coordSection);
@@ -119,20 +122,17 @@ export class ShareManager {
       <div class="ig-share-card__relations-grid">
         <div class="ig-share-card__relation-item">
           <img src="${partnerImage}" class="ig-share-card__relation-image" alt="${partnerName}">
-          <span class="ig-share-card__relation-emoji">💝</span>
-          <span class="ig-share-card__relation-label">另一半</span>
+          <span class="ig-share-card__relation-label">❤️ 另一半 / 曖昧對象</span>
           <span class="ig-share-card__relation-name">${partnerName}</span>
         </div>
         <div class="ig-share-card__relation-item">
           <img src="${friendImage}" class="ig-share-card__relation-image" alt="${friendName}">
-          <span class="ig-share-card__relation-emoji">👫</span>
-          <span class="ig-share-card__relation-label">朋友</span>
+          <span class="ig-share-card__relation-label">🤝 朋友</span>
           <span class="ig-share-card__relation-name">${friendName}</span>
         </div>
         <div class="ig-share-card__relation-item">
           <img src="${enemyImage}" class="ig-share-card__relation-image" alt="${enemyName}">
-          <span class="ig-share-card__relation-emoji">⚡</span>
-          <span class="ig-share-card__relation-label">仇人</span>
+          <span class="ig-share-card__relation-label">🔥 仇人</span>
           <span class="ig-share-card__relation-name">${enemyName}</span>
         </div>
       </div>

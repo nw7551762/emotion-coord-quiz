@@ -206,9 +206,12 @@ body::before {
 }
 
 .plant-icon {
-    font-size: 56px;
-    text-align: center;
-    margin-bottom: 10px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto 10px;
 }
 
 .plant-name {

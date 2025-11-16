@@ -24,7 +24,8 @@ emotion-coord-quiz/
 │   ├── quiz.js            # QuizManager 類別：測驗狀態管理與計分邏輯
 │   └── ui.js              # UIManager 類別：畫面渲染與 DOM 操作
 └── images/
-    └── {plantKey}.png     # 植物圖片（用於關係卡片顯示）
+    ├── forest-{}.jpg  # 背景圖片
+    └── 植物名.jpg     # 植物圖片（用於關係卡片顯示）
 ```
 
 **測驗流程**：

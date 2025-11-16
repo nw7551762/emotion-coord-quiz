@@ -69,7 +69,7 @@ export class UIManager {
         const data = plantData[resultKey];
 
         // 基本資訊
-        document.getElementById('plantIcon').textContent = data.icon;
+        document.getElementById('plantIcon').src = getPlantImage(resultKey);
         document.getElementById('plantName').textContent = data.name;
         document.getElementById('plantTagline').textContent = data.tagline;
         document.getElementById('plantDescription').innerHTML = data.description;

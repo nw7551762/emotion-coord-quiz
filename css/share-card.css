@@ -7,7 +7,7 @@
 /* 分享卡片容器 - 固定尺寸，避免跑版 */
 .ig-share-card {
   width: 1080px;
-  height: 1600px;
+  height: 1920px;
   background: #fffaf5;
   position: fixed;
   top: -10000px;
@@ -30,7 +30,7 @@
 
 /* 頭部區域 - 品牌漸層背景 */
 .ig-share-card__header {
-  background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
+  background: linear-gradient(135deg, rgba(45, 62, 45, 0.95) 0%, rgba(61, 79, 61, 0.95) 100%);
   padding: 40px 60px;
   text-align: center;
 }
@@ -64,14 +64,16 @@
 }
 
 .ig-share-card__icon {
-  font-size: 140px;
-  line-height: 1;
-  margin-bottom: 16px;
+  width: 250;
+  height: 250px;
+  object-fit: contain;
+  margin: 0 auto 16px;
   display: block;
+  border-radius: 8px;
 }
 
 .ig-share-card__plant-name {
-  font-size: 56px;
+  font-size: 40px;
   color: #2d3e2d;
   font-weight: 700;
   margin: 0 0 8px 0;
@@ -212,7 +214,7 @@
 /* 關係區域 */
 .ig-share-card__relations {
   width: 100%;
-  background: rgba(255,248,235,0.9);
+  background: rgba(255, 248, 235, 0.9);
   padding: 28px 32px 32px;
   border-radius: 16px;
 }
@@ -234,7 +236,7 @@
 .ig-share-card__relation-item {
   flex: 1;
   text-align: center;
-  background: rgba(255,253,248,0.9);
+  background: rgba(255, 253, 248, 0.9);
   padding: 24px 12px;
   border-radius: 12px;
   border: 2px solid #d4c5b0;
@@ -248,17 +250,16 @@
 .ig-share-card__relation-image {
   width: 140px;
   height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #d4c5b0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* 移除圓框 */
+  border-radius: 0;
+  /* 保留比例或改成 contain */
+  object-fit: contain;
+  /* 移除邊框、陰影 */
+  border: none;
+  box-shadow: none;
+  background: transparent;
 }
 
-.ig-share-card__relation-emoji {
-  font-size: 40px;
-  display: block;
-  margin: 0;
-}
 
 .ig-share-card__relation-label {
   font-size: 20px;
@@ -325,7 +326,7 @@
 
 /* 頁尾 CTA 區域 */
 .ig-share-card__footer {
-  background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
+  background: linear-gradient(135deg, rgba(45, 62, 45, 0.95) 0%, rgba(61, 79, 61, 0.95) 100%);
   padding: 36px 60px;
   text-align: center;
 }
