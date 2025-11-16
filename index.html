@@ -465,6 +465,292 @@
             letter-spacing: 0.5px;
         }
 
+        /* IG 分享卡片樣式 */
+        .ig-share-card {
+            width: 1080px;
+            height: 1600px;
+            background: #fffaf5;
+            position: fixed;
+            top: -10000px;
+            left: -10000px;
+            font-family: 'Noto Serif TC', sans-serif;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .ig-share-card * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .ig-share-card__header {
+            background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
+            padding: 40px 60px;
+            text-align: center;
+        }
+
+        .ig-share-card__title {
+            font-size: 48px;
+            color: #f5ebe0;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .ig-share-card__subtitle {
+            font-size: 28px;
+            color: #d4c5b0;
+            margin: 8px 0 0 0;
+        }
+
+        .ig-share-card__body {
+            flex: 1;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .ig-share-card__plant {
+            text-align: center;
+        }
+
+        .ig-share-card__icon {
+            font-size: 140px;
+            line-height: 1;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .ig-share-card__plant-name {
+            font-size: 56px;
+            color: #2d3e2d;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .ig-share-card__plant-tagline {
+            font-size: 28px;
+            color: #8b7355;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .ig-share-card__parallel-section {
+            width: 100%;
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .ig-share-card__coord {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ig-share-card__coord-title {
+            font-size: 28px;
+            color: #2d3e2d;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+
+        .ig-share-card__coord-map {
+            position: relative;
+            width: 450px;
+            height: 450px;
+            background: #fffdf8;
+            border-radius: 16px;
+            border: 3px solid #d4c5b0;
+            margin: 0 auto;
+        }
+
+        .ig-share-card__axis {
+            position: absolute;
+        }
+
+        .ig-share-card__axis--vertical {
+            width: 3px;
+            height: 100%;
+            background: #c4b5a0;
+            left: 50%;
+            transform: translateX(-1.5px);
+        }
+
+        .ig-share-card__axis--horizontal {
+            height: 3px;
+            width: 100%;
+            background: #c4b5a0;
+            top: 50%;
+            transform: translateY(-1.5px);
+        }
+
+        .ig-share-card__coord-label {
+            position: absolute;
+            font-size: 24px;
+            color: #8b7355;
+            font-weight: 600;
+        }
+
+        .ig-share-card__coord-label--top {
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ig-share-card__coord-label--bottom {
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ig-share-card__coord-point {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            border: 4px solid white;
+        }
+
+        .ig-share-card__scents {
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ig-share-card__scents-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2d3e2d;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .ig-share-card__scent-item {
+            font-size: 22px;
+            color: #5a4a3a;
+            margin: 16px 0;
+            line-height: 1.6;
+            padding: 16px 0;
+        }
+
+        .ig-share-card__scent-item:first-of-type {
+            border-bottom: 2px solid #e8dcc8;
+        }
+
+        .ig-share-card__scent-type {
+            font-weight: 600;
+            color: #8b7355;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .ig-share-card__scent-name {
+            font-weight: 600;
+            color: #2d3e2d;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .ig-share-card__scent-text {
+            font-size: 18px;
+            color: #5a4a3a;
+            line-height: 1.5;
+        }
+
+        .ig-share-card__relations {
+            width: 100%;
+            background: rgba(255,248,235,0.9);
+            padding: 28px 32px 32px;
+            border-radius: 16px;
+        }
+
+        .ig-share-card__relations-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2d3e2d;
+            margin: 0 0 24px 0;
+            text-align: center;
+        }
+
+        .ig-share-card__relations-grid {
+            display: flex;
+            gap: 24px;
+            justify-content: space-between;
+        }
+
+        .ig-share-card__relation-item {
+            flex: 1;
+            text-align: center;
+            background: rgba(255,253,248,0.9);
+            padding: 24px 12px;
+            border-radius: 12px;
+            border: 2px solid #d4c5b0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ig-share-card__relation-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #d4c5b0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .ig-share-card__relation-emoji {
+            font-size: 40px;
+            display: block;
+            margin: 0;
+        }
+
+        .ig-share-card__relation-label {
+            font-size: 20px;
+            color: #8b7355;
+            font-weight: 600;
+            display: block;
+            margin: 0;
+        }
+
+        .ig-share-card__relation-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3e2d;
+            display: block;
+        }
+
+        .ig-share-card__footer {
+            background: linear-gradient(135deg, rgba(45,62,45,0.95) 0%, rgba(61,79,61,0.95) 100%);
+            padding: 36px 60px;
+            text-align: center;
+        }
+
+        .ig-share-card__url {
+            font-size: 32px;
+            color: #f5ebe0;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .ig-share-card__cta {
+            font-size: 28px;
+            color: #d4c5b0;
+            margin: 0;
+            opacity: 0.9;
+        }
+
         @media (max-width: 520px) {
             .brand-header {
                 padding: 24px 16px 20px;
@@ -551,10 +837,12 @@
             <div class="share-section">
                 <div class="share-title">分享你的測驗結果</div>
                 <div class="share-buttons">
-                    <button class="share-btn" onclick="shareToFacebook()">📘 Facebook</button>
-                    <button class="share-btn" onclick="shareToLine()">💬 LINE</button>
+                    <button class="share-btn" onclick="downloadResultImage()">📷 下載結果圖</button>
                     <button class="share-btn" onclick="copyLink()">🔗 複製連結</button>
                 </div>
+                <p style="text-align: center; margin-top: 12px; font-size: 13px; color: #8b7355;">
+                    快分享到 IG,看誰適合跟你一起生長!
+                </p>
             </div>
 
             <button class="btn restart-btn" onclick="restartQuiz()">重新測驗</button>
