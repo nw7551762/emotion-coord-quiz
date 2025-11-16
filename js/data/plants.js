@@ -44,11 +44,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "夜和 Peaceful Night",
-                text: "偏涼、偏安定的香氣座標，像夜裡那口真正吐出的長長嘆息。"
+                text: "偏涼、偏安定的香氣座標，像夜裡那口真正吐出的長長嘆息。",
+                link: "https://www.fami.tw/ml1UW"
             },
             balance: {
                 name: "朝光 Light of Dawn",
-                text: "當你想讓自己從過度安靜中稍微打開一點，朝光就像清晨的窗縫。"
+                text: "當你想讓自己從過度安靜中稍微打開一點，朝光就像清晨的窗縫。",
+                link: "https://www.fami.tw/ToICP"
             }
         }
     },
@@ -83,11 +85,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "夜和 Peaceful Night",
-                text: "木質與草本的清冷軸線，和你對安穩的追求很像。"
+                text: "木質與草本的清冷軸線，和你對安穩的追求很像。",
+                link: "https://www.fami.tw/ml1UW"
             },
             balance: {
                 name: "暖居 Warm Place",
-                text: "當世界顯得過於理性，暖居會幫你的生活加一盞小小黃光。"
+                text: "當世界顯得過於理性，暖居會幫你的生活加一盞小小黃光。",
+                link: "https://www.fami.tw/cUMjj"
             }
         }
     },
@@ -122,11 +126,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "暖居 Warm Place",
-                text: "木質與柑橘的柔軟溫度，很像你心裡那種「慢慢也沒關係」的步調。"
+                text: "木質與柑橘的柔軟溫度，很像你心裡那種「慢慢也沒關係」的步調。",
+                link: "https://www.fami.tw/cUMjj"
             },
             balance: {
                 name: "朝光 Light of Dawn",
-                text: "當你需要一點推力和新的方向感，朝光像清晨的第一束光。"
+                text: "當你需要一點推力和新的方向感，朝光像清晨的第一束光。",
+                link: "https://www.fami.tw/ToICP"
             }
         }
     },
@@ -161,11 +167,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "暖居 Warm Place",
-                text: "像家一樣的溫度，會讓你覺得「我也可以被照顧」。"
+                text: "像家一樣的溫度，會讓你覺得「我也可以被照顧」。",
+                link: "https://www.fami.tw/cUMjj"
             },
             balance: {
                 name: "夜和 Peaceful Night",
-                text: "當你吸收了太多情緒，夜和會幫你慢慢把那些重量放下來。"
+                text: "當你吸收了太多情緒，夜和會幫你慢慢把那些重量放下來。",
+                link: "https://www.fami.tw/ml1UW"
             }
         }
     },
@@ -200,11 +208,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "朝光 Light of Dawn",
-                text: "清爽明亮的氣味輪廓，很像你「說走就走」的動能。"
+                text: "清爽明亮的氣味輪廓，很像你「說走就走」的動能。",
+                link: "https://www.fami.tw/ToICP"
             },
             balance: {
                 name: "暖居 Warm Place",
-                text: "當你一直踩油門時，暖居會提醒你：有些路可以慢慢走。"
+                text: "當你一直踩油門時，暖居會提醒你：有些路可以慢慢走。",
+                link: "https://www.fami.tw/cUMjj"
             }
         }
     },
@@ -239,11 +249,13 @@ export const plantData = {
         scent: {
             similar: {
                 name: "朝光 Light of Dawn",
-                text: "陽光感、存在感都很高，很像你想往外開展的那種狀態。"
+                text: "陽光感、存在感都很高，很像你想往外開展的那種狀態。",
+                link: "https://www.fami.tw/ToICP"
             },
             balance: {
                 name: "夜和 Peaceful Night",
-                text: "當你光開太強、心太累時，夜和會把你安全送回夜裡的被窩。"
+                text: "當你光開太強、心太累時，夜和會把你安全送回夜裡的被窩。",
+                link: "https://www.fami.tw/ml1UW"
             }
         }
     }

@@ -369,7 +369,7 @@ export class AnimationManager {
 
     // 檢查是否需要切換圖片
     const currentStage = this.forestBg.classList.contains('stage-3') ? 3 :
-                        this.forestBg.classList.contains('stage-2') ? 2 : 1;
+      this.forestBg.classList.contains('stage-2') ? 2 : 1;
 
     if (newStage !== currentStage) {
       // 使用交叉淡化切換圖片(等待圖片載入完成)
@@ -504,32 +504,53 @@ export class AnimationManager {
     return new Promise((resolve) => {
       const container = document.querySelector('.container') || document.body;
 
-      // 1. 建立過場遮罩
+      // 1. 建立過場遮罩（插入到 body，而非 container）
       const overlay = document.createElement('div');
       overlay.className = 'result-transition-overlay';
       overlay.innerHTML = '<div class="transition-text">深入森林核心...</div>';
-      container.appendChild(overlay);
+      document.body.appendChild(overlay);
+
+      // 1.5. 隱藏 container（過場期間完全不可見）
+      container.style.display = 'none';
+      container.offsetHeight; // 觸發 reflow
+
+      // 1.6. 背景放大效果（深入森林核心）
+      const forestBg = document.querySelector('.forest-background');
+      if (forestBg) {
+        // 先設定過渡時間（緩慢放大，營造深入感）
+        forestBg.style.transition = 'transform 8s cubic-bezier(0.4, 0, 0.2, 1)';
+        // 強制重繪，確保過渡生效
+        forestBg.offsetHeight;
+        // 觸發放大動畫
+        forestBg.style.transform = 'scale(2.0) translate(0, 20%)';
+      }
 
       // 2. 過場動畫（2秒）
       setTimeout(() => {
-        overlay.classList.add('fade-out');
+        // 2.5. 提前恢復 container（避免淡出時閃爍）
+        container.style.display = 'block';
 
+        // 延遲 200ms 再開始淡出遮罩（確保 container 已顯示）
         setTimeout(() => {
-          overlay.remove();
+          overlay.classList.add('fade-out');
 
-          // 3. 設定結果背景光暈
-          document.documentElement.style.setProperty('--result-color', plantColor);
+          setTimeout(() => {
+            overlay.remove();
 
-          // 4. 顯示結果元素
-          if (resultElement) {
-            resultElement.style.display = 'block';
-          }
+            // 3. 設定結果背景光暈
+            document.documentElement.style.setProperty('--result-color', plantColor);
 
-          // 5. 觸發結果元素的依序動畫
-          this.animateResultElements();
+            // 4. 顯示結果元素
+            if (resultElement) {
+              resultElement.style.display = 'block';
+            }
 
-          resolve();
-        }, 500);
+            // 5. 觸發結果元素的依序動畫
+            this.animateResultElements();
+
+            resolve();
+          }, 500);
+        }, 200);
       }, 2000);
     });
   }

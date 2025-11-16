@@ -131,6 +131,7 @@ export class UIManager {
             <div class="scent-type">相似香氣｜你會自然喜歡的味道</div>
             <div class="scent-name">${scent.similar.name}</div>
             <div class="scent-text">${scent.similar.text}</div>
+            ${scent.similar.link ? `<a href="${scent.similar.link}" target="_blank" rel="noopener noreferrer" class="scent-link" aria-label="查看 ${scent.similar.name} 產品詳情">查看更多 →</a>` : ''}
         `;
 
         const balanceCard = document.createElement('div');
@@ -139,6 +140,7 @@ export class UIManager {
             <div class="scent-type">平衡香氣｜幫你調整能量的味道</div>
             <div class="scent-name">${scent.balance.name}</div>
             <div class="scent-text">${scent.balance.text}</div>
+            ${scent.balance.link ? `<a href="${scent.balance.link}" target="_blank" rel="noopener noreferrer" class="scent-link" aria-label="查看 ${scent.balance.name} 產品詳情">查看更多 →</a>` : ''}
         `;
 
         scentGrid.appendChild(similarCard);
