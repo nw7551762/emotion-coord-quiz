@@ -2,6 +2,7 @@
  * ShareManager - 負責分享功能
  * 使用預先生成的分享圖片，不需要 html2canvas
  */
+import { getPlantImage } from './data/plants.js';
 
 export class ShareManager {
   constructor() {
@@ -26,6 +27,147 @@ export class ShareManager {
     };
 
     this.baseUrl = window.location.origin + window.location.pathname;
+  }
+
+  /**
+   * 建立 Instagram 專用分享卡片 DOM（用於圖片生成工具）
+   * @param {string} resultKey - 植物類型 key
+   * @returns {Promise<HTMLElement>} 分享卡片 DOM 元素
+   */
+  async createShareCardDOM(resultKey) {
+    // 動態載入植物資料
+    const { plantData } = await import('./data/plants.js');
+    const plant = plantData[resultKey];
+
+    // 取得當前植物的圖片路徑
+    const plantImage = getPlantImage(resultKey);
+
+    // 建立卡片容器
+    const card = document.createElement('div');
+    card.className = 'ig-share-card';
+
+    // 頭部區域
+    const header = document.createElement('div');
+    header.className = 'ig-share-card__header';
+    header.innerHTML = `
+      <h1 class="ig-share-card__title">🌿 找到你的情緒座標</h1>
+      <p class="ig-share-card__subtitle">來自台灣的香氣研製所</p>
+    `;
+    card.appendChild(header);
+
+    // 主要內容區域
+    const body = document.createElement('div');
+    body.className = 'ig-share-card__body';
+
+    // 植物資訊區域
+    const plantSection = document.createElement('div');
+    plantSection.className = 'ig-share-card__plant';
+    plantSection.innerHTML = `
+      <img src="${plantImage}" class="ig-share-card__icon" alt="${plant.name}">
+      <h2 class="ig-share-card__plant-name">${plant.name}</h2>
+      <p class="ig-share-card__plant-tagline">${plant.tagline}</p>
+    `;
+    body.appendChild(plantSection);
+
+    // 並排區域：座標 + 香氣
+    const parallelSection = document.createElement('div');
+    parallelSection.className = 'ig-share-card__parallel-section';
+
+    // 座標圖區域
+    const coordSection = document.createElement('div');
+    coordSection.className = 'ig-share-card__coord';
+    coordSection.innerHTML = `
+      <h3 class="ig-share-card__coord-title">你的情緒座標位置</h3>
+      <div class="ig-share-card__coord-map">
+        <div class="ig-share-card__axis ig-share-card__axis--vertical"></div>
+        <div class="ig-share-card__axis ig-share-card__axis--horizontal"></div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--right">Warm</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--left">Cool</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--top">Active</div>
+        <div class="ig-share-card__coord-label ig-share-card__coord-label--bottom">Calm</div>
+        <div class="ig-share-card__coord-point" style="left: ${plant.coord.x}%; top: ${plant.coord.y}%; background-color: ${plant.color};"></div>
+      </div>
+    `;
+    parallelSection.appendChild(coordSection);
+
+    // 香氣區域
+    const scentsSection = document.createElement('div');
+    scentsSection.className = 'ig-share-card__scents';
+    scentsSection.innerHTML = `
+      <h3 class="ig-share-card__scents-title">你需要的香氣能量</h3>
+      <div class="ig-share-card__scent-item">
+        <span class="ig-share-card__scent-type">相似香氣</span>
+        <span class="ig-share-card__scent-name">${plant.scent.similar.name}</span>
+        <div class="ig-share-card__scent-text">${plant.scent.similar.text}</div>
+      </div>
+      <div class="ig-share-card__scent-item">
+        <span class="ig-share-card__scent-type">平衡香氣</span>
+        <span class="ig-share-card__scent-name">${plant.scent.balance.name}</span>
+        <div class="ig-share-card__scent-text">${plant.scent.balance.text}</div>
+      </div>
+    `;
+    parallelSection.appendChild(scentsSection);
+    body.appendChild(parallelSection);
+
+    // 關係區域（橫排三欄：另一半/朋友/仇人）
+    const relationsSection = document.createElement('div');
+    relationsSection.className = 'ig-share-card__relations';
+
+    // 處理另一半（單個植物）
+    const partnerPlants = plant.relationships.partner.plants;
+    const partnerName = partnerPlants.map(key => plantData[key]?.name || key).join('、');
+    const partnerImagesHtml = partnerPlants.map(key =>
+      `<img src="${getPlantImage(key)}" class="ig-share-card__relation-image" alt="${plantData[key]?.name || key}">`
+    ).join('');
+
+    // 處理朋友（可能有多個植物）
+    const friendPlants = plant.relationships.friend.plants;
+    const friendName = friendPlants.map(key => plantData[key]?.name || key).join('、');
+    const friendImagesHtml = friendPlants.map(key =>
+      `<img src="${getPlantImage(key)}" class="ig-share-card__relation-image ${friendPlants.length > 1 ? 'multi-plant' : ''}" alt="${plantData[key]?.name || key}">`
+    ).join('');
+
+    // 處理仇人（單個植物）
+    const enemyPlants = plant.relationships.enemy.plants;
+    const enemyName = enemyPlants.map(key => plantData[key]?.name || key).join('、');
+    const enemyImagesHtml = enemyPlants.map(key =>
+      `<img src="${getPlantImage(key)}" class="ig-share-card__relation-image" alt="${plantData[key]?.name || key}">`
+    ).join('');
+
+    relationsSection.innerHTML = `
+      <h3 class="ig-share-card__relations-title">🌱 與你相處的植物們</h3>
+      <div class="ig-share-card__relations-grid">
+        <div class="ig-share-card__relation-item">
+          <div class="ig-share-card__relation-images">${partnerImagesHtml}</div>
+          <span class="ig-share-card__relation-label">❤️ 另一半 / 曖昧對象</span>
+          <span class="ig-share-card__relation-name">${partnerName}</span>
+        </div>
+        <div class="ig-share-card__relation-item">
+          <div class="ig-share-card__relation-images">${friendImagesHtml}</div>
+          <span class="ig-share-card__relation-label">🤝 朋友</span>
+          <span class="ig-share-card__relation-name">${friendName}</span>
+        </div>
+        <div class="ig-share-card__relation-item">
+          <div class="ig-share-card__relation-images">${enemyImagesHtml}</div>
+          <span class="ig-share-card__relation-label">🔥 仇人</span>
+          <span class="ig-share-card__relation-name">${enemyName}</span>
+        </div>
+      </div>
+    `;
+    body.appendChild(relationsSection);
+
+    card.appendChild(body);
+
+    // 頁尾 CTA 區域
+    const footer = document.createElement('div');
+    footer.className = 'ig-share-card__footer';
+    footer.innerHTML = `
+      <p class="ig-share-card__url">nw7551762.github.io/<br>emotion-coord-quiz</p>
+      <p class="ig-share-card__cta">來測測看你的情緒座標！</p>
+    `;
+    card.appendChild(footer);
+
+    return card;
   }
 
   /**
