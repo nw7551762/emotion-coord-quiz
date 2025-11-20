@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享圖片生成工具 - 情緒座標測驗</title>
+
+    <!-- 載入 html2canvas -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <!-- 載入主要樣式表 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- 載入分享卡片樣式表（必須，包含 .ig-share-card 樣式） -->
+    <link rel="stylesheet" href="../css/share-card.css">
+
+    <style>
+        /* 工具頁面專用樣式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .tool-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .tool-header h1 {
+            color: #d97757;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tool-header p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .plant-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .plant-card:hover {
+            border-color: #d97757;
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.2);
+        }
+
+        .plant-card__icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .plant-card__name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .plant-card__key {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+
+        .plant-card__status {
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .plant-card__status--pending {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .plant-card__status--generating {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .plant-card__status--success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .plant-card__status--error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .plant-card__btn {
+            background: linear-gradient(135deg, #d97757 0%, #e68a68 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .plant-card__btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.3);
+        }
+
+        .plant-card__btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .global-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d97757 0%, #e68a68 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.2);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(217, 119, 87, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #d97757;
+            border: 2px solid #d97757;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #d97757;
+            color: white;
+        }
+
+        .progress-info {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .progress-info__text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar__fill {
+            height: 100%;
+            background: linear-gradient(135deg, #d97757 0%, #e68a68 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h3 {
+            color: #1976D2;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .note p {
+            margin: 5px 0;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>🌿 分享圖片生成工具</h1>
+            <p>為 6 種植物人格類型一次性生成分享圖片</p>
+        </div>
+
+        <div class="instructions">
+            <h3>使用說明</h3>
+            <ol>
+                <li>點擊「生成全部圖片」按鈕，工具將自動依序生成 6 張圖片</li>
+                <li>每張圖片生成後會自動下載到您的「下載」資料夾</li>
+                <li>下載的檔案名稱格式為：<code>share-{植物類型}.png</code></li>
+                <li>將下載的 6 張圖片移動到專案的 <code>share/</code> 資料夾</li>
+                <li>重新命名檔案，移除 <code>share-</code> 前綴（例如：<code>share-lavender.png</code> → <code>lavender.png</code>）</li>
+            </ol>
+        </div>
+
+        <div class="progress-info" id="progressInfo" style="display: none;">
+            <div class="progress-info__text" id="progressText">準備生成...</div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="global-actions">
+            <button class="btn-primary" id="generateAllBtn">🚀 生成全部圖片</button>
+            <button class="btn-secondary" id="resetBtn" style="display: none;">🔄 重置狀態</button>
+        </div>
+
+        <div class="plant-grid" id="plantGrid">
+            <!-- 植物卡片將由 JavaScript 動態生成 -->
+        </div>
+
+        <div class="note">
+            <p><strong>注意事項：</strong></p>
+            <p>• 圖片尺寸為 1080×1600px，適合 Instagram 分享</p>
+            <p>• 生成過程中請勿關閉頁面</p>
+            <p>• 如果生成失敗，請檢查瀏覽器是否允許多次下載</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { plantData } from '../js/data/plants.js';
+        import { ShareManager } from '../js/share.js';
+
+        // 初始化
+        const shareManager = new ShareManager();
+        const plantKeys = Object.keys(plantData);
+        const plantGrid = document.getElementById('plantGrid');
+        const generateAllBtn = document.getElementById('generateAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const progressInfo = document.getElementById('progressInfo');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+
+        // 植物狀態追蹤
+        const plantStatus = {};
+        plantKeys.forEach(key => {
+            plantStatus[key] = 'pending'; // pending, generating, success, error
+        });
+
+        // 渲染植物卡片
+        function renderPlantCards() {
+            plantGrid.innerHTML = '';
+
+            plantKeys.forEach(key => {
+                const plant = plantData[key];
+                const card = document.createElement('div');
+                card.className = 'plant-card';
+                card.id = `card-${key}`;
+
+                let statusText = '等待生成';
+                let statusClass = 'pending';
+
+                switch (plantStatus[key]) {
+                    case 'generating':
+                        statusText = '生成中...';
+                        statusClass = 'generating';
+                        break;
+                    case 'success':
+                        statusText = '✓ 已生成';
+                        statusClass = 'success';
+                        break;
+                    case 'error':
+                        statusText = '✗ 生成失敗';
+                        statusClass = 'error';
+                        break;
+                }
+
+                card.innerHTML = `
+                    <div class="plant-card__icon">${plant.icon}</div>
+                    <div class="plant-card__name">${plant.name}</div>
+                    <div class="plant-card__key">${key}</div>
+                    <div class="plant-card__status plant-card__status--${statusClass}" id="status-${key}">
+                        ${statusText}
+                    </div>
+                    <button class="plant-card__btn" id="btn-${key}">
+                        生成此圖片
+                    </button>
+                `;
+
+                plantGrid.appendChild(card);
+
+                // 綁定單獨生成按鈕
+                const btn = document.getElementById(`btn-${key}`);
+                btn.addEventListener('click', () => generateSingleImage(key));
+            });
+        }
+
+        // 更新植物狀態
+        function updatePlantStatus(key, status) {
+            plantStatus[key] = status;
+            const statusEl = document.getElementById(`status-${key}`);
+            const btn = document.getElementById(`btn-${key}`);
+
+            if (!statusEl) return;
+
+            statusEl.className = 'plant-card__status';
+
+            switch (status) {
+                case 'pending':
+                    statusEl.classList.add('plant-card__status--pending');
+                    statusEl.textContent = '等待生成';
+                    btn.disabled = false;
+                    break;
+                case 'generating':
+                    statusEl.classList.add('plant-card__status--generating');
+                    statusEl.textContent = '生成中...';
+                    btn.disabled = true;
+                    break;
+                case 'success':
+                    statusEl.classList.add('plant-card__status--success');
+                    statusEl.textContent = '✓ 已生成';
+                    btn.disabled = false;
+                    break;
+                case 'error':
+                    statusEl.classList.add('plant-card__status--error');
+                    statusEl.textContent = '✗ 生成失敗';
+                    btn.disabled = false;
+                    break;
+            }
+        }
+
+        // 更新進度條
+        function updateProgress(current, total) {
+            const percentage = (current / total) * 100;
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `已生成 ${current} / ${total} 張圖片`;
+
+            if (current === total) {
+                progressText.textContent = '🎉 全部生成完成！';
+            }
+        }
+
+        // 生成單一圖片
+        async function generateSingleImage(key) {
+            updatePlantStatus(key, 'generating');
+
+            try {
+                // 建立分享卡片 DOM
+                const shareCard = await shareManager.createShareCardDOM(key);
+
+                // 修正圖片路徑（因為工具在 tools/ 子資料夾中）
+                const images = shareCard.querySelectorAll('img');
+                images.forEach(img => {
+                    // 將 images/xxx.png 改為 ../images/xxx.png
+                    if (img.src && img.src.includes('images/')) {
+                        const currentSrc = img.getAttribute('src');
+                        if (currentSrc && !currentSrc.startsWith('../')) {
+                            img.setAttribute('src', '../' + currentSrc);
+                        }
+                    }
+                });
+
+                document.body.appendChild(shareCard);
+
+                // 等待 DOM 渲染和圖片載入
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // 使用 html2canvas 截圖
+                const canvas = await html2canvas(shareCard, {
+                    width: 1080,
+                    height: 1600,
+                    scale: 1,
+                    backgroundColor: '#fffaf5',
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                });
+
+                // 移除臨時 DOM
+                document.body.removeChild(shareCard);
+
+                // 轉換為 blob 並下載
+                return new Promise((resolve, reject) => {
+                    canvas.toBlob(blob => {
+                        if (!blob) {
+                            updatePlantStatus(key, 'error');
+                            reject(new Error('Blob 生成失敗'));
+                            return;
+                        }
+
+                        // 下載檔案
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `share-${key}.png`;
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+
+                        updatePlantStatus(key, 'success');
+                        resolve();
+                    }, 'image/png');
+                });
+
+            } catch (error) {
+                console.error(`生成 ${key} 圖片失敗:`, error);
+                updatePlantStatus(key, 'error');
+                throw error;
+            }
+        }
+
+        // 生成全部圖片
+        async function generateAllImages() {
+            progressInfo.style.display = 'block';
+            generateAllBtn.disabled = true;
+
+            let successCount = 0;
+
+            for (let i = 0; i < plantKeys.length; i++) {
+                const key = plantKeys[i];
+
+                try {
+                    await generateSingleImage(key);
+                    successCount++;
+                    updateProgress(successCount, plantKeys.length);
+
+                    // 每張圖片之間延遲 500ms，避免瀏覽器阻擋多次下載
+                    if (i < plantKeys.length - 1) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                } catch (error) {
+                    console.error(`生成 ${key} 失敗:`, error);
+                }
+            }
+
+            generateAllBtn.disabled = false;
+            resetBtn.style.display = 'inline-block';
+
+            if (successCount === plantKeys.length) {
+                alert('🎉 全部 6 張圖片生成完成！\n\n請到「下載」資料夾查看檔案，然後：\n1. 移動到專案的 share/ 資料夾\n2. 重新命名，移除 share- 前綴');
+            } else {
+                alert(`生成完成！成功 ${successCount} / ${plantKeys.length} 張。\n\n失敗的圖片可以點擊個別按鈕重新生成。`);
+            }
+        }
+
+        // 重置狀態
+        function resetStatus() {
+            plantKeys.forEach(key => {
+                plantStatus[key] = 'pending';
+            });
+            renderPlantCards();
+            progressInfo.style.display = 'none';
+            progressFill.style.width = '0%';
+            resetBtn.style.display = 'none';
+        }
+
+        // 事件監聽
+        generateAllBtn.addEventListener('click', generateAllImages);
+        resetBtn.addEventListener('click', resetStatus);
+
+        // 初始化渲染
+        renderPlantCards();
+    </script>
+</body>
+</html>
