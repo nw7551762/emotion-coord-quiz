@@ -258,8 +258,8 @@
 
 /* 植物圖片樣式 */
 .ig-share-card__relation-image {
-  width: 140px;
-  height: 140px;
+  width: 70px;
+  height: 70px;
   /* 移除圓框 */
   border-radius: 0;
   /* 保留比例或改成 contain */
@@ -270,10 +270,10 @@
   background: transparent;
 }
 
-/* 多個植物時縮小圖片 */
+/* 多個植物時保持相同尺寸 */
 .ig-share-card__relation-image.multi-plant {
-  width: 110px;
-  height: 110px;
+  width: 70px;
+  height: 70px;
 }
 
 
