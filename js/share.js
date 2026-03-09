@@ -18,12 +18,12 @@ export class ShareManager {
 
     // 各植物類型的分享文字模板
     this.shareTemplates = {
-      lavender: '我是「薰衣草型」🌿 在情緒座標的安定靜心區，需要更多靜謐時刻。你是哪種植物？',
-      cypress: '我是「扁柏型」🌲 在情緒座標的安定靜心區，步調穩定而踏實。你是哪種植物？',
-      hinoki: '我是「檜木型」🌳 在情緒座標的溫潤和諧區，溫暖療癒著周圍。你是哪種植物？',
-      chamomile: '我是「洋甘菊型」🌼 在情緒座標的溫潤和諧區，溫柔關懷著他人。你是哪種植物？',
-      mint: '我是「薄荷葉型」🍃 在情緒座標的光合啟動區，行動力強而清晰。你是哪種植物？',
-      peony: '我是「牡丹型」🌺 在情緒座標的光芒區，熱情綻放著光彩。你是哪種植物？'
+      lavender: '我是「薰衣草型」🌿 在情緒座標的安定靜心區，需要更多靜謐時刻。你是哪種植物？ https://reurl.cc/GGozMW',
+      cypress: '我是「扁柏型」🌲 在情緒座標的安定靜心區，步調穩定而踏實。你是哪種植物？ https://reurl.cc/GGozMW',
+      hinoki: '我是「檜木型」🌳 在情緒座標的溫潤和諧區，溫暖療癒著周圍。你是哪種植物？ https://reurl.cc/GGozMW',
+      chamomile: '我是「洋甘菊型」🌼 在情緒座標的溫潤和諧區，溫柔關懷著他人。你是哪種植物？ https://reurl.cc/GGozMW',
+      mint: '我是「薄荷葉型」🍃 在情緒座標的光合啟動區，行動力強而清晰。你是哪種植物？ https://reurl.cc/GGozMW',
+      peony: '我是「牡丹型」🌺 在情緒座標的光芒區，熱情綻放著光彩。你是哪種植物？ https://reurl.cc/GGozMW'
     };
 
     this.baseUrl = window.location.origin + window.location.pathname;
