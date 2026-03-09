@@ -104,7 +104,7 @@ export const plantData = {
         relationships: {
             partner: {
                 plants: ["cypress"],
-                text: "有默契、不需要多話的安定組合；你們都相信"慢，就是快"。"
+                text: "有默契、不需要多話的安定組合；你們都相信\u201c慢，就是快\u201d。"
             },
             friend: {
                 plants: ["chamomile", "mint"],
