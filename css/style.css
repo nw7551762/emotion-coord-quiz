@@ -179,6 +179,21 @@ body::before {
     box-shadow: 0 4px 12px rgba(139,115,85,0.15);
 }
 
+.option:focus:not(:focus-visible),
+.btn:focus:not(:focus-visible),
+.share-btn:focus:not(:focus-visible),
+.scent-link:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.option:focus-visible,
+.btn:focus-visible,
+.share-btn:focus-visible,
+.scent-link:focus-visible {
+    outline: 2px solid #8b7355;
+    outline-offset: 2px;
+}
+
 .btn {
     background: linear-gradient(135deg, #3d4f3d 0%, #2d3e2d 100%);
     color: #f5ebe0;

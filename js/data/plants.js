@@ -35,14 +35,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "夜和 Peaceful Night",
+                name: "夜和 Oboro Night",
                 text: "偏涼、偏安定的香氣座標，像夜裡那口真正吐出的長長嘆息。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
             },
             balance: {
-                name: "朝光 Light of Dawn",
+                name: "朝光 Sumi Dawn",
                 text: "當你想讓自己從過度安靜中稍微打開一點，朝光就像清晨的窗縫。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
             }
         }
     },
@@ -76,14 +76,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "夜和 Peaceful Night",
+                name: "夜和 Oboro Night",
                 text: "木質與草本的清冷軸線，和你對安穩的追求很像。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
             },
             balance: {
-                name: "暖居 Warm Place",
+                name: "暖居 Komorebi Haven",
                 text: "當世界顯得過於理性，暖居會幫你的生活加一盞小小黃光。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
             }
         }
     },
@@ -104,7 +104,7 @@ export const plantData = {
         relationships: {
             partner: {
                 plants: ["cypress"],
-                text: "有默契、不需要多話的安定組合；你們都相信“慢，就是快”。"
+                text: "有默契、不需要多話的安定組合；你們都相信"慢，就是快"。"
             },
             friend: {
                 plants: ["chamomile", "mint"],
@@ -117,14 +117,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "暖居 Warm Place",
+                name: "暖居 Komorebi Haven",
                 text: "木質與柑橘的柔軟溫度，很像你心裡那種「慢慢也沒關係」的步調。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
             },
             balance: {
-                name: "朝光 Light of Dawn",
+                name: "朝光 Sumi Dawn",
                 text: "當你需要一點推力和新的方向感，朝光像清晨的第一束光。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
             }
         }
     },
@@ -158,14 +158,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "暖居 Warm Place",
+                name: "暖居 Komorebi Haven",
                 text: "像家一樣的溫度，會讓你覺得「我也可以被照顧」。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
             },
             balance: {
-                name: "夜和 Peaceful Night",
+                name: "夜和 Oboro Night",
                 text: "當你吸收了太多情緒，夜和會幫你慢慢把那些重量放下來。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
             }
         }
     },
@@ -199,14 +199,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "朝光 Light of Dawn",
+                name: "朝光 Sumi Dawn",
                 text: "清爽明亮的氣味輪廓，很像你「說走就走」的動能。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
             },
             balance: {
-                name: "暖居 Warm Place",
+                name: "暖居 Komorebi Haven",
                 text: "當你一直踩油門時，暖居會提醒你：有些路可以慢慢走。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
             }
         }
     },
@@ -240,14 +240,14 @@ export const plantData = {
         },
         scent: {
             similar: {
-                name: "朝光 Light of Dawn",
+                name: "朝光 Sumi Dawn",
                 text: "陽光感、存在感都很高，很像你想往外開展的那種狀態。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
             },
             balance: {
-                name: "夜和 Peaceful Night",
+                name: "夜和 Oboro Night",
                 text: "當你光開太強、心太累時，夜和會把你安全送回夜裡的被窩。",
-                link: "https://myship.7-11.com.tw/general/detail/GM2512109870214?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAPdbe1leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae7gHs3WUnP24Wcgd0qFRQqnbLlrpgM7_fGUwINXELZQ8-d4aK83NfUuD14Ww_aem_Wj6hJgH9_ofa6bBMqE-eOA"
+                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
             }
         }
     }
