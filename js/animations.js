@@ -331,9 +331,9 @@ export class AnimationManager {
 
     // 預載所有背景圖片,避免切換時出現空白
     const images = [
-      '../images/forest-bg.jpg',
-      '../images/forest-mid.jpg',
-      '../images/forest-fg.jpg'
+      'images/forest-bg.jpg',
+      'images/forest-mid.jpg',
+      'images/forest-fg.jpg'
     ];
 
     try {
@@ -410,9 +410,9 @@ export class AnimationManager {
 
     // 設定 ::before 的背景圖（新圖片）
     const images = {
-      1: '../images/forest-bg.jpg',
-      2: '../images/forest-mid.jpg',
-      3: '../images/forest-fg.jpg'
+      1: 'images/forest-bg.jpg',
+      2: 'images/forest-mid.jpg',
+      3: 'images/forest-fg.jpg'
     };
 
     const nextImageUrl = images[toStage];
