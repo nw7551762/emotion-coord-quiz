@@ -588,6 +588,33 @@ body::before {
     box-shadow: 0 2px 8px rgba(139,115,85,0.15);
 }
 
+/* ========== 人格標籤、本命香那句話 ========== */
+.persona-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 10px 0 16px;
+}
+
+.persona-tag {
+    font-size: 13px;
+    color: #6f5a42;
+    background: rgba(244,213,166,0.35);
+    border-radius: 999px;
+    padding: 4px 12px;
+}
+
+.scent-persona {
+    font-size: 14px;
+    color: #4a3b2c;
+    line-height: 1.85;
+    letter-spacing: 0.3px;
+    padding-left: 12px;
+    border-left: 3px solid #d4c5b0;
+    margin-top: 4px;
+}
+
 /* ========== 結果頁收單：主推訂閱卡、搭配香、加 LINE ========== */
 .scent-card--featured {
     flex: 1 1 100%;

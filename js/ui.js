@@ -1,4 +1,4 @@
-import { plantData, getPlantImage, products, LINE_URL, scentRole, pcaToPercent } from './data/plants.js?v=4';
+import { plantData, getPlantImage, products, LINE_URL, scentRole, pcaToPercent } from './data/plants.js?v=5';
 
 // UI 管理類別
 export class UIManager {
@@ -72,6 +72,10 @@ export class UIManager {
         document.getElementById('plantIcon').src = getPlantImage(resultKey);
         document.getElementById('plantName').textContent = data.name;
         document.getElementById('plantTagline').textContent = data.tagline;
+        const tagsEl = document.getElementById('personaTags');
+        if (tagsEl) {
+            tagsEl.innerHTML = (data.persona?.traits || []).map(t => `<span class="persona-tag">#${t}</span>`).join('');
+        }
         document.getElementById('plantDescription').innerHTML = data.description;
 
         // 座標點
@@ -182,7 +186,9 @@ export class UIManager {
                 ${isFeatured ? '<div class="scent-badge">✦ 你的本命香・最推薦</div>' : '<div class="scent-badge scent-badge--pair">想換個心情時</div>'}
                 <div class="scent-type">${roleLabel[scentRole(plantData[resultKey], item.product)]}</div>
                 <div class="scent-name">${product.name}</div>
-                <div class="scent-text">${item.text}</div>
+                ${isFeatured && plantData[resultKey].persona
+                    ? `<div class="scent-persona">${plantData[resultKey].persona.line}</div>`
+                    : `<div class="scent-text">${item.text}</div>`}
                 ${perks}
                 <div class="scent-actions">
                     <a href="${linkFor(product, 'subscribe')}" target="_blank" rel="noopener noreferrer"
