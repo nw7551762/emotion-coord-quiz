@@ -8,12 +8,12 @@ export class ShareManager {
   constructor() {
     // 預先生成的分享圖片路徑對應
     this.shareImages = {
-      lavender: 'share/lavender.png?v=6',
-      cypress: 'share/cypress.png?v=6',
-      hinoki: 'share/hinoki.png?v=6',
-      chamomile: 'share/chamomile.png?v=6',
-      mint: 'share/mint.png?v=6',
-      peony: 'share/peony.png?v=6'
+      lavender: 'share/lavender.png?v=7',
+      cypress: 'share/cypress.png?v=7',
+      hinoki: 'share/hinoki.png?v=7',
+      chamomile: 'share/chamomile.png?v=7',
+      mint: 'share/mint.png?v=7',
+      peony: 'share/peony.png?v=7'
     };
 
     // 各植物類型的分享文字模板
