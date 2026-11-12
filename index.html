@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 
 <body>
@@ -77,7 +77,9 @@
                         <div class="coord-label top">Active</div>
                         <div class="coord-label bottom">Calm</div>
                         <div class="coord-point" id="coordPoint"></div>
+                        <div class="coord-scent" id="coordScent">★</div>
                     </div>
+                    <div class="coord-legend" id="coordLegend"></div>
                 </div>
 
                 <div class="relation-section">
@@ -88,24 +90,40 @@
                 <div class="scent-section">
                     <div class="scent-title">🔮 適合你的香氣能量</div>
                     <div class="scent-grid" id="scentGrid"></div>
+                    <div class="trust-strip">
+                        <span>🇹🇼 台灣調香</span><span>🌿 100% 複方純精油</span><span>🛠️ 擴香儀保固</span>
+                    </div>
+                </div>
+
+                <!-- 加 LINE：還沒準備好買的人的去處 -->
+                <div class="line-cta">
+                    <div class="line-cta-title">還不確定哪支適合你？</div>
+                    <div class="line-cta-text">
+                        煖意一共有 7 支配方，上面兩支是依你的座標挑的。想聞聞其他支、或想知道哪支最適合現在的你，把測驗結果傳給我，我幫你配。
+                    </div>
+                    <a href="https://lin.ee/A9iq98L" id="lineCtaBtn" target="_blank" rel="noopener noreferrer" class="line-cta-btn">💬 加 LINE 跟我聊</a>
                 </div>
 
                 <!-- 分享區塊 -->
                 <div class="share-section" id="shareSection">
                     <div class="share-title">📤 分享你的植物人格</div>
                     <div class="share-buttons">
-                        <button class="share-btn download" id="downloadBtn">📥 分享結果圖</button>
+                        <button class="share-btn download" id="downloadBtn">📲 分享到限時動態</button>
                         <button class="share-btn copy" id="copyLinkBtn">🔗 複製連結</button>
                         <a href="https://www.instagram.com/nuvayae.scent.lab/"
                            target="_blank"
                            rel="noopener noreferrer"
                            class="share-btn"
-                           aria-label="追蹤 NUVAYAE SCENT LAB Instagram 帳號">📸 追蹤 IG</a>
+                           aria-label="前往 NUVAYAE SCENT LAB Instagram 看更多資訊">👉去IG看更多資訊</a>
                     </div>
                     <div class="copy-success" id="copySuccess">✅ 已複製到剪貼簿</div>
+                    <div class="story-hint" id="storyHint">✅ 測驗連結已複製！<br>在限動點貼圖 →「連結」→ 貼上</div>
                 </div>
 
-                <button class="btn restart-btn" id="restartBtn">重新測驗</button>
+                <div class="retake-note">
+                    🌗 情緒座標會跟著狀態移動。累的時候、開心的時候、剛下班的時候測，結果都可能不一樣。<br>過幾天換個心情，再來看看你移動到哪裡。
+                </div>
+                <button class="btn restart-btn" id="restartBtn">換個心情，再測一次</button>
             </div>
         </div>
 
@@ -115,11 +133,11 @@
     </div>
 
     <script type="module">
-        import { QuizManager } from './js/quiz.js?v=3';
-        import { UIManager } from './js/ui.js?v=3';
-        import { AnimationManager } from './js/animations.js?v=3';
-        import { FeedbackManager } from './js/feedback.js?v=3';
-        import { ShareManager } from './js/share.js?v=3';
+        import { QuizManager } from './js/quiz.js?v=4';
+        import { UIManager } from './js/ui.js?v=4';
+        import { AnimationManager } from './js/animations.js?v=4';
+        import { FeedbackManager } from './js/feedback.js?v=4';
+        import { ShareManager } from './js/share.js?v=4';
 
         // 初始化應用
         const quiz = new QuizManager();
@@ -231,14 +249,21 @@
         // 初始化分享按鈕事件
         let shareButtonsInitialized = false;
         function initShareButtons(resultKey) {
+            share.preload(resultKey);
             if (shareButtonsInitialized) {
                 // 已經初始化過，只需更新 resultKey
                 return;
             }
             shareButtonsInitialized = true;
 
-            // 下載結果圖
+            // 分享到限時動態：先複製測驗連結、跳提示，再叫出分享選單
             document.getElementById('downloadBtn').addEventListener('click', async () => {
+                const copied = await share.copyLink();
+                const hint = document.getElementById('storyHint');
+                if (copied && hint) {
+                    hint.classList.add('show');
+                    setTimeout(() => hint.classList.remove('show'), 8000);
+                }
                 await share.generateShareImage(ui.resultScreen, currentResultKey);
             });
 
@@ -267,6 +292,18 @@
             anim.fadeOut(ui.resultScreen, 300).then(() => {
                 ui.showStartScreen();
                 anim.fadeIn(ui.startScreen, 300);
+            });
+        }
+
+        // 預覽：?preview=<植物key> 直接顯示結果頁（不經過測驗）
+        const previewKey = new URLSearchParams(location.search).get('preview');
+        if (previewKey) {
+            import('./js/data/plants.js').then(({ plantData }) => {
+                if (!plantData[previewKey]) return;
+                currentResultKey = previewKey;
+                ui.showResultScreen();
+                ui.renderResult(previewKey);
+                initShareButtons(previewKey);
             });
         }
 

@@ -3,6 +3,47 @@ export function getPlantImage(key) {
     return `images/${key}.png`;
 }
 
+// 加 LINE 連結（官網頁尾同一個，@349nwwah）
+export const LINE_URL = "https://lin.ee/A9iq98L";
+
+// 七支配方的購買連結：集中寫一次，植物資料用 key 指過來
+// pca：配方身分證主檔「香調總覽」的 PCA 座標（X 溫度：東暖為正；Y 能量：北升為正）
+// spray／subscribe 尚待提供，留 null 時按鈕會先連到 LINE
+const ECPAY = "https://90a5d24hxz.cashier.ecpay.com.tw/product/";
+export const products = {
+    oboro:    { name: "夜和 Oboro Night",    pca: { x: -0.7, y: -0.4 }, oil: ECPAY + "000000000914690", spray: null, subscribe: null },
+    komorebi: { name: "暖居 Komorebi Haven", pca: { x: 0.3, y: 0.6 }, oil: ECPAY + "000000000920061", spray: null, subscribe: null },
+    sumi:     { name: "朝光 Sumi Dawn",      pca: { x: -0.4, y: 1.2 }, oil: ECPAY + "000000000920152", spray: null, subscribe: null },
+    yuyake:   { name: "日暮 Yuyake Ember",   pca: { x: 0.8, y: -0.1 }, oil: ECPAY + "000000000932839", spray: null, subscribe: null },
+    akari:    { name: "花綻 Hana Akari",     pca: { x: 0.2, y: 1.5 }, oil: ECPAY + "000000000976122", spray: null, subscribe: null },
+    ikada:    { name: "花筏 Hana Ikada",     pca: { x: -0.6, y: -0.8 }, oil: ECPAY + "000000000976123", spray: null, subscribe: null },
+    suboo:    { name: "思慕 Su Boo",         pca: { x: 0.6, y: -0.2 }, oil: ECPAY + "000000001035170", spray: null, subscribe: null }
+};
+
+// 植物座標（coord 是畫面百分比，y 由上往下）換成 PCA 軸向，判斷象限用
+export function plantPca(plant) {
+    return { x: (plant.coord.x - 50) / 50, y: (50 - plant.coord.y) / 50 };
+}
+
+// PCA 座標換成座標圖上的百分比位置（±1 對應圖的邊緣，超出就貼邊）
+export function pcaToPercent(pca) {
+    const clamp = v => Math.min(94, Math.max(6, v));
+    return { left: clamp(50 + pca.x * 50), top: clamp(50 - pca.y * 50) };
+}
+
+// 座標對外顯示格式（同配方身分證客顯規則）：去正負號、一位小數，W/E、S/N
+export function formatPca(p) {
+    const r = v => Math.abs(Math.round(v * 10) / 10).toFixed(1);
+    return `(${p.x < 0 ? 'W' : 'E'} ${r(p.x)}, ${p.y < 0 ? 'S' : 'N'} ${r(p.y)})`;
+}
+
+// 同一象限＝相似香氣，不同象限＝平衡香氣（由座標自動判斷，避免標錯）
+export function scentRole(plant, productKey) {
+    const p = plantPca(plant);
+    const s = products[productKey].pca;
+    return (Math.sign(p.x) === Math.sign(s.x) && Math.sign(p.y) === Math.sign(s.y)) ? 'similar' : 'balance';
+}
+
 // 植物類型資料
 export const plantData = {
     lavender: {
@@ -33,16 +74,22 @@ export const plantData = {
                 text: "他衝得太快，你靜得太深；節奏差太多時，你容易覺得被催促、沒空呼吸。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["感受力很強", "需要關掉世界的片刻", "安靜但看得很透"],
+            line: "夜和帶給人的感覺是平靜透徹的，宛如你給人的感覺——安靜如水，卻讓人很舒服。只是很少人知道，那份平靜是你一次次替自己關掉雜音換來的。"
+        },
         scent: {
+            featured: "similar", // 主推訂閱的那一支（夜和／暖居）
             similar: {
+                product: "oboro",
                 name: "夜和 Oboro Night",
-                text: "偏涼、偏安定的香氣座標，像夜裡那口真正吐出的長長嘆息。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
+                text: "偏涼、偏安定的香氣座標，像夜裡那口真正吐出的長長嘆息。"
             },
             balance: {
-                name: "朝光 Sumi Dawn",
-                text: "當你想讓自己從過度安靜中稍微打開一點，朝光就像清晨的窗縫。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
+                product: "ikada",
+                name: "花筏 Hana Ikada",
+                text: "和你一樣偏涼、偏靜。花筏像花瓣順著水流漂，陪你把放不下的事，慢慢放下。"
             }
         }
     },
@@ -74,16 +121,22 @@ export const plantData = {
                 text: "你要慢，他要快；步調完全對不上，很容易話還沒說完人就不見了。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["有自己的步調", "理性又可靠", "不急著融入誰"],
+            line: "夜和帶給人的感覺是清冷而篤定的，宛如你給人的感覺——話不多，卻讓人很安心。其實你不是冷，你只是把溫柔留給真正懂你的人。"
+        },
         scent: {
+            featured: "similar", // 主推訂閱的那一支（夜和／暖居）
             similar: {
+                product: "oboro",
                 name: "夜和 Oboro Night",
-                text: "木質與草本的清冷軸線，和你對安穩的追求很像。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
+                text: "木質與草本的清冷軸線，和你對安穩的追求很像。"
             },
             balance: {
-                name: "暖居 Komorebi Haven",
-                text: "當世界顯得過於理性，暖居會幫你的生活加一盞小小黃光。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
+                product: "suboo",
+                name: "思慕 Su Boo",
+                text: "當世界顯得過於理性，思慕胡桃木般的溫潤，會幫你的生活加一盞小小黃光。"
             }
         }
     },
@@ -115,16 +168,22 @@ export const plantData = {
                 text: "你穩，他敏感；你沉住氣，他想躲起來——很容易誤解彼此的沉默。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["大家的大樹", "說到做到", "總是先照顧別人"],
+            line: "暖居帶給人的感覺是溫暖而可靠的，宛如你給人的感覺——像一棵大樹，讓靠近的人先鬆一口氣。只是你也會累，只是你很少說。"
+        },
         scent: {
+            featured: "similar", // 主推訂閱的那一支（夜和／暖居）
             similar: {
+                product: "komorebi",
                 name: "暖居 Komorebi Haven",
-                text: "木質與柑橘的柔軟溫度，很像你心裡那種「慢慢也沒關係」的步調。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
+                text: "你總是穩穩撐著大家。暖居的柑橘陽光會幫你補一點元氣，讓穩重裡也有輕快。"
             },
             balance: {
-                name: "朝光 Sumi Dawn",
-                text: "當你需要一點推力和新的方向感，朝光像清晨的第一束光。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
+                product: "yuyake",
+                name: "日暮 Yuyake Ember",
+                text: "跟你一樣沉穩的煙燻木質調，像傍晚收工後的柴火，陪你把撐了一天的自己放下。"
             }
         }
     },
@@ -156,16 +215,22 @@ export const plantData = {
                 text: "他太亮、太快、太強；而你太容易吸收情緒，久了只會覺得被拉扯。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["很會接住別人", "溫柔但有韌性", "也值得被照顧"],
+            line: "暖居帶給人的感覺是柔軟而有溫度的，宛如你給人的感覺——總能把別人的情緒輕輕接住。而你最需要的，其實是有人也這樣接住你。"
+        },
         scent: {
+            featured: "similar", // 主推訂閱的那一支（夜和／暖居）
             similar: {
+                product: "komorebi",
                 name: "暖居 Komorebi Haven",
-                text: "像家一樣的溫度，會讓你覺得「我也可以被照顧」。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
+                text: "像家一樣的溫度，再多一點陽光，會讓你覺得「我也可以被照顧」。"
             },
             balance: {
-                name: "夜和 Oboro Night",
-                text: "當你吸收了太多情緒，夜和會幫你慢慢把那些重量放下來。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
+                product: "akari",
+                name: "花綻 Hana Akari",
+                text: "你總是先看見別人。花綻像一朵為自己而開的花，提醒你：你本身就值得被欣賞。"
             }
         }
     },
@@ -197,16 +262,22 @@ export const plantData = {
                 text: "他想關機、你想開機——再怎麼努力，開關都對不到同一個頻率。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["行動派", "說走就走", "腦袋停不下來"],
+            line: "暖居帶給人的感覺是明亮又有朝氣的，宛如你給人的感覺——走到哪裡，哪裡就跟著動起來。但你停下來的那一刻，比誰都需要一盞暖光。"
+        },
         scent: {
+            featured: "balance", // 主推訂閱的那一支（夜和／暖居）
             similar: {
+                product: "sumi",
                 name: "朝光 Sumi Dawn",
-                text: "清爽明亮的氣味輪廓，很像你「說走就走」的動能。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
+                text: "清爽明亮的氣味輪廓，很像你「說走就走」的動能。"
             },
             balance: {
+                product: "komorebi",
                 name: "暖居 Komorebi Haven",
-                text: "當你一直踩油門時，暖居會提醒你：有些路可以慢慢走。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920061"
+                text: "當你一直踩油門時，暖居會提醒你：有些路可以慢慢走。"
             }
         }
     },
@@ -238,16 +309,22 @@ export const plantData = {
                 text: "他太能感受，你太能表現；久了彼此都會覺得累，像兩條不同節奏的旋律。"
             }
         },
+        persona: {
+            // 分享圖「本命香」區：香氣給人的感覺＝你給人的感覺（外在印象）＋只有你知道的那一面（內在），引起共鳴
+            traits: ["自帶光芒", "愛得很明顯", "活得有畫面"],
+            line: "暖居帶給人的感覺是熱烈又溫暖的，宛如你給人的感覺——一出現，整個空間都亮了。而你的光，其實一直在等一個真正懂你的人。"
+        },
         scent: {
+            featured: "similar", // 主推訂閱的那一支（夜和／暖居）
             similar: {
-                name: "朝光 Sumi Dawn",
-                text: "陽光感、存在感都很高，很像你想往外開展的那種狀態。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000920152"
+                product: "komorebi",
+                name: "暖居 Komorebi Haven",
+                text: "柑橘與木質的明亮溫度，跟你的熱度同一個頻率，又多了一份讓人想靠近的柔軟。"
             },
             balance: {
-                name: "夜和 Oboro Night",
-                text: "當你光開太強、心太累時，夜和會把你安全送回夜裡的被窩。",
-                link: "https://90a5d24hxz.cashier.ecpay.com.tw/product/000000000914690"
+                product: "suboo",
+                name: "思慕 Su Boo",
+                text: "當你光開太強、心太累時，思慕胡桃木般的溫潤會把你接住，讓你安靜下來。"
             }
         }
     }

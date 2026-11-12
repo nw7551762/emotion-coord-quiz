@@ -1,4 +1,4 @@
-import { plantData, getPlantImage } from './data/plants.js';
+import { plantData, getPlantImage, products, LINE_URL, scentRole, pcaToPercent } from './data/plants.js?v=4';
 
 // UI 管理類別
 export class UIManager {
@@ -81,6 +81,22 @@ export class UIManager {
         point.style.background = data.color;
         point.style.boxShadow = `0 0 16px ${data.color}`;
 
+        // 本命香在 PCA 座標上的位置
+        const featuredProduct = products[data.scent[data.scent.featured || 'similar'].product];
+        const star = document.getElementById('coordScent');
+        if (star) {
+            const pos = pcaToPercent(featuredProduct.pca);
+            star.style.left = `${pos.left}%`;
+            star.style.top = `${pos.top}%`;
+        }
+        const legend = document.getElementById('coordLegend');
+        if (legend) {
+            legend.innerHTML = `
+                <span><i class="legend-dot" style="background:${data.color}"></i>你的位置</span>
+                <span><i class="legend-star">★</i>本命香 ${featuredProduct.name.split(' ')[0]}</span>
+                <div class="coord-legend-note">香氣位置依煖意 PCA 情緒座標系統，由配方成分計算定位</div>`;
+        }
+
         document.getElementById('coordTitle').textContent = `你的情緒座標：${data.field}`;
         document.getElementById('coordSubtitle').textContent = data.fieldDesc;
 
@@ -88,7 +104,7 @@ export class UIManager {
         this.renderRelationships(data.relationships);
 
         // 香氣推薦
-        this.renderScents(data.scent);
+        this.renderScents(data.scent, resultKey);
     }
 
     // 渲染關係植物
@@ -126,31 +142,66 @@ export class UIManager {
         });
     }
 
-    // 渲染香氣推薦
-    renderScents(scent) {
+    // 渲染香氣推薦：主推（訂閱）卡在前，搭配香在後
+    renderScents(scent, resultKey) {
         const scentGrid = document.getElementById('scentGrid');
         scentGrid.innerHTML = '';
 
-        const similarCard = document.createElement('div');
-        similarCard.className = 'scent-card';
-        similarCard.innerHTML = `
-            <div class="scent-type">相似香氣｜你會自然喜歡的味道</div>
-            <div class="scent-name">${scent.similar.name}</div>
-            <div class="scent-text">${scent.similar.text}</div>
-            ${scent.similar.link ? `<a href="${scent.similar.link}" target="_blank" rel="noopener noreferrer" class="scent-link" aria-label="查看 ${scent.similar.name} 產品詳情">查看更多 →</a>` : ''}
-        `;
+        const roleLabel = {
+            similar: '相似香氣｜你會自然喜歡的味道',
+            balance: '平衡香氣｜幫你調整能量的味道'
+        };
+        const featuredRole = scent.featured || 'similar';
+        const otherRole = featuredRole === 'similar' ? 'balance' : 'similar';
 
-        const balanceCard = document.createElement('div');
-        balanceCard.className = 'scent-card';
-        balanceCard.innerHTML = `
-            <div class="scent-type">平衡香氣｜幫你調整能量的味道</div>
-            <div class="scent-name">${scent.balance.name}</div>
-            <div class="scent-text">${scent.balance.text}</div>
-            ${scent.balance.link ? `<a href="${scent.balance.link}" target="_blank" rel="noopener noreferrer" class="scent-link" aria-label="查看 ${scent.balance.name} 產品詳情">查看更多 →</a>` : ''}
-        `;
+        // 連結加上來源，之後看得出是哪個結果帶來的
+        const tag = (url, content) => {
+            const u = new URL(url);
+            u.searchParams.set('utm_source', 'quiz');
+            u.searchParams.set('utm_medium', 'result');
+            u.searchParams.set('utm_content', `${resultKey}-${content}`);
+            return u.toString();
+        };
+        // 噴霧／訂閱連結還沒給的話，先導到 LINE
+        const linkFor = (product, kind) => tag(product[kind] || LINE_URL, kind);
 
-        scentGrid.appendChild(similarCard);
-        scentGrid.appendChild(balanceCard);
+        const buildCard = (role, isFeatured) => {
+            const item = scent[role];
+            const product = products[item.product];
+            const card = document.createElement('div');
+            card.className = `scent-card ${isFeatured ? 'scent-card--featured' : 'scent-card--pair'}`;
+
+            const perks = isFeatured ? `
+                <ul class="sub-perks">
+                    <li><span>🌬️</span>訂閱期間，台灣 MIT 擴香儀免費用</li>
+                    <li><span>🔄</span>每個月都能在 LINE 一鍵換香，7 支配方任你換</li>
+                    <li><span>🎁</span>滿 12 個月：退還 $1,980 保證金，或帶走一台新擴香儀</li>
+                </ul>` : '';
+
+            card.innerHTML = `
+                ${isFeatured ? '<div class="scent-badge">✦ 你的本命香・最推薦</div>' : '<div class="scent-badge scent-badge--pair">想換個心情時</div>'}
+                <div class="scent-type">${roleLabel[scentRole(plantData[resultKey], item.product)]}</div>
+                <div class="scent-name">${product.name}</div>
+                <div class="scent-text">${item.text}</div>
+                ${perks}
+                <div class="scent-actions">
+                    <a href="${linkFor(product, 'subscribe')}" target="_blank" rel="noopener noreferrer"
+                       class="scent-btn ${isFeatured ? 'scent-btn--primary' : 'scent-btn--secondary'}">
+                       ${isFeatured ? '訂閱這支・擴香儀免費用' : '訂閱這支'}</a>
+                    <a href="${linkFor(product, 'spray')}" target="_blank" rel="noopener noreferrer"
+                       class="scent-btn scent-btn--secondary">${isFeatured ? '先單買噴霧試試' : '單買噴霧'}</a>
+                </div>
+                <a href="${tag(product.oil, 'oil')}" target="_blank" rel="noopener noreferrer" class="scent-oil-link">也有單售精油 5mL／10mL →</a>
+            `;
+            return card;
+        };
+
+        scentGrid.appendChild(buildCard(featuredRole, true));
+        scentGrid.appendChild(buildCard(otherRole, false));
+
+        // 加 LINE 按鈕帶上結果
+        const lineBtn = document.getElementById('lineCtaBtn');
+        if (lineBtn) lineBtn.href = tag(LINE_URL, 'line');
     }
 
     // 顯示即時反饋文字

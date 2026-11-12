@@ -101,7 +101,15 @@ emotion-coord-quiz/
   - `fieldDesc`: 區域描述
   - `description`: 完整人格描述（支援 HTML）
   - `relationships`: `{partner, friend, enemy}` 對象，每個包含 `plants` 陣列和 `text` 說明
-  - `scent`: `{similar, balance}` 香氣推薦，每個包含 `name` 和 `text`
+  - `persona`: `{traits, line}` 分享圖本命香區的人格標籤（3 個）與一句話
+  - `scent`: `{featured, similar, balance}` 香氣推薦；`similar`/`balance` 各含 `product`（指向 `products` 的 key）、`name`、`text`；`featured` 指出哪一支是主推訂閱（夜和／暖居）
+- 同檔的 `products` 是 7 支配方的集中商品表：`name`、`pca`（配方身分證主檔的 PCA 座標）、`oil`／`spray`／`subscribe` 連結（`spray`、`subscribe` 為 `null` 時按鈕暫時導向 LINE）；`LINE_URL` 是加 LINE 連結
+- 結果頁「相似／平衡香氣」標籤由 `scentRole()` 依象限自動判斷（同象限＝相似），不要手寫
+
+**分享圖（IG 限動 1080×1920）**：
+- 模板 `tools/story-card.html?key=<植物>`，資料讀 `js/data/plants.js`
+- 改了香名、persona 或對應後，在專案根目錄開 `python3 -m http.server 8702`，再跑 `bash tools/render-story-images.sh` 重產 `share/*.png`，並把 `js/share.js` 圖片路徑的 `?v=` 加一
+- 舊的 `tools/generate-share-images.html`（1080×1600）已不使用
 
 **測驗邏輯調整**：
 - 編輯 `js/quiz.js`

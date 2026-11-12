@@ -8,12 +8,12 @@ export class ShareManager {
   constructor() {
     // 預先生成的分享圖片路徑對應
     this.shareImages = {
-      lavender: 'share/lavender.png',
-      cypress: 'share/cypress.png',
-      hinoki: 'share/hinoki.png',
-      chamomile: 'share/chamomile.png',
-      mint: 'share/mint.png',
-      peony: 'share/peony.png'
+      lavender: 'share/lavender.png?v=4',
+      cypress: 'share/cypress.png?v=4',
+      hinoki: 'share/hinoki.png?v=4',
+      chamomile: 'share/chamomile.png?v=4',
+      mint: 'share/mint.png?v=4',
+      peony: 'share/peony.png?v=4'
     };
 
     // 各植物類型的分享文字模板
@@ -27,6 +27,20 @@ export class ShareManager {
     };
 
     this.baseUrl = window.location.origin + window.location.pathname;
+    this.blobCache = {};
+  }
+
+  /**
+   * 預先載入限動分享圖，按下分享時不用再等下載
+   * （iOS 的分享選單需要在點擊後很快叫出來）
+   */
+  async preload(resultKey) {
+    const path = this.shareImages[resultKey];
+    if (!path || this.blobCache[resultKey]) return;
+    try {
+      const res = await fetch(path);
+      if (res.ok) this.blobCache[resultKey] = await res.blob();
+    } catch (e) { /* 失敗就等點擊時再載 */ }
   }
 
   /**
@@ -185,12 +199,16 @@ export class ShareManager {
         return false;
       }
 
-      // 2. 使用 fetch 載入圖片
-      const response = await fetch(imagePath);
-      if (!response.ok) {
-        throw new Error('圖片載入失敗');
+      // 2. 優先用預先載入的圖片，沒有才現抓
+      let blob = this.blobCache[resultKey];
+      if (!blob) {
+        const response = await fetch(imagePath);
+        if (!response.ok) {
+          throw new Error('圖片載入失敗');
+        }
+        blob = await response.blob();
+        this.blobCache[resultKey] = blob;
       }
-      const blob = await response.blob();
 
       // 3. 判斷裝置類型並執行對應分享邏輯
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -259,7 +277,7 @@ export class ShareManager {
             </head>
             <body>
               <img src="${url}" alt="情緒座標測驗結果">
-              <div class="hint">📱 長按圖片可儲存到相簿</div>
+              <div class="hint">📱 長按圖片儲存到相簿，再到 IG 限動上傳<br>測驗連結已複製，用「連結」貼圖貼上就好</div>
             </body>
             </html>
           `);
