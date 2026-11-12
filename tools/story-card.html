@@ -7,152 +7,155 @@
   IG 限時動態分享圖模板（1080 × 1920，9:16）
   用法：tools/story-card.html?key=lavender
   產圖：bash tools/render-story-images.sh（輸出到 share/<key>.png）
-  安全區：上方約 250px、下方約 250px 會被 IG 介面蓋住；CTA 之後留空給「連結」貼圖。
-  文案來源：js/data/plants.js（persona.traits 人格標籤、persona.line 本命香那句話）
-  主角是座標圖：我的位置（植物座標，不標數值）與本命香位置（PCA 座標，標數值）。
+
+  設計：雜誌海報式，去掉外框與卡片，用字級和留白分層。
+    1. 身分（我是誰）：植物名＋副標那句話＋人格標籤 → 讓人想分享
+    2. 座標（我在哪）：象限圖只放兩個點，說明放右側圖例 → 清楚
+    3. 本命香（為什麼是這支）：香名放大＋那句話 → 認同感、想擁有
+    4. 底部森林帶：測驗呼籲，下方留空給「連結」貼圖
+  每種植物用自己的顏色做背景暈染與象限底色，六張圖各有個性。
+  安全區：上方約 250px、下方約 250px 會被 IG 介面蓋住。
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Serif+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #2d3e2d; }
-  body { font-family: 'Noto Serif TC', serif; color: #2d3e2d; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body { font-family: 'Noto Serif TC', serif; color: #2b3a2b; background: #f6efe4; }
 
-  .story {
-    position: relative; width: 1080px; height: 1920px;
-    background: url('../images/forest-bg.jpg') center / cover no-repeat;
-    display: flex; flex-direction: column; align-items: center;
-    padding-top: 190px;
-  }
-  .story::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(30,42,30,0.55) 0%, rgba(30,42,30,0.25) 40%, rgba(30,42,30,0.62) 100%);
-  }
-  .story > * { position: relative; }
+  .story { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f6efe4; }
+  /* 植物色暈染：每張圖自己的氛圍 */
+  .wash { position: absolute; width: 1100px; height: 1100px; right: -380px; top: -160px; border-radius: 50%;
+          background: radial-gradient(circle, var(--c) 0%, transparent 62%); opacity: 0.32; }
+  .grain { position: absolute; inset: 0; background: radial-gradient(rgba(139,115,85,0.05) 1px, transparent 1px); background-size: 6px 6px; }
 
-  .brand { color: #f5ebe0; letter-spacing: 8px; font-size: 24px; font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+  .inner { position: absolute; left: 90px; right: 90px; top: 0; }
 
-  .card {
-    width: 968px; margin-top: 22px;
-    background: rgba(255,250,242,0.97);
-    border-radius: 40px;
-    padding: 34px 44px 34px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  }
+  .brand { position: absolute; top: 196px; left: 90px; font-family: 'Cormorant Garamond', serif; font-weight: 600;
+           font-size: 24px; letter-spacing: 8px; color: #8b7355; }
 
-  /* 開頭 */
-  .head { display: flex; align-items: center; gap: 24px; }
-  .plant-img { width: 124px; height: 124px; object-fit: contain; flex: 0 0 auto; }
-  .kicker { font-size: 26px; color: #8b7355; letter-spacing: 2px; }
-  .plant-name { font-size: 66px; font-weight: 700; line-height: 1.15; }
-  .tagline { font-size: 25px; color: #8b7355; margin-top: 2px; }
+  /* 1. 身分 */
+  .hero { position: absolute; top: 262px; left: 90px; right: 90px; }
+  .kicker { font-size: 28px; color: #8b7355; letter-spacing: 4px; }
+  .name { font-size: 118px; font-weight: 900; line-height: 1.1; margin-top: 6px; letter-spacing: 2px; }
+  .identity { font-size: 46px; font-weight: 500; margin-top: 18px; line-height: 1.35; }
+  .tags { font-size: 28px; color: #8b7355; margin-top: 18px; letter-spacing: 1px; }
+  .tags span + span { margin-left: 22px; }
+  .plant { position: absolute; right: 70px; top: 270px; width: 270px; height: 270px; object-fit: contain;
+           filter: drop-shadow(0 12px 24px rgba(0,0,0,0.08)); }
 
-  .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-  .tag { font-size: 27px; color: #6f5a42; background: rgba(244,213,166,0.35); border-radius: 999px; padding: 6px 20px; }
+  .rule { position: absolute; left: 90px; right: 90px; height: 0; border-top: 2px solid rgba(139,115,85,0.25); }
 
-  /* 座標圖：主角 */
-  .coord-title { margin-top: 26px; display: flex; align-items: baseline; gap: 14px; }
-  .coord-title .lbl { font-size: 25px; color: #8b7355; }
-  .coord-title .zone { font-size: 38px; font-weight: 700; }
-  .coord-title .en { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 28px; color: #8b7355; }
+  /* 2. 座標 */
+  .coord { position: absolute; top: 700px; left: 90px; right: 90px; display: flex; gap: 52px; align-items: center; }
+  .map { position: relative; flex: 0 0 380px; height: 380px; }
+  .quad { position: absolute; width: 50%; height: 50%; padding: 14px 16px; font-size: 19px; line-height: 1.3;
+          color: rgba(139,115,85,0.55); background: rgba(255,253,248,0.55); }
+  .quad.on { background: color-mix(in srgb, var(--c) 22%, #fffdf8); color: #2b3a2b; font-weight: 700; }
+  .q-tl { left: 0; top: 0; border-top-left-radius: 22px; }
+  .q-tr { right: 0; top: 0; text-align: right; border-top-right-radius: 22px; }
+  .q-bl { left: 0; bottom: 0; display: flex; align-items: flex-end; border-bottom-left-radius: 22px; }
+  .q-br { right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: flex-end; text-align: right; border-bottom-right-radius: 22px; }
+  .ax-v { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 2px solid rgba(139,115,85,0.35); }
+  .ax-h { position: absolute; top: 50%; left: 0; right: 0; border-top: 2px solid rgba(139,115,85,0.35); }
+  .pt { position: absolute; width: 36px; height: 36px; border-radius: 50%; transform: translate(-50%,-50%);
+        background: var(--c); border: 6px solid #fff; box-shadow: 0 0 0 2px var(--c), 0 6px 18px rgba(0,0,0,0.18); z-index: 2; }
+  .star { position: absolute; transform: translate(-50%,-52%); font-size: 46px; line-height: 1; color: #6f5a42;
+          text-shadow: 0 0 10px #fffdf8, 0 0 4px #fffdf8; z-index: 3; }
 
-  .map {
-    position: relative; height: 420px; margin-top: 12px;
-    border: 3px solid #d4c5b0; border-radius: 26px; background: #fffdf8; overflow: hidden;
-  }
-  .quad { position: absolute; width: 50%; height: 50%; display: flex; padding: 14px 18px; font-size: 22px; line-height: 1.3; color: #c8b8a0; }
-  .q-tr, .q-br { text-align: right; }
-  .q-tl, .q-tr { align-items: flex-start; }
-  .quad.on { background: rgba(244,213,166,0.22); color: #8b7355; font-weight: 600; }
-  .q-tl { left: 0; top: 0; }
-  .q-tr { right: 0; top: 0; justify-content: flex-end; }
-  .q-bl { left: 0; bottom: 0; align-items: flex-end; }
-  .q-br { right: 0; bottom: 0; justify-content: flex-end; align-items: flex-end; }
-  .ax-v { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 2px solid #d4c5b0; }
-  .ax-h { position: absolute; top: 50%; left: 0; right: 0; border-top: 2px solid #d4c5b0; }
-  .ax-lb { position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #8b7355; background: #fffdf8; padding: 0 8px; }
-  .ax-t { top: 6px; left: 50%; transform: translateX(-50%); }
-  .ax-b { bottom: 6px; left: 50%; transform: translateX(-50%); }
-  .ax-l { left: 6px; top: 50%; transform: translateY(-50%); }
-  .ax-r { right: 6px; top: 50%; transform: translateY(-50%); }
+  .legend { flex: 1; }
+  .legend .lbl { font-size: 26px; color: #8b7355; letter-spacing: 2px; }
+  .legend .zone { font-size: 52px; font-weight: 900; margin-top: 6px; line-height: 1.2; }
+  .legend .en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 34px; color: #8b7355; margin-top: 2px; }
+  .legend .keys { margin-top: 26px; font-size: 27px; line-height: 1.9; }
+  .legend .keys .dot { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--c);
+                        border: 4px solid #fff; box-shadow: 0 0 0 2px var(--c); vertical-align: -3px; margin-right: 12px; }
+  .legend .keys .st { color: #6f5a42; margin-right: 10px; }
+  .legend .keys .num { font-size: 23px; color: #8b7355; margin-left: 6px; }
+  .legend .move { font-size: 23px; color: #8b7355; margin-top: 14px; }
 
-  .pt { position: absolute; width: 34px; height: 34px; border-radius: 50%; transform: translate(-50%,-50%); border: 5px solid #fff; z-index: 2; }
-  .star { position: absolute; transform: translate(-50%,-50%); font-size: 44px; line-height: 1; color: #8b7355; text-shadow: 0 0 10px #fffdf8, 0 0 4px #fffdf8; z-index: 2; }
-  .pin {
-    position: absolute; z-index: 3; white-space: nowrap;
-    font-size: 24px; line-height: 1.25; padding: 6px 14px; border-radius: 14px;
-    background: rgba(255,253,248,0.95); border: 2px solid #d4c5b0;
-  }
-  .pin b { font-size: 26px; }
-  .pin .num { font-size: 23px; color: #8b7355; font-variant-numeric: lining-nums; }
-  .pin.me { border-color: var(--c); }
-  .pin.scent { border-color: #8b7355; }
+  /* 3. 本命香 */
+  .soul { position: absolute; top: 1140px; left: 90px; right: 90px; }
+  .soul .lbl { font-size: 28px; color: #8b7355; letter-spacing: 4px; }
+  .soul .lbl b { color: #6f5a42; }
+  .soul .scent { display: flex; align-items: baseline; gap: 22px; margin-top: 8px; }
+  .soul .zh { font-size: 92px; font-weight: 900; line-height: 1.1; letter-spacing: 4px; }
+  .soul .en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 44px; color: #8b7355; }
+  .soul .quote { font-size: 32px; line-height: 1.75; margin-top: 18px; color: #3b3328; }
 
-  /* 本命香：精簡 */
-  .soul { margin-top: 24px; padding: 22px 28px 24px; border-radius: 24px; background: rgba(248,236,216,0.55); border: 2px solid #e6d5bb; }
-  .soul-head { display: flex; align-items: center; gap: 14px; }
-  .soul-badge { font-size: 23px; color: #fffdf8; background: #8b7355; border-radius: 999px; padding: 4px 16px; letter-spacing: 1px; }
-  .soul-name { font-size: 32px; font-weight: 700; }
-  .soul-line { font-size: 27px; line-height: 1.65; color: #4a3b2c; margin-top: 10px; }
+  .rels { position: absolute; top: 1508px; left: 90px; right: 90px; display: flex; gap: 40px; font-size: 26px; }
+  .rels span { color: #8b7355; margin-right: 10px; }
+  .rels b { font-weight: 700; }
 
-  .rels { display: flex; gap: 12px; margin-top: 20px; }
-  .rel { flex: 1; text-align: center; background: #fffdf8; border: 2px solid #eadfce; border-radius: 18px; padding: 10px 6px; }
-  .rel-role { font-size: 21px; color: #8b7355; }
-  .rel-name { font-size: 25px; font-weight: 700; margin-top: 2px; line-height: 1.35; }
-
-  .cta { margin-top: 30px; text-align: center; color: #fffaf2; }
-  .cta-q { font-size: 48px; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.35); }
-  .cta-meta { color: #f5ebe0; font-size: 26px; letter-spacing: 1px; opacity: 0.9; margin-top: 8px; }
-  .cta-sub { font-size: 28px; margin-top: 8px; opacity: 0.95; }
+  /* 4. 底部森林帶 */
+  .band { position: absolute; left: 0; right: 0; top: 1590px; bottom: 0;
+          background: linear-gradient(180deg, rgba(31,43,31,0.86), rgba(31,43,31,0.96)), url('../images/forest-bg.jpg') center 70% / cover; }
+  .cta { position: absolute; left: 0; right: 0; top: 1622px; text-align: center; color: #fbf6ee; }
+  .cta .q { font-size: 44px; font-weight: 700; letter-spacing: 2px; }
+  .cta .meta { font-size: 25px; color: #d9cbb3; margin-top: 8px; letter-spacing: 1px; }
+  .cta .hint { font-size: 27px; color: #fbf6ee; margin-top: 10px; opacity: 0.9; }
 </style>
 </head>
 <body>
-<div class="story">
+<div class="story" id="story">
+  <div class="wash"></div>
+  <div class="grain"></div>
+
   <div class="brand">NUVAYAE SCENT LAB</div>
 
-  <div class="card" id="card">
-    <div class="head">
-      <img class="plant-img" id="img" alt="">
-      <div>
-        <div class="kicker">我的情緒座標植物是</div>
-        <div class="plant-name" id="name"></div>
-        <div class="tagline" id="tagline"></div>
-      </div>
-    </div>
+  <img class="plant" id="img" alt="">
+  <div class="hero">
+    <div class="kicker">我的情緒座標植物</div>
+    <div class="name" id="name"></div>
+    <div class="identity" id="identity"></div>
     <div class="tags" id="tags"></div>
+  </div>
 
-    <div class="coord-title"><span class="lbl">我的情緒座標</span><span class="zone" id="zone"></span><span class="en" id="zoneEn"></span></div>
+  <div class="rule" style="top: 660px"></div>
+
+  <div class="coord">
     <div class="map" id="map">
-      <div class="quad q-tl" data-q="tl"><span>光合啟動區<br>Active × Cool</span></div>
-      <div class="quad q-tr" data-q="tr"><span>熱烈綻放區<br>Active × Warm</span></div>
-      <div class="quad q-bl" data-q="bl"><span>安定靜心區<br>Calm × Cool</span></div>
-      <div class="quad q-br" data-q="br"><span>溫潤和諧區<br>Calm × Warm</span></div>
+      <div class="quad q-tl" data-q="tl"><span>光合啟動區</span></div>
+      <div class="quad q-tr" data-q="tr"><span>熱烈綻放區</span></div>
+      <div class="quad q-bl" data-q="bl"><span>安定靜心區</span></div>
+      <div class="quad q-br" data-q="br"><span>溫潤和諧區</span></div>
       <div class="ax-v"></div><div class="ax-h"></div>
       <div class="pt" id="pt"></div>
       <div class="star" id="star">★</div>
-      <div class="pin me" id="pinMe"></div>
-      <div class="pin scent" id="pinScent"></div>
     </div>
-
-    <div class="soul">
-      <div class="soul-head"><span class="soul-badge">我的本命香 ★</span><span class="soul-name" id="main"></span></div>
-      <div class="soul-line" id="line"></div>
-    </div>
-
-    <div class="rels">
-      <div class="rel"><div class="rel-role">❤️ 另一半</div><div class="rel-name" id="relPartner"></div></div>
-      <div class="rel"><div class="rel-role">🤝 朋友</div><div class="rel-name" id="relFriend"></div></div>
-      <div class="rel"><div class="rel-role">🔥 仇人</div><div class="rel-name" id="relEnemy"></div></div>
+    <div class="legend">
+      <div class="lbl">我現在站在</div>
+      <div class="zone" id="zone"></div>
+      <div class="en" id="axes"></div>
+      <div class="keys">
+        <div><span class="dot"></span>我</div>
+        <div><span class="st">★</span><span id="starName"></span><span class="num" id="starNum"></span></div>
+      </div>
     </div>
   </div>
 
+  <div class="rule" style="top: 1110px"></div>
+
+  <div class="soul">
+    <div class="lbl">我的本命香 <b>★</b></div>
+    <div class="scent"><span class="zh" id="scentZh"></span><span class="en" id="scentEn"></span></div>
+    <div class="quote" id="quote"></div>
+  </div>
+
+  <div class="rels">
+    <div><span>另一半</span><b id="relPartner"></b></div>
+    <div><span>朋友</span><b id="relFriend"></b></div>
+    <div><span>天敵</span><b id="relEnemy"></b></div>
+  </div>
+
+  <div class="band"></div>
   <div class="cta">
-    <div class="cta-q">你現在是哪一種植物？</div>
-    <div class="cta-meta">@nuvayae.scent.lab ・ reurl.cc/GGozMW</div>
-    <div class="cta-sub">心情不同，座標也會移動｜10 題測測看 👇</div>
+    <div class="q">你現在是哪一種植物？</div>
+    <div class="meta">@nuvayae.scent.lab ・ reurl.cc/GGozMW</div>
+    <div class="hint">心情不同，答案也不同｜10 題測測看 👇</div>
   </div>
-  <!-- CTA 下方留空給使用者放「連結」貼圖 -->
+  <!-- 1720px 以下留空給使用者放「連結」貼圖 -->
 </div>
 
 <script type="module">
@@ -163,62 +166,30 @@
   const main = products[d.scent[featured].product];
   const $ = id => document.getElementById(id);
 
+  document.getElementById('story').style.setProperty('--c', d.color);
   $('img').src = '../' + getPlantImage(key);
   $('name').textContent = d.name;
-  $('tagline').textContent = d.tagline;
-  $('tags').innerHTML = d.persona.traits.map(t => `<span class="tag">#${t}</span>`).join('');
+  const [axes, identity] = d.tagline.split('｜');
+  $('identity').textContent = identity;
+  $('tags').innerHTML = d.persona.traits.map(t => `<span>#${t}</span>`).join('');
+
   const zh = d.field.split(' ')[0];
   $('zone').textContent = zh;
-  $('zoneEn').textContent = d.field.slice(zh.length + 1);
-  $('main').textContent = main.name;
-  $('line').textContent = d.persona.line;
+  $('axes').textContent = axes.trim();
 
-  // 所在象限加底色
   const me = plantPca(d);
   const q = (me.y >= 0 ? 't' : 'b') + (me.x >= 0 ? 'r' : 'l');
   document.querySelector(`[data-q="${q}"]`).classList.add('on');
+  Object.assign($('pt').style, { left: d.coord.x + '%', top: d.coord.y + '%' });
+  const sp = pcaToPercent(main.pca);
+  Object.assign($('star').style, { left: sp.left + '%', top: sp.top + '%' });
 
-  // 兩個點
-  const mePos = { left: d.coord.x, top: d.coord.y };
-  const scPos = pcaToPercent(main.pca);
-  const pt = $('pt');
-  Object.assign(pt.style, { left: mePos.left + '%', top: mePos.top + '%', background: d.color, boxShadow: `0 0 22px ${d.color}` });
-  Object.assign($('star').style, { left: scPos.left + '%', top: scPos.top + '%' });
-
-  const pinMe = $('pinMe'), pinSc = $('pinScent');
-  pinMe.style.setProperty('--c', d.color);
-  pinMe.innerHTML = `<b><span style="color:${d.color}">●</span> 我</b>`;
-  pinSc.innerHTML = `<b>★ ${main.name.split(' ')[0]}</b> <span class="num">${formatPca(main.pca)}</span>`;
-
-  // 標籤位置：每個標籤試「上、下、右、左」，選第一個不出界、不蓋到兩個點和另一個標籤的位置
-  await document.fonts.ready;
-  const map = $('map'), W = map.clientWidth, H = map.clientHeight;
-  const pts = [mePos, scPos].map(p => ({ x: p.left / 100 * W, y: p.top / 100 * H }));
-  const hit = (a, b) => a.l < b.r && b.l < a.r && a.t < b.b && b.t < a.b;
-  const dotBox = p => ({ l: p.x - 26, r: p.x + 26, t: p.y - 26, b: p.y + 26 });
-  const placed = [];
-  const mr = map.getBoundingClientRect();
-  const quadBoxes = [...map.querySelectorAll('.quad span')].map(el => {
-    const r = el.getBoundingClientRect();
-    return { l: r.left - mr.left - 6, r: r.right - mr.left + 6, t: r.top - mr.top - 6, b: r.bottom - mr.top + 6 };
-  });
-  const place = (pin, p) => {
-    const w = pin.offsetWidth, h = pin.offsetHeight, g = 30;
-    const cands = [
-      [p.x - w / 2, p.y - h - g], [p.x - w / 2, p.y + g],
-      [p.x + g, p.y - h / 2], [p.x - w - g, p.y - h / 2]
-    ].map(([l, t]) => {
-      const L = Math.min(W - w - 8, Math.max(8, l)), T = Math.min(H - h - 8, Math.max(8, t));
-      return { l: L, t: T, r: L + w, b: T + h };
-    });
-    const ok = c => !pts.some(q => hit(c, dotBox(q))) && !placed.some(o => hit(c, o)) && !quadBoxes.some(o => hit(c, o));
-    const c = cands.find(ok) || cands[0];
-    placed.push(c);
-    pin.style.left = c.l + 'px';
-    pin.style.top = c.t + 'px';
-  };
-  place(pinSc, pts[1]);
-  place(pinMe, pts[0]);
+  const [scentZh, ...scentEn] = main.name.split(' ');
+  $('starName').textContent = scentZh;
+  $('starNum').textContent = formatPca(main.pca);
+  $('scentZh').textContent = scentZh;
+  $('scentEn').textContent = scentEn.join(' ');
+  $('quote').textContent = d.persona.line;
 
   const names = keys => keys.map(k => plantData[k].name).join('、');
   $('relPartner').textContent = names(d.relationships.partner.plants);
