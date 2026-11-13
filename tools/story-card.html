@@ -85,6 +85,9 @@
   .soul .zh { font-size: 86px; font-weight: 900; line-height: 1.15; letter-spacing: 4px; }
   .soul .en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 40px; color: #8b7355; }
   .soul .quote { font-size: 30px; line-height: 1.75; margin-top: 14px; color: #3b3328; }
+  .soul .pair { font-size: 26px; color: #8b7355; margin-top: 14px; letter-spacing: 1px; }
+  .soul .pair b { color: #2b3a2b; font-weight: 700; margin-left: 6px; }
+  .soul .pair i { font-family: 'Cormorant Garamond', serif; font-size: 27px; margin-left: 8px; }
 
   .rels { display: flex; flex-wrap: wrap; gap: 8px 36px; font-size: 25px; margin-top: 30px; }
   .rels span { color: #8b7355; margin-right: 10px; }
@@ -139,6 +142,7 @@
       <div class="lbl">我的本命香 <b>★</b></div>
       <div class="scent"><span class="zh" id="scentZh"></span><span class="en" id="scentEn"></span></div>
       <div class="quote" id="quote"></div>
+      <div class="pair">搭配香｜<b id="pairZh"></b><i id="pairEn"></i></div>
     </div>
 
     <div class="rels">
@@ -187,6 +191,10 @@
   $('scentZh').textContent = scentZh;
   $('scentEn').textContent = scentEn.join(' ');
   $('quote').textContent = d.persona.line;
+  const other = featured === 'similar' ? 'balance' : 'similar';
+  const [pairZh, ...pairEn] = products[d.scent[other].product].name.split(' ');
+  $('pairZh').textContent = pairZh;
+  $('pairEn').textContent = pairEn.join(' ');
 
   const names = keys => keys.map(k => plantData[k].name).join('、');
   $('relPartner').textContent = names(d.relationships.partner.plants);
