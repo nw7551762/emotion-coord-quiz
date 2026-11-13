@@ -48,7 +48,7 @@ export class FeedbackManager {
     this.progressInsights = {
       3: '💭 你的輪廓慢慢清楚了⋯⋯',
       6: '🧭 快找到你現在站的地方了',
-      9: '🌟 最後一題，選最像今天的你就好'
+      10: '🌟 最後一題，選最像今天的你就好'
     };
 
     // 鼓勵性文字

@@ -136,7 +136,7 @@
         import { QuizManager } from './js/quiz.js?v=9';
         import { UIManager } from './js/ui.js?v=7';
         import { AnimationManager } from './js/animations.js?v=6';
-        import { FeedbackManager } from './js/feedback.js?v=6';
+        import { FeedbackManager } from './js/feedback.js?v=7';
         import { ShareManager } from './js/share.js?v=6';
 
         // 初始化應用
@@ -178,6 +178,10 @@
             const insight = feedback.getProgressInsight(quiz.getCurrentQuestionNumber());
             if (insight) {
                 ui.showProgressInsight(insight);
+            } else if (ui.progressInsight) {
+                // 上一題的提示不要殘留到這一題
+                ui.progressInsight.classList.remove('show');
+                ui.progressInsight.textContent = '';
             }
         }
 
