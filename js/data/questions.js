@@ -31,7 +31,7 @@ export const questions = [
         question: "遇到大決定，你通常？",
         options: [
             { text: "先收集資訊，想清楚再動。", type: "cypress", feedback: "🔍 想清楚再走，很像你。" },
-            { text: "有感覺就跟著走。", type: "peony", feedback: "💗 心動，本身就是一種答案～。" },
+            { text: "有感覺就跟著走。", type: "peony", feedback: "💗 心動，本身就是一種答案～" },
             { text: "找信任的朋友聊聊。", type: "chamomile", feedback: "🤝 有人一起想，就沒那麼怕。" },
             { text: "列好優缺點，列完就決定。", type: "mint", feedback: "📋 算清楚了，果斷不回頭。" }
         ]
