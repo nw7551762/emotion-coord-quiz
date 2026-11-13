@@ -8,16 +8,18 @@ export const LINE_URL = "https://lin.ee/A9iq98L";
 
 // 七支配方的購買連結：集中寫一次，植物資料用 key 指過來
 // pca：配方身分證主檔「香調總覽」的 PCA 座標（X 溫度：東暖為正；Y 能量：北升為正）
-// spray／subscribe 尚待提供，留 null 時按鈕會先連到 LINE
+// spray／subscribe 留 null 時按鈕會改連到 LINE
 const ECPAY = "https://90a5d24hxz.cashier.ecpay.com.tw/product/";
+// 「訂閱這支」一律連到月訂閱（下單時選香味）
+const SUBSCRIBE = ECPAY + "000000000914687";
 export const products = {
-    oboro:    { name: "夜和 Oboro Night",    pca: { x: -0.7, y: -0.4 }, oil: ECPAY + "000000000914690", spray: null, subscribe: null },
-    komorebi: { name: "暖居 Komorebi Haven", pca: { x: 0.3, y: 0.6 }, oil: ECPAY + "000000000920061", spray: null, subscribe: null },
-    sumi:     { name: "朝光 Sumi Dawn",      pca: { x: -0.4, y: 1.2 }, oil: ECPAY + "000000000920152", spray: null, subscribe: null },
-    yuyake:   { name: "日暮 Yuyake Ember",   pca: { x: 0.8, y: -0.1 }, oil: ECPAY + "000000000932839", spray: null, subscribe: null },
-    akari:    { name: "花綻 Hana Akari",     pca: { x: 0.2, y: 1.5 }, oil: ECPAY + "000000000976122", spray: null, subscribe: null },
-    ikada:    { name: "花筏 Hana Ikada",     pca: { x: -0.6, y: -0.8 }, oil: ECPAY + "000000000976123", spray: null, subscribe: null },
-    suboo:    { name: "思慕 Su Boo",         pca: { x: 0.6, y: -0.2 }, oil: ECPAY + "000000001035170", spray: null, subscribe: null }
+    oboro:    { name: "夜和 Oboro Night",    pca: { x: -0.7, y: -0.4 }, oil: ECPAY + "000000000914690", spray: ECPAY + "000000000933604", subscribe: SUBSCRIBE },
+    komorebi: { name: "暖居 Komorebi Haven", pca: { x: 0.3, y: 0.6 }, oil: ECPAY + "000000000920061", spray: ECPAY + "000000000933603", subscribe: SUBSCRIBE },
+    sumi:     { name: "朝光 Sumi Dawn",      pca: { x: -0.4, y: 1.2 }, oil: ECPAY + "000000000920152", spray: ECPAY + "000000000933602", subscribe: SUBSCRIBE },
+    yuyake:   { name: "日暮 Yuyake Ember",   pca: { x: 0.8, y: -0.1 }, oil: ECPAY + "000000000932839", spray: ECPAY + "000000000933357", subscribe: SUBSCRIBE },
+    akari:    { name: "花綻 Hana Akari",     pca: { x: 0.2, y: 1.5 }, oil: ECPAY + "000000000976122", spray: ECPAY + "000000000976124", subscribe: SUBSCRIBE },
+    ikada:    { name: "花筏 Hana Ikada",     pca: { x: -0.6, y: -0.8 }, oil: ECPAY + "000000000976123", spray: ECPAY + "000000000976125", subscribe: SUBSCRIBE },
+    suboo:    { name: "思慕 Su Boo",         pca: { x: 0.6, y: -0.2 }, oil: ECPAY + "000000001035170", spray: ECPAY + "000000001035171", subscribe: SUBSCRIBE }
 };
 
 // 植物座標（coord 是畫面百分比，y 由上往下）換成 PCA 軸向，判斷象限用
