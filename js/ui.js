@@ -1,4 +1,4 @@
-import { plantData, getPlantImage, products, LINE_URL, scentRole, pcaToPercent } from './data/plants.js?v=5';
+import { plantData, getPlantImage, products, LINE_URL, scentRole, pcaToPercent } from './data/plants.js?v=6';
 
 // UI 管理類別
 export class UIManager {

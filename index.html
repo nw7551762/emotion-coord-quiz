@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 
 <body>
@@ -38,12 +38,10 @@
             <div class="start-screen" id="startScreen">
                 <h2>情緒座標測驗</h2>
                 <p>
-                    10 個很日常的小情境。<br>
-                    沒有標準答案，選最像今天的你就好。<br><br>
-                    最後你會知道：<br>
-                    🧭 你現在站在情緒地圖的哪裡<br>
-                    ✨ 哪一支香，剛好懂現在的你<br>
-                    🌱 哪些植物，適合待在你身邊
+                    10 個日常小情境，選最像今天的你就好。<br><br>
+                    🧭 你站在情緒地圖的哪裡<br>
+                    ✨ 哪支香剛好懂你<br>
+                    🌱 哪些植物適合在你身邊
                 </p>
                 <button class="btn" id="startBtn">開始測驗</button>
             </div>
@@ -101,7 +99,7 @@
                 <div class="line-cta">
                     <div class="line-cta-title">還是不確定，也沒關係</div>
                     <div class="line-cta-text">
-                        煖意一共有 7 支配方，上面兩支是依你的座標挑的。想聞聞其他支，或只是想說今天有點累，把測驗結果傳給我。我不一定有答案，但會幫你找一支香陪你。
+                        還有 5 支配方。想聞聞看，或只是想說今天有點累，都可以傳給我。
                     </div>
                     <a href="https://lin.ee/A9iq98L" id="lineCtaBtn" target="_blank" rel="noopener noreferrer" class="line-cta-btn">💬 加 LINE 跟我聊</a>
                 </div>
@@ -123,7 +121,7 @@
                 </div>
 
                 <div class="retake-note">
-                    🌗 座標不是你的標籤，只是你今天站的位置。累的時候、開心的時候、剛下班什麼都不想做的時候，測出來都可能不一樣。<br>過幾天再來，看看你走到哪裡了。
+                    🌗 座標不是標籤，只是你今天的位置。過幾天再來，看看你走到哪了。
                 </div>
                 <button class="btn restart-btn" id="restartBtn">換個心情，再測一次</button>
             </div>
@@ -135,11 +133,11 @@
     </div>
 
     <script type="module">
-        import { QuizManager } from './js/quiz.js?v=5';
-        import { UIManager } from './js/ui.js?v=5';
-        import { AnimationManager } from './js/animations.js?v=5';
-        import { FeedbackManager } from './js/feedback.js?v=5';
-        import { ShareManager } from './js/share.js?v=5';
+        import { QuizManager } from './js/quiz.js?v=6';
+        import { UIManager } from './js/ui.js?v=6';
+        import { AnimationManager } from './js/animations.js?v=6';
+        import { FeedbackManager } from './js/feedback.js?v=6';
+        import { ShareManager } from './js/share.js?v=6';
 
         // 初始化應用
         const quiz = new QuizManager();
