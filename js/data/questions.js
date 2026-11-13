@@ -4,25 +4,25 @@ export const questions = [
         question: "今晚，你最想怎麼過？",
         options: [
             { text: "手機丟一邊，一個人待著。", type: "lavender", feedback: "🌙 嗯，今晚誰都不用回。" },
-            { text: "整理家裡，然後躺平。", type: "hinoki", feedback: "🪵 收乾淨了，才睡得安心。" },
-            { text: "熱飲配劇，慢慢放鬆。", type: "chamomile", feedback: "🫖 熱的剛好，劇也剛好。" },
-            { text: "先把明天的待辦列好。", type: "mint", feedback: "📝 列好了，才放得下心。" }
+            { text: "整理家裡，然後躺平。", type: "hinoki", feedback: "🪵 收乾淨，心裡就舒服了。" },
+            { text: "熱飲配劇，慢慢放鬆。", type: "chamomile", feedback: "🫖 超級舒適～～" },
+            { text: "先把明天的待辦列好。", type: "mint", feedback: "📝 列好了，就放得下心。" }
         ]
     },
     {
         question: "週末突然空出來了，你會？",
         options: [
             { text: "關機，把覺補回來。", type: "lavender", feedback: "😴 欠的覺，先還給自己。" },
-            { text: "咖啡、花、曬太陽。", type: "chamomile", feedback: "☀️ 很好的週末，什麼都不用證明。" },
+            { text: "咖啡、花、曬太陽。", type: "chamomile", feedback: "☀️ 好好感受生活好讚～" },
             { text: "大掃除，重整房間。", type: "cypress", feedback: "🧹 房間順了，心也跟著順了。" },
-            { text: "馬上約人出門玩耍！", type: "peony", feedback: "🎉 週末就是要熱鬧一下。" }
+            { text: "馬上約人出門玩耍！", type: "peony", feedback: "🎉 週末就是要熱鬧一下啊啊啊！" }
         ]
     },
     {
         question: "壓力大的時候，你最需要？",
         options: [
             { text: "誰都別找我。", type: "cypress", feedback: "🔕 好，先讓世界安靜一下。" },
-            { text: "有人陪我講廢話。", type: "chamomile", feedback: "💬 廢話，有時候最救命。" },
+            { text: "有人陪我講廢話。", type: "chamomile", feedback: "💬 廢話，那是一定要說的！" },
             { text: "有人幫我想下一步。", type: "mint", feedback: "🧭 有方向，就沒那麼慌了。" },
             { text: "做出點成績，證明我還超棒！", type: "peony", feedback: "✨ 你本來就很棒，不用一直證明。" }
         ]
@@ -31,27 +31,27 @@ export const questions = [
         question: "遇到大決定，你通常？",
         options: [
             { text: "先收集資訊，想清楚再動。", type: "cypress", feedback: "🔍 想清楚再走，很像你。" },
-            { text: "有感覺就跟著走。", type: "peony", feedback: "💗 心動，本身就是一種答案。" },
+            { text: "有感覺就跟著走。", type: "peony", feedback: "💗 心動，本身就是一種答案～。" },
             { text: "找信任的朋友聊聊。", type: "chamomile", feedback: "🤝 有人一起想，就沒那麼怕。" },
-            { text: "列好優缺點，列完就決定。", type: "mint", feedback: "📋 算清楚了，就不回頭。" }
+            { text: "列好優缺點，列完就決定。", type: "mint", feedback: "📋 算清楚了，果斷不回頭。" }
         ]
     },
     {
         question: "在一段關係裡，你最怕？",
         options: [
             { text: "被黏太緊，沒有自己的空間。", type: "lavender", feedback: "🚪 你需要一扇可以關上的門。" },
-            { text: "對方忽冷忽熱。", type: "hinoki", feedback: "🌡️ 你要的是穩穩的溫度。" },
-            { text: "很平穩，但沒有心動。", type: "peony", feedback: "🔥 安穩不夠，你還要火花。" },
+            { text: "對方忽冷忽熱。", type: "hinoki", feedback: "🌡️ 辛苦了，你值得更好的。" },
+            { text: "很平穩，但沒有心動。", type: "peony", feedback: "🔥 未來的日子要如何精彩？" },
             { text: "一直安撫對方，自己沒被看見。", type: "chamomile", feedback: "🫂 你也值得被好好看見。" }
         ]
     },
     {
         question: "你內心的小房間，比較像？",
         options: [
-            { text: "深夜裡街道旁的書房。", type: "lavender", feedback: "📖 街燈亮著，剛好夠你讀一頁。" },
-            { text: "森林裡大樹上的木屋。", type: "cypress", feedback: "🌲 高一點，就聽不見吵雜了。" },
-            { text: "有陽光、常有人來的客廳。", type: "chamomile", feedback: "🛋️ 門常開著，因為你喜歡人。" },
-            { text: "鎂光燈四射的舞台。", type: "peony", feedback: "🎤 燈一打下來，你就醒了。" }
+            { text: "深夜裡街道旁的書房。", type: "lavender", feedback: "📖 與他人的距離剛剛好。" },
+            { text: "森林裡大樹上的木屋。", type: "cypress", feedback: "🌲 置身事外，回歸本心。" },
+            { text: "有陽光、常有人來的客廳。", type: "chamomile", feedback: "🛋️ 享受一起體驗的日常。" },
+            { text: "鎂光燈四射的舞台。", type: "peony", feedback: "🎤 everyday都要開party!" }
         ]
     },
     {

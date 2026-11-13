@@ -1,4 +1,4 @@
-import { questions } from './data/questions.js?v=8';
+import { questions } from './data/questions.js?v=9';
 
 // 測驗管理類別
 export class QuizManager {
