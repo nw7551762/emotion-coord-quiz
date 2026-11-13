@@ -172,11 +172,32 @@ body::before {
     letter-spacing: 0.3px;
 }
 
-.option:hover {
+/* hover 只給有滑鼠的裝置；手機點擊後 hover 會殘留在同一個位置，看起來像下一題被預選 */
+@media (hover: hover) and (pointer: fine) {
+    .option:hover {
+        border-color: #8b7355;
+        background: rgba(255,248,235,0.95);
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(139,115,85,0.15);
+    }
+}
+
+.option {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.option.selected {
     border-color: #8b7355;
-    background: rgba(255,248,235,0.95);
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(139,115,85,0.15);
+    background: rgba(244,213,166,0.45);
+    box-shadow: 0 4px 12px rgba(139,115,85,0.2);
+}
+
+.options.locked .option {
+    pointer-events: none;
+}
+
+.options.locked .option:not(.selected) {
+    opacity: 0.45;
 }
 
 .option:focus:not(:focus-visible),

@@ -54,12 +54,19 @@ export class UIManager {
     // 渲染選項
     renderOptions(options, onSelectCallback) {
         this.optionsContainer.innerHTML = '';
+        this.optionsContainer.classList.remove('locked');
 
         options.forEach(opt => {
             const div = document.createElement('div');
             div.className = 'option';
             div.textContent = opt.text;
-            div.onclick = () => onSelectCallback(opt.type);
+            div.onclick = () => {
+                // 已經選過就不再接受點擊（避免連點記到兩個答案）
+                if (this.optionsContainer.classList.contains('locked')) return;
+                this.optionsContainer.classList.add('locked');
+                div.classList.add('selected');
+                onSelectCallback(opt);
+            };
             this.optionsContainer.appendChild(div);
         });
     }
