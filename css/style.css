@@ -82,6 +82,14 @@ body::before {
     font-family: 'Cormorant Garamond', serif;
 }
 
+.brand-zh {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    color: #f5ebe0;
+}
+
 .brand-header h1 {
     font-size: 28px;
     margin-bottom: 10px;
